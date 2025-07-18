@@ -1,0 +1,43 @@
+Certainly! Here are some interview questions specifically related to linear regression:
+
+1. **What is linear regression, and how does it work?**
+
+2. **What is the difference between simple linear regression and multiple linear regression?**
+
+3. **Explain the concept of the dependent variable and independent variables in linear regression.**
+
+4. **What is the equation of a simple linear regression model?**
+
+5. **How do you interpret the coefficients in a linear regression model?**
+
+6. **What is the least squares method, and how is it used in linear regression?**
+
+7. **What is the purpose of the cost function in linear regression?**
+
+8. **What is the normal equation, and how is it used to find the optimal parameters in linear regression?**
+
+9. **What is gradient descent, and how is it used to optimize parameters in linear regression?**
+
+10. **Explain the assumptions of linear regression.**
+
+11. **What are some common evaluation metrics used to assess the performance of a linear regression model?**
+
+12. **What is the coefficient of determination (R-squared), and how is it interpreted in the context of linear regression?**
+
+13. **How do you detect multicollinearity in a multiple linear regression model, and what are its implications?**
+
+14. **What is heteroscedasticity, and how does it affect the performance of a linear regression model?**
+
+15. **What are some techniques for handling outliers in linear regression?**
+
+16. **What is regularization in linear regression, and why is it used?**
+
+17. **Explain the difference between L1 (Lasso) and L2 (Ridge) regularization in linear regression.**
+
+18. **What is the difference between linear regression and logistic regression?**
+
+19. **How can you handle categorical variables in a linear regression model?**
+
+20. **What are some limitations of linear regression, and when might it not be appropriate to use?**
+
+These questions cover various aspects of linear regression, including its principles, assumptions, optimization methods, evaluation metrics, and potential challenges.

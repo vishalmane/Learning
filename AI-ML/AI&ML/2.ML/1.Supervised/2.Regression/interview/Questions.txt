@@ -1,0 +1,43 @@
+Certainly! Here are some interview questions related to regression models in machine learning:
+
+1. **What is regression in machine learning?**
+
+2. **What are the main types of regression algorithms?**
+
+3. **Explain the difference between simple linear regression and multiple linear regression.**
+
+4. **What is the purpose of the coefficient of determination (R-squared) in regression?**
+
+5. **How do you evaluate the performance of a regression model?**
+
+6. **What are some common evaluation metrics for regression models?**
+
+7. **What is mean squared error (MSE), and how is it calculated in regression?**
+
+8. **What is the difference between the residual sum of squares (RSS) and the total sum of squares (TSS) in regression?**
+
+9. **What is regularization in regression, and why is it used?**
+
+10. **Explain the concept of bias and variance in the context of regression models. How do they relate to overfitting and underfitting?**
+
+11. **What is ridge regression, and how does it address multicollinearity in regression?**
+
+12. **What is Lasso regression, and how does it perform feature selection?**
+
+13. **Explain the working principle of polynomial regression.**
+
+14. **What is the difference between ordinary least squares (OLS) regression and gradient descent-based regression algorithms?**
+
+15. **What is the role of feature scaling in regression models?**
+
+16. **What are some common techniques for handling missing values in regression datasets?**
+
+17. **Explain the concept of cross-validation and how it is used in regression model evaluation.**
+
+18. **What is the difference between cross-validation and bootstrapping?**
+
+19. **What are some common assumptions of linear regression, and how can violations of these assumptions affect the model?**
+
+20. **What is the difference between linear regression and logistic regression?**
+
+These questions cover a range of topics related to regression models, including algorithms, evaluation metrics, regularization, feature selection, cross-validation, and assumptions of linear regression.

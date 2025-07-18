@@ -1,0 +1,35 @@
+Activation functions are an essential component of artificial neural networks (ANNs) and deep learning models. They introduce non-linearity into the network, enabling it to learn complex patterns and relationships in the data. Activation functions are applied to the output of each neuron in a neural network, transforming the input signal into the output signal that is passed on to the next layer of neurons.
+
+Here are some common activation functions used in neural networks:
+
+1. **Sigmoid Function (Logistic Function)**:
+   \[ \sigma(z) = \frac{1}{1 + e^{-z}} \]
+   - Output range: (0, 1)
+   - Properties: Smooth, differentiable, and maps input to a probability-like value. Used in the output layer of binary classification models.
+
+2. **Hyperbolic Tangent Function (Tanh)**:
+   \[ \tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}} \]
+   - Output range: (-1, 1)
+   - Similar to the sigmoid function but centered at 0. It preserves the sign of the input and is often used in hidden layers of neural networks.
+
+3. **Rectified Linear Unit (ReLU)**:
+   \[ \text{ReLU}(z) = \max(0, z) \]
+   - Output range: [0, +∞)
+   - Simple and computationally efficient. It replaces negative values with zero, introducing sparsity and accelerating convergence during training. One of the most widely used activation functions in deep learning.
+
+4. **Leaky ReLU**:
+   \[ \text{Leaky ReLU}(z) = \begin{cases} z & \text{if } z > 0 \\ \alpha z & \text{otherwise} \end{cases} \]
+   - Output range: (-∞, +∞)
+   - Similar to ReLU but with a small slope for negative inputs (\( \alpha \) is a small positive constant). It addresses the "dying ReLU" problem where neurons become inactive during training.
+
+5. **Exponential Linear Unit (ELU)**:
+   \[ \text{ELU}(z) = \begin{cases} z & \text{if } z > 0 \\ \alpha (e^{z} - 1) & \text{otherwise} \end{cases} \]
+   - Output range: (-α, +∞)
+   - Similar to ReLU, but with smoother transitions for negative inputs. It can alleviate the vanishing gradient problem.
+
+6. **Softmax Function**:
+   \[ \text{Softmax}(z_{i}) = \frac{e^{z_{i}}}{\sum_{j=1}^{K} e^{z_{j}}} \]
+   - Output range: (0, 1) for each class, with all probabilities summing up to 1
+   - Used in the output layer of multi-class classification models. It converts the raw output scores into probabilities representing the likelihood of each class.
+
+Choosing the appropriate activation function depends on the specific characteristics of the problem and the architecture of the neural network. Experimentation and empirical evaluation often guide the selection process to achieve optimal performance.

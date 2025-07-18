@@ -1,0 +1,43 @@
+classification models in machine learning:
+
+1. **What is classification in machine learning?**
+   
+2. **What are the main types of classification algorithms?**
+   
+3. **Explain the difference between binary and multiclass classification.**
+   
+4. **What is the purpose of a confusion matrix in classification?**
+
+5. **How do you evaluate the performance of a classification model?**
+
+6. **What is accuracy, and how is it calculated in classification?**
+
+7. **What are precision and recall? How do they differ?**
+
+8. **Explain the concept of true positives, true negatives, false positives, and false negatives in the context of classification.**
+
+9. **What is the F1 score, and why is it useful in classification?**
+
+10. **What is overfitting in the context of classification models? How can it be addressed?**
+
+11. **What are some common techniques for handling imbalanced classes in classification?**
+
+12. **Describe the working principle of logistic regression.**
+
+13. **What is the sigmoid function, and how is it used in logistic regression?**
+
+14. **What is decision tree classification? How does it work?**
+
+15. **Explain the concept of ensemble learning and how it is applied in classification.**
+
+16. **What is bagging, and how does it improve classification performance?**
+
+17. **What is boosting, and how does it differ from bagging?**
+
+18. **Explain the working principle of support vector machines (SVMs) in classification.**
+
+19. **What are kernels in SVMs, and how do they influence the decision boundary?**
+
+20. **What is the difference between linear SVMs and nonlinear SVMs?**
+
+These questions cover a range of topics related to classification models, including algorithms, evaluation metrics, overfitting, imbalanced classes, and specific algorithms like logistic regression, decision trees, and support vector machines.
