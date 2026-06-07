@@ -1,0 +1,233 @@
+Probability & Statistics for ML
+
+You must deeply understand:
+
+Random variables
+Probability distributions
+Conditional probability
+Bayes theorem
+Expectation & variance
+Maximum likelihood estimation (MLE)
+Hypothesis testing
+Confidence intervals
+Why this matters:
+Model training is probabilistic.
+Loss functions are statistical estimators.
+Bayesian thinking is critical for uncertainty in LLMs.
+
+2️⃣ Optimization & Gradient Descent
+You must explain:
+Loss functions (MSE, Cross-Entropy)
+Gradient descent
+Stochastic Gradient Descent (SGD)
+Mini-batch training
+Learning rate
+Vanishing / exploding gradients
+Adam optimizer (conceptually)
+Architect Relevance:
+Why training is unstable
+Why fine-tuning requires small learning rate
+Why model convergence fails
+
+3️⃣ Bias–Variance Tradeoff
+Critical concept.
+Understand:
+Underfitting vs overfitting
+Regularization (L1, L2)
+Dropout
+Early stopping
+Principal-level discussion:
+Model capacity vs dataset size
+Why large LLMs generalize better
+Why overfitting less visible in foundation models
+
+4️⃣ Deep Learning Fundamentals
+You must understand:
+Neural network architecture
+Activation functions (ReLU, Softmax)
+Backpropagation
+Cross-entropy loss
+Softmax probability
+
+Recommended Reading:
+📘 Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow
+📘 Deep Learning
+
+5️⃣ Transformer Architecture (Very Important)
+This is mandatory for AI Architect roles.
+You must deeply understand:
+Tokenization
+Embeddings
+Positional encoding
+Self-attention
+Multi-head attention
+Feed-forward layers
+Residual connections
+Layer normalization
+Decoder vs encoder
+Autoregressive generation
+You should be able to whiteboard:
+“How a transformer processes a sentence.”
+
+Study:
+📘 Stanford NLP Course
+Stanford University CS224N
+
+6️⃣ Attention Mechanism
+
+Understand:
+Query, Key, Value
+Attention score
+Scaled dot-product attention
+Why attention enables long-range dependency modeling
+Why attention is quadratic in complexity
+Architect angle:
+Why context window costs increase
+Why long-context models are expensive
+Why retrieval helps reduce cost
+
+7️⃣ Embeddings
+You must know:
+Vector space representation
+Semantic similarity
+Cosine similarity
+Dimensionality
+Why embeddings cluster meaning
+Architect relevance:
+RAG systems
+Semantic search
+Vector databases
+
+8️⃣ Diffusion Models (Basic Level)
+You don’t need research depth, but must understand:
+Noise addition
+Reverse diffusion
+Why they outperform GANs
+Used in image generation
+This helps you speak about generative AI beyond text.
+
+🤖 PART 2 – LLM Internals (Weeks 7–12)
+
+Now we go deeper into LLM mechanics.
+1️⃣ How GPT Works (End-to-End)
+
+You must explain this clearly:
+
+Text
+→ Tokenization
+→ Embedding layer
+→ Positional encoding
+→ Multi-layer transformer
+→ Attention
+→ Logits
+→ Softmax
+→ Next token prediction
+→ Decoding (greedy / sampling / beam search)
+
+Study models from:
+OpenAI
+Anthropic
+Google DeepMind
+2️⃣ Context Window Limits
+Understand:
+Why attention is O(n²)
+Why memory grows fast
+Why 200k tokens is expensive
+Techniques for long context (FlashAttention, sliding window)
+
+Architect view:
+When to use RAG instead of longer context
+
+Cost implications
+3️⃣ Hallucination Causes
+You must know:
+Next-token prediction limitation
+Training data gaps
+Sampling temperature
+Exposure bias
+Mitigation:
+RAG
+Fine-tuning
+Constrained decoding
+Guardrai ls
+
+4️⃣ RLHF (Reinforcement Learning from Human Feedback)
+
+Understand:
+Supervised fine-tuning (SFT)
+Reward model
+PPO optimization
+Alignment training
+Why it matters:
+Makes model helpful & safe
+Changes output style
+
+5️⃣ Fine-Tuning Techniques
+
+You must explain:
+SFT vs PEFT
+Full fine-tuning vs parameter-efficient tuning
+
+Understand:
+LoRA
+QLoRA
+Adapters
+Prompt tuning
+Architect relevance:
+GPU cost reduction
+Deployment flexibility
+Model update cycles
+
+6️⃣ Model Hosting vs API Usage
+Closed vs Open weight models:
+API usage (fast, secure)
+Self-hosted LLaMA-type models
+GPU requirements
+Inference optimization
+Architect angle:
+Cost trade-offs
+Compliance issues
+Latency SLAs
+
+📅 12-Week Breakdown
+
+Weeks 1–3 → Probability + Optimization
+Weeks 4–6 → Deep Learning + Transformers
+Weeks 7–9 → LLM internals + Hallucination + Context
+Weeks 10–12 → RLHF + Fine-tuning + Model trade-offs
+
+🎯 End of Phase 1 You Should Be Able To:
+
+✅ Whiteboard transformer
+✅ Explain GPT generation pipeline
+✅ Explain LoRA vs full fine-tuning
+✅ Discuss hallucination mitigation
+✅ Explain bias–variance tradeoff
+✅ Explain why large models generalize
+✅ Discuss cost tradeoffs of context window
+
+🔥 Honest Advice
+
+At Principal level, interviewers test:
+
+Can you reason about model limitations?
+
+Can you explain why system fails?
+
+Can you choose correct tuning strategy?
+
+Can you justify architecture decisions?
+
+Not:
+“How to call OpenAI API.”
+
+Now tell me:
+
+Do you want to start deep dive with:
+
+1️⃣ Probability for ML
+2️⃣ Optimization & Gradient Descent
+3️⃣ Transformer architecture breakdown (step-by-step math + intuition)
+4️⃣ LLM training lifecycle (pretraining → alignment → deployment)
+
+Choose your starting deep dive 🚀

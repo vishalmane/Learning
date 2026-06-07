@@ -1,0 +1,23 @@
+Probability Distributions and loss fonction more details
+You should be able to explain:
+
+Why cross-entropy works
+
+Why log-likelihood is used
+
+Why overfitting relates to variance
+
+Why larger models reduce bias
+
+Why uncertainty matters in regulated domains
+
+Why calibration matters in healthcare AI
+1️⃣ How Cross-Entropy is derived from MLE
+2️⃣ Entropy & KL Divergence (very important for LLMs)
+3️⃣ Bias–Variance with math intuition
+4️⃣ Bayesian thinking for LLM uncertainty
+5️⃣ How probability connects directly to Transformer training
+
+
+Stanford NLP Course
+Stanford University CS224N
