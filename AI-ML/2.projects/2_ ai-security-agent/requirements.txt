@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+opencv-python
+deepface
+tf-keras
+streamlit
+sqlalchemy
+pydantic
+python-dotenv
+langgraph
+openai
+faiss-cpu
+pytest

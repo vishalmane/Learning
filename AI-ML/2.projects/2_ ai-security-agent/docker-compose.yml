@@ -1,0 +1,12 @@
+services:
+  ai-security-agent:
+    build: .
+    container_name: ai-security-agent
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/logs:/app/app/logs
+      - ./app/database:/app/app/database
+    restart: unless-stopped
