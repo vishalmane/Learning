@@ -1,0 +1,38 @@
+[33mcommit b730402881e5e0750a6cc8f2ae5cb85bb3f4db9f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: vishal Mane <vishalMane007@yahoo.co.in>
+Date:   Mon Jun 8 10:05:40 2026 +0530
+
+    added new project for face recognition
+
+AI-ML/2.projects/2_ ai-security-agent/.env.example
+AI-ML/2.projects/2_ ai-security-agent/.gitignore
+AI-ML/2.projects/2_ ai-security-agent/Dockerfile
+AI-ML/2.projects/2_ ai-security-agent/README.md
+AI-ML/2.projects/2_ ai-security-agent/app/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/config/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/config/settings.py
+AI-ML/2.projects/2_ ai-security-agent/app/database/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/database/db.py
+AI-ML/2.projects/2_ ai-security-agent/app/frontend/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/frontend/dashboard.py
+AI-ML/2.projects/2_ ai-security-agent/app/logs/.gitkeep
+AI-ML/2.projects/2_ ai-security-agent/app/main.py
+AI-ML/2.projects/2_ ai-security-agent/app/memory/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/memory/vector_store.py
+AI-ML/2.projects/2_ ai-security-agent/app/models/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/models/user.py
+AI-ML/2.projects/2_ ai-security-agent/app/recognition/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/recognition/face_recognizer.py
+AI-ML/2.projects/2_ ai-security-agent/app/services/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/services/alert_service.py
+AI-ML/2.projects/2_ ai-security-agent/app/tests/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/tests/test_health.py
+AI-ML/2.projects/2_ ai-security-agent/app/utils/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/utils/logger.py
+AI-ML/2.projects/2_ ai-security-agent/app/vision/__init__.py
+AI-ML/2.projects/2_ ai-security-agent/app/vision/camera_service.py
+AI-ML/2.projects/2_ ai-security-agent/app/vision/face_detector.py
+AI-ML/2.projects/2_ ai-security-agent/docker-compose.yml
+AI-ML/2.projects/2_ ai-security-agent/main.py
+AI-ML/2.projects/2_ ai-security-agent/prompt/1.folder_structure.md
+AI-ML/2.projects/2_ ai-security-agent/requirements.txt
