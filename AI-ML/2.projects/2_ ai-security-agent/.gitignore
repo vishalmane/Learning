@@ -20,5 +20,11 @@ htmlcov/
 app/logs/*
 !app/logs/.gitkeep
 
+app/data/*
+!app/data/.gitkeep
+!app/data/known_faces/
+app/data/known_faces/*
+!app/data/known_faces/.gitkeep
+
 .DS_Store
 Thumbs.db

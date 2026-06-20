@@ -5,7 +5,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 uv init
 uv sync
 
-
+uv venv    
  .\.venv\Scripts\activate
 #install jupyterlab if missing
 uv add jupyterlab

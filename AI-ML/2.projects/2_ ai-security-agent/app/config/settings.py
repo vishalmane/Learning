@@ -20,9 +20,16 @@ class Settings(BaseModel):
     debug: bool = os.getenv("DEBUG", "true").lower() == "true"
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./app/database/ai_security_agent.db")
     camera_source: str = os.getenv("CAMERA_SOURCE", "0")
+    camera_target_fps: float = float(os.getenv("CAMERA_TARGET_FPS", "8"))
     face_detection_backend: str = os.getenv("FACE_DETECTION_BACKEND", "opencv")
+    face_detection_interval: int = int(os.getenv("FACE_DETECTION_INTERVAL", "15"))
     face_recognition_model: str = os.getenv("FACE_RECOGNITION_MODEL", "Facenet")
     face_match_threshold: float = float(os.getenv("FACE_MATCH_THRESHOLD", "0.65"))
+    known_faces_dir: str = os.getenv("KNOWN_FACES_DIR", "./app/data/known_faces")
+    face_embeddings_path: str = os.getenv(
+        "FACE_EMBEDDINGS_PATH",
+        "./app/data/known_face_embeddings.json",
+    )
 
 
 @lru_cache
