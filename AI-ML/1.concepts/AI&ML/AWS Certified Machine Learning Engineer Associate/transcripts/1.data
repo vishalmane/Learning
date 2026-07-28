@@ -1,0 +1,1321 @@
+First
+So again our focus in this section is going to be a little bit unusual in that we're not talking about
+
+AWS stuff primarily at all.
+
+We're just going back and reviewing some data engineering fundamentals that go beyond AWS.
+
+And the exam guide does say you need to know some of this stuff, not just AWS services.
+
+So again, we're not going to touch on everything about data engineering here, just the stuff that's
+
+explicitly called out on the exam guide.
+
+One of those is the three types of data.
+
+So let's review that we have structured unstructured and semi-structured data.
+
+So we need to understand what those mean to be successful in the exam.
+
+Let's review.
+
+So structured data we mean a data that is organized in a defined manner or schema typically found in
+
+relational databases.
+
+So data where it's already been organized into distinct columns of information that have distinct data
+
+types.
+
+And we've already thought about how all those columns relate to each other and how we might want to
+
+search that data.
+
+Characteristics of structured data include.
+
+They are easily queryable.
+
+So since it does have that structure, it's very easy to throw a SQL query at it, right?
+
+Because you already know what the columns are named.
+
+You know what the data types are.
+
+You know what to expect.
+
+It's already organized into rows and columns, and it has a consistent structure.
+
+There's no surprises in there.
+
+It's been cleaned up already.
+
+So some examples are database tables.
+
+Of course you know Oracle, redshift, MySQL PostgreSQL whatever it might be.
+
+Also a CSV file would count as structured data as long as its data is consistent, as long as it has
+
+consistent columns within it.
+
+And you don't have any crazy stuff like lines that have varying numbers of columns, right?
+
+That is possible in CSV, but assuming it's a well structured CSV that would be structured data.
+
+Also, Excel spreadsheets is an example of that.
+
+And obviously it's possible to make an Excel spreadsheet that is unstructured and contains just a bunch
+
+of random junk.
+
+But you know, your typical Excel spreadsheet that is organized into rows and columns of well defined
+
+information would be structured data.
+
+Then on the other side of the fence, we have unstructured data.
+
+Data that does not have a predefined structure or schema stuff.
+
+That's just a collection of data that we have to figure out what it is before we can start to query
+
+it.
+
+So we cannot query unstructured data without first pre-processing it and somehow extracting meaning
+
+from that data and figuring out how to index it first could come in any number of formats, for example,
+
+raw text files that have no fixed format.
+
+Maybe you're processing, you know, all the text on Wikipedia or something, or all the text on Reddit
+
+or all the text in a book, because you want to do a full text search on that later on, or train a
+
+large language model with it, who knows.
+
+In that case, you do need to do some pre-processing, obviously to index that file first.
+
+Videos, audio and image files are another example.
+
+You can't really search those directly.
+
+You need to extract some metadata from that first.
+
+So there's no structure to an image or to a video or an audio file.
+
+We need to extract that structure and say, hey, what's the transcript of this video?
+
+How do I organize it?
+
+When was it created?
+
+How long is it?
+
+Who made it?
+
+What's it about?
+
+Right.
+
+What's its topic?
+
+Things like that would need to be extracted from that data first.
+
+Emails and word processing documents as well.
+
+Same category as text files there.
+
+Or just raw text information.
+
+Again, we need to index that information.
+
+First figure out its meaning, what it's all about.
+
+And then we can we can have the structure that we need to actually query that information.
+
+And then somewhere in the middle we have semi-structured data kind of a gray area.
+
+What do you mean by this exactly.
+
+But the official definition is that it's data that's not as organized as structured data, but it has
+
+some level of structure in the form of tags, hierarchies or other patterns.
+
+So the structure is in there somewhere.
+
+But you need to do a little bit of work to tease it out.
+
+Right.
+
+So it might have elements that are tagged or categorized in some way.
+
+It's going to be more flexible than structured data, but not as chaotic as unstructured data.
+
+So you can put different types of stuff in there perhaps, and get away with it.
+
+But you know, we can still extract the information we need.
+
+XML and JSON files are examples of this where you can have different kinds of schema within the same
+
+document.
+
+Right?
+
+But there's still enough tags within that file to figure out what we're talking about.
+
+So the schema in that case might not be consistent but at least it exists.
+
+Right.
+
+So that's semi-structured Structured email headers is another example of that.
+
+It could have any number of bits of information like the date and subject and and the unstructured data
+
+within the body as well.
+
+So, uh, when we aren't really sure what's in there, you know, that's semi structured, if we at
+
+least know the stuff, what the stuff that is in there is.
+
+Right.
+
+Does that make sense?
+
+Log files is probably the most important example of this in the context of data engineering, because
+
+it's the most common one.
+
+If you've got an Apache log file out there, or a server service log or a server log, um, they can
+
+be any number of formats, right?
+
+And it's not always consistent.
+
+What information they're writing.
+
+There might be a lot of missing data in there.
+
+There might be data that exists on some lines but not others.
+
+And you might need to do quite a bit of parsing of each line of that log to figure out what it's all
+
+about and what the structure of that individual line is.
+
+So again, semi structured, the structure is in there, but it might not be consistent throughout the
+
+document.
+
+I think that's really the best way to sum it up.
+
+So that's structured unstructured and semi-structured data.
+
+One thing the exam guide calls out for data engineering fundamentals.
+
+
+
+Second 
+So we talked about types of data.
+
+The exam guide also wants you to know about the properties of data.
+
+And it calls these the three V's volume, velocity and variety.
+
+I've also heard that there's a fourth V in a lot of texts that you might encounter.
+
+That's veracity.
+
+But the exam guide talks about three.
+
+So we're just going to focus on volume velocity and variety here.
+
+And we'll we'll ignore veracity for now.
+
+Volume is exactly what it sounds like.
+
+How much data are we talking about.
+
+So what's the amount or size of the data that you're dealing with here at any given time.
+
+And this might affect your decisions of how you store and handle that data.
+
+Right.
+
+So maybe it could be gigabytes of data.
+
+It could be petabytes of data.
+
+Understanding that will again give you different challenges in how to store and process and analyze
+
+that information.
+
+So you know, if you need to, for example, import a bunch of data from on premises into AWS.
+
+The amount of data we're talking about might influence your decision of, well, do I just upload this
+
+all over the internet using the console?
+
+Or do I call in an AWS snowmobile and actually physically transport this on physical media?
+
+Things like that, right.
+
+Some examples.
+
+Let's say that you're a social media platform.
+
+Hmm.
+
+Well, I'm not sure how much longer they'll be popular for.
+
+They seem to be on the decline, but I won't editorialize here.
+
+But that might be an example of having terabytes of data every day from people posting stuff and posting
+
+images and posting videos.
+
+So high volume there.
+
+How do you store it all?
+
+How do you access it all?
+
+You know, obviously you need some way of accessing that information and querying it and analyzing it
+
+at scale in some distributed manner.
+
+Maybe you have a retailer that's collecting several years worth of transaction data.
+
+If it's a big enough retailer, maybe that's several petabytes of information, right?
+
+So if you're dealing with big data that comes with big problems, you need to think about distributed
+
+systems that can process and, uh, move things around in parallel, as opposed to maybe just having
+
+a single monolithic standalone relational database.
+
+But, you know, if it's not a lot of data, then maybe that's the right decision.
+
+Volume plays a role into your decisions on how you create your data engineering pipelines.
+
+Second V is velocity.
+
+And again, it's what it sounds like referring to the speed at which new data is generated, collected
+
+and processed.
+
+So, you know, are you going to be able to deal with this information in a batch manner, or do you
+
+need to stream it and process it in real time continuously?
+
+If it's high velocity, you might need real time or near real time processing capabilities.
+
+And that real time versus near real time is a nuance that the exam loves to dig in on.
+
+You know, often that's in the context of do I choose Kinesis Data Streams versus Kinesis Data Firehose?
+
+For a given application, a rapid ingestion and processing can be critical for certain applications
+
+as well.
+
+So again, making the decision as to whether or not you process this information in a batch manner at
+
+the end of the day, or if you're always continuously processing it in real time as it's received.
+
+Some examples, sensor data from Internet of Things devices that might be streaming and readings every
+
+millisecond.
+
+Uh, AWS, by the way, seems to be backing off of the whole IoT topic on the exam.
+
+So, um, don't spend too much time thinking about IoT in specific, but this is just one example of
+
+a streaming data application.
+
+Maybe a more relevant example would be a high frequency trading system Right?
+
+So people are trading stocks and every millisecond counts there.
+
+You know, you want to make sure you get the right order of transactions there, and things are processed
+
+right away and in a consistent manner.
+
+The last fee that we're going to talk about is variety.
+
+And this just gets back to our types of data lesson that we had earlier.
+
+So what kind of data are we dealing with.
+
+What's its structure.
+
+What's its source.
+
+Is it structured, semi-structured or unstructured.
+
+And where is it coming from?
+
+It might be coming from multiple sources, and maybe each source has its own format that you have to
+
+deal with.
+
+Some examples.
+
+Maybe we have a business analyzing data from relational databases, which is structured data.
+
+Emails that are unstructured, and JSON logs which are semi-structured.
+
+How do you blend all this stuff together?
+
+Or maybe a health care system collecting data from electronic medical records, health devices or patient
+
+feedback forms?
+
+Again, the variety of data that you're dealing with might influence how you choose to store this information.
+
+And maybe you store it in more than one place.
+
+But you need a a unified solution for querying that data across all of these data stores that are specializing
+
+in different formats of data that are coming from the variety of data that you have.
+
+So that's the three V's volume, velocity, and variety.
+
+Remember that for the exam.
+
+
+Third
+
+Let's review data warehouses and data lakes and how they differ from each other and when you might choose
+
+one over the other.
+
+We'll start with data warehouses.
+
+This is kind of the legacy approach to data engineering.
+
+It is a centralized repository optimized for analysis, where data from different sources is stored
+
+in a structured format.
+
+So structured format being the key here.
+
+Right.
+
+So we already have it well defined in sort of a traditional relational database is what this all means.
+
+They are designed for complex queries and analysis.
+
+The data is cleaned, transformed and loaded.
+
+So we're using an ETL extract, transform and load process to get that data in there.
+
+We'll talk about that more shortly.
+
+Typically it's stored in a star or a snowflake schema.
+
+And we'll talk about that a little bit more when we go into data modeling.
+
+And it is optimized for read heavy operations.
+
+So the data warehouse is just designed to collect a bunch of data, massive amounts of data, maybe
+
+from different sources, and organize it in a manner such that it can be efficiently queried for different
+
+applications.
+
+At the end of the day, some examples of data warehouses for AWS that's going to be.
+
+Amazon Redshift is their primary data warehouse offering, and obviously the exam isn't going to ask
+
+you about Google BigQuery or Microsoft Azure SQL Data Warehouse, but those are the equivalent technologies
+
+on those other platforms that we don't talk about.
+
+And back when I worked at Amazon, before redshift even existed, we used a giant Oracle database for
+
+this process, and it was extremely, extremely expensive and hard to maintain, I might add.
+
+Here's an example of a data warehouse.
+
+Conceptually, let's imagine that we're Amazon again, and we have a big old data warehouse that ingests
+
+information from a bunch of different sources.
+
+So maybe we have a repository of clickstream data that's just coming off of our raw server logs somewhere
+
+and getting preprocessed.
+
+Maybe we have purchased data as well.
+
+Who's actually ordering stuff and what are they buying, and catalog data, you know, what's the actual
+
+information about these items that they're buying.
+
+So you can imagine that these all refer to each other, right?
+
+So the purchase data and clickstream data probably both need to tie into that catalog data to understand
+
+what people are clicking on and what they're buying.
+
+All that data gets thrown into this big old giant data warehouse and that data warehouse might have
+
+different views made available for different types of queries or different applications.
+
+So one size does not does not fit all.
+
+You'll want a different subset of that information and different indices, perhaps for different applications
+
+and different queries that you might want to do.
+
+So maybe accounting has a view on the data warehouse that includes information that other people don't
+
+need.
+
+People just doing analysis on customer behavior might have yet another view their own data mart, if
+
+you will.
+
+And maybe if I want to do machine learning on that information that also has its own data mart as well,
+
+where I can do big extracts of consumer behavior information that I might want to train a machine learning
+
+model on, for example, a recommender engine.
+
+Now let's contrast that with the data lake as opposed to a data warehouse.
+
+A data lake is just a big Ole storage repository that holds a vast amount of raw data in its native
+
+format that might include structured, semi-structured, and unstructured data.
+
+So we're just throwing all that data into one place, and we're going to figure it out later.
+
+It's kind of the approach here.
+
+So we can store large volumes of raw data without a predefined schema.
+
+The data is loaded as is.
+
+We do not preprocess it upfront.
+
+If we do, it's minimal.
+
+This can support batch, real time or stream processing and can be queried for data transformation or
+
+exploration purposes.
+
+So an example would be Amazon S3.
+
+You know when you use that as a data lake, you can just throw all your stuff in there, all of your
+
+logs, some all the information you have, and then we can extract the structure from that later on
+
+using some other tool.
+
+So with the data lake we're just storing the raw data.
+
+We're going to figure out the problem of structuring and querying that data later on in the case of
+
+AWS.
+
+Usually that pipeline looks like using something like AWS glue to extract a structure and a schema from
+
+that unstructured data that's sitting in S3.
+
+And then tools such as Amazon, Athena and others can use that glue data catalog to figure out what
+
+the structure of that data is and how to query it.
+
+But the data itself is always stored in its raw format.
+
+You know, we're not replicating that data.
+
+We're not putting it into a relational database.
+
+It's stored as is in S3.
+
+And if we're talking about other competing platforms.
+
+Azure Data Lake or HDFS or the Hadoop ecosystem would be alternative places to store your data lake
+
+data.
+
+Let's compare the two.
+
+More specifically so again on schema with a data warehouse it's what we call schema on write.
+
+We know what our schema is what our structure of that data is before we write it to disk.
+
+So when we're processing data warehouse information we will extract the data from its source.
+
+We will transform it into the schema that we know up front.
+
+And then we will load it into our database okay.
+
+As opposed to a data lake which is schema on read.
+
+We don't know what that structure is until we go to read that raw data.
+
+So with a data lake instead of ETL we do ELT extract, load transform.
+
+We extract the information from its source, we load it into S3 or wherever it's going, and then we
+
+transform it later on when we need to.
+
+We might have multiple kinds of transformations happening on that raw data for different types of application,
+
+but the data itself is stored in its raw format.
+
+That's the main difference.
+
+Data warehouse.
+
+Is storing structured, transformed data.
+
+Data Lake is just storing the raw data in its original form.
+
+Data warehouses again, are more appropriate for structured data when you know what you got.
+
+Data lakes can handle both structured and unstructured data so it don't care what you throw into S3.
+
+It can be anything.
+
+It's just an object store, right?
+
+Agility data warehouses tend to be less flexible.
+
+Because you do have that predefined schema.
+
+And sometimes you change your mind on what that schema is.
+
+And when you do, that usually involves some big data migration project that involves a downtime of
+
+the data warehouse and very expensive people to make sure that it goes smoothly as opposed to a data
+
+lake.
+
+Since we're just taking raw data and we don't really know what the structure is or care up front, you
+
+can just keep on throwing more stuff in there and maybe change that schema over time as you go and deal
+
+with that at a layer above it all.
+
+So it's a little bit more agile that way.
+
+Just to reinforce data warehouses typically use an ETL pipeline where we extract information, transform
+
+it, and then load it into the system, into a database and its transformed state, as opposed to data
+
+lakes, which use ELT, where we're just loading stuff in in its raw form.
+
+Or maybe we're just loading stuff in there for storage purposes, and we'll figure out if we want to
+
+do stuff with it and analyze it later on.
+
+You know, we just want to hoard it away somewhere.
+
+Maybe that's still a data lake.
+
+Data warehouses tend to be more expensive because, well, A it takes more people and more expensive
+
+tools to do all that transformation and structuring, and we need to optimize that more for complex
+
+queries.
+
+So a lot more thought needs to go into how that data is organized to, to ensure quick processing and
+
+quick querying later on.
+
+Data lakes can be more cost effective.
+
+Things like S3 are pretty darn cheap, but if you do have large amounts of data, it can add up fast.
+
+Of course, as with anything, how do you choose one over the other?
+
+So just to recap, use a data warehouse.
+
+If you have structured data sources, you know what that schema is up front and you require fast and
+
+complex queries.
+
+So because you know that schema you know what indices to build.
+
+You know how to optimize those queries up front, data integration from different sources is essential.
+
+So your data warehouse typically ingests data from different sources.
+
+Otherwise it's just a database.
+
+And business intelligence and analytics are the primary use cases of a data warehouse.
+
+Data lakes are going to be appropriate when you have a mixture of structured, semi-structured, or
+
+unstructured data.
+
+Maybe you need something more scalable, more cost effective because you have a massive amount of this
+
+data, and maybe you don't really know what you're going to be doing with with this data in the future.
+
+I mean, I think that's usually the case, right?
+
+So that Data Lake brings more flexibility in storage and processing down the down the road.
+
+You know, you don't need to go and reload everything just because you want to analyze your data a different
+
+way.
+
+Data lakes are typically used with advanced analytics, machine learning and data discovery systems.
+
+So very common to have a data lake of raw log data, raw behaviour data, whatever it might be.
+
+Extract that into features for machine learning and train a model, you know, stuff like that.
+
+Sometimes you use both, right?
+
+So it's okay to have both a data warehouse and a data lake.
+
+You might even have the same data in each for different applications, right?
+
+So maybe you store the raw data into a data lake and have more flexibility with what you do with it
+
+there.
+
+But if you want to do, you know, BI stuff and analytics, maybe you also load it into a data warehouse
+
+that's more optimized for those use cases.
+
+So it's not a one or the other kind of choice necessarily.
+
+It's more about having the right tool for the right job, right?
+
+One more option is called the Data Lake House.
+
+This is kind of popularized by the Databricks world.
+
+Its definition is a hybrid data architecture combining the best of both worlds.
+
+So we have the best features of data lakes and data warehouses trying to provide the performance, reliability,
+
+and capabilities of a data warehouse while maintaining the flexibility, scale and low cost storage
+
+of data lakes.
+
+So a data lake house also supports both structured and unstructured data.
+
+It allows for schema on write and schema on read provides capabilities for both detailed analytics and
+
+machine learning tasks.
+
+It is typically built on top of cloud or distributed architectures such as AWS and it can benefit from
+
+things like Delta Lake, which brings acid.
+
+Transactions to big data.
+
+And we'll talk about acid a little bit more later.
+
+That's basically the promises that a database makes and how that data is processed and handled.
+
+Some examples.
+
+AWS Lake Formation, used together with S3 and redshift spectrum, is an example of a data lake house
+
+where we have a big old blob of data sitting in S3, but we're using redshift spectrum to query that
+
+just like it's a data warehouse.
+
+But the underlying storage is not structured, it's actually hitting S3 under the hood.
+
+So it's sort of this hybrid, again, between a data warehouse and a data lake.
+
+This kind of seems to be where the world is heading right now.
+
+Delta Lake is built on top of Apache Spark, Databricks Lake House platform, another one, and Azure
+
+Synapse Analytics.
+
+Not going to talk a lot about those last three because they're not about AWS and therefore you will
+
+not see them on the exam I don't think.
+
+But AWS Lake formation with S3 and redshift spectrum is definitely a use case you want to pay attention
+
+to as we go through this course.
+
+
+Forth
+Let's touch on a more recent buzzword in the world of data engineering, and that's a data mesh.
+
+The exam might expect you to know what this term means, at least, if not in more depth.
+
+It's not really about technology so much.
+
+It's more about organization and the management and how you structure, access and ownership of data
+
+within a larger organization.
+
+So it's more about governance and organization than actual technologies.
+
+The idea, though, is that individual teams own their own data.
+
+So if a given team or department or whatever it is in your organization is an expert in a certain type
+
+of data, or they collect that data or that's their responsibility, they are responsible for maintaining
+
+that data and also offering it as a data product to other organizations, other teams, other departments
+
+within the larger organization.
+
+So it's sort of a decentralized world where data is owned by the teams that know the most about that
+
+data.
+
+But there's some central organizing principles on how that data is accessed and governed.
+
+Right now, outside of each data domain, which might be a specific team that owns a specific set of
+
+data products, there might be use cases around the organization that need to tap into that data.
+
+So maybe there's someone outside of that specific team that needs to do an analysis that involves data
+
+products from multiple data domains.
+
+That is a use case that might connect within multiple data domains to the data products that are offered
+
+by those domains.
+
+So people with a use case for a data analysis problem don't need to go and hit the raw data for everything.
+
+They can just hit these data products that are exposed by individual data domains.
+
+This is sometimes called domain based data management.
+
+It's not too surprising that this has caught on and gotten some traction within Amazon because, well,
+
+this is how Amazon itself has been structured internally.
+
+For as long as I remember.
+
+They've always had this decentralized approach where they have a set of governing principles, but individual
+
+teams own their own stuff for the most part.
+
+However, you do need to have federated governance with central standards.
+
+So each one of these domains is responsible for maintaining the integrity and security of that data
+
+and making sure that access controls are in place as appropriate by applying central standards to it
+
+And also Amazon of course, loves this concept because AWS is a good solution for implementing a data
+
+mesh, right?
+
+So you can imagine using something like lake formation to organize how this data is actually managed
+
+and stored and accessed, and also to manage the permissions to that different data from different groups.
+
+Right.
+
+And maybe AWS glue is used as a centralized data catalog so people can see what data products are out
+
+there.
+
+It also calls for self-service tooling and infrastructure.
+
+So it it assumes that these different domains are not left to fend for themselves entirely, that there
+
+is some sort of infrastructure in place for them to build these data products on top of.
+
+And again, that's where AWS might come in.
+
+Data lakes, data warehouses, S3 glue, lake formation, whatever it might be, could be a part of
+
+a data mesh.
+
+But a data mesh is more about the data management paradigm.
+
+You know, the higher level concerns about who owns the data, who maintains it, how is that accessed?
+
+How is that distributed throughout a larger organization?
+
+It does not prescribe a specific technology or architecture, but AWS could be one of them.
+
+5
+
+So we talked about ETL in the context of data warehouses and extracting, transforming and loading data
+
+into a data warehouse.
+
+Let's just dive more into what each one of those letters really means.
+
+So again, ETL extract transform and load.
+
+And for a data lake it would be ELT just switching those last two around.
+
+But the letters mean the same thing in either case.
+
+E is for extract.
+
+And that's retrieving your raw data from wherever it comes from.
+
+We'll talk more about data sources in a moment, but that might be an external database.
+
+It might be some customer relationship management system like Salesforce.
+
+It might be flat files like a log file somewhere.
+
+Right.
+
+It could be API's into some other system entirely or maybe some other data repository.
+
+So your data is probably coming from many places.
+
+You need to know how to interface with that information and extract it into your data warehouse.
+
+You also need to make sure that we're not missing or corrupting our data along the way.
+
+So you need to ensure data integrity while it's being extracted.
+
+What happens if one of your API calls to extract data fails?
+
+Do you retry it?
+
+How often do you retry?
+
+What are your policies there?
+
+It can get a little bit niggly, and you need to think about the velocity of that data to getting back
+
+to that concept of the three V's.
+
+Are you going to extract this data in real time as it's made in real, near real time?
+
+You know, within a few minutes, or maybe just in a batch fashion once a night or once a week.
+
+Depends on your requirements, right?
+
+So you need to understand how the state is going to be generated, how it's going to be queried, and
+
+what the requirements are surrounding that before you make your decisions on how that extraction works.
+
+Moving on to the T transform.
+
+This is where we convert the extracted raw data into a format suitable for our target data warehouse.
+
+Now again with the data warehouse we're going to do that upfront with a data lake.
+
+Maybe we're doing that transformation more on demand toward the end.
+
+In either case, what do we mean by transform?
+
+We can mean many things.
+
+Multiple things.
+
+In fact, we need to cleanse that data, right.
+
+So maybe we have some bad data.
+
+Maybe there's errors in it that we need to fix.
+
+Maybe there's duplicate data that we need to remove.
+
+Maybe there's missing data that we need to impute.
+
+We might need to enrich that data somehow.
+
+Maybe add in additional data from other sources before we actually write it.
+
+So we might need to combine two extractions together to do the transform we want.
+
+A very common transform is changing the format.
+
+So something you see all the time is maybe your dates are stored as raw strings in some format, but
+
+you need to actually transform that into a date time format under the hood.
+
+Right.
+
+So a very common format change there.
+
+Just, you know, in general, you tend to be dealing with text data a lot.
+
+And sometimes you need to transform that into integers, binary data, whatever it might be for machine
+
+learning, maybe you even need to one hot encode it, but I'm not going to go there right now.
+
+Aggregations or computations.
+
+Maybe we need to calculate totals or averages instead of or in addition to the raw data.
+
+You know we might need to encode or decode the data.
+
+Maybe it's coming to you in some weird format that you need to first decrypt or decode before you can
+
+actually write it into the format that you want.
+
+Pretty common for stuff to come across a zipped up or in some columnar format, or whatever.
+
+Or maybe you need to encode it into a columnar format to ultimately store it where you want it to go.
+
+And missing data is a very common problem as well.
+
+Um, again, comes down to your requirements.
+
+You know, if you do have a requirement that a given column does not have any null values, then you've
+
+got to figure out how you're going to deal with that.
+
+Are you going to just drop rows that have missing values?
+
+Are you going to impute some sort of placeholder information there?
+
+Do you create a report that says, hey, I rejected all this information.
+
+Go deal with it.
+
+Again, depends on your requirements.
+
+Finally, the Ell load that's moving your transformed data into the target data warehouse or repository
+
+in the case of a data warehouse.
+
+And that can be done again in batches all at once, or streaming in real time as data becomes available
+
+again, comes down to your to the volume of data that you're talking about and the velocity of the data,
+
+what your requirements are for actually analyzing that data and extracting meaning from it.
+
+And like we had to ensure data integrity in the extraction phase.
+
+We also need to ensure data integrity during the load phase.
+
+Sometimes disk writes fail you know, sometimes things get backed up.
+
+You need to watch out for those cases and deal with it.
+
+You don't want to just be dropping data on the floor and not knowing about it while you're loading it
+
+into your data warehouse.
+
+We also need to manage these pipelines.
+
+So as you can imagine, we've talked about a lot of stuff, a lot of steps.
+
+Something needs to orchestrate all of it.
+
+Something needs to make sure that it all happens in the right order and happens on the right schedule.
+
+Right.
+
+So we need to automate these pipelines in some reliable way.
+
+AWS offers a lot of services to do that.
+
+AWS glue being one of them that can automatically do ETL or ELT on data as it's received.
+
+And in response to events of that data coming in.
+
+And at a higher level, we have orchestration services such as EventBridge, Amazon managed workflows
+
+for Apache Airflow.
+
+AWS Step Functions, Lambda, and workflows within AWS glue.
+
+We will dive into those in much more depth later in the course.
+
+So right now I'm just trying to get those ideas into your head and understanding how these services
+
+fit in to the broader problem of ETL pipelines.
+
+
+6
+
+Let's talk about different sources of data and the formats that it might come in.
+
+This is a little bit less high level, so I would expect the exam to expect you to know this stuff,
+
+even though it's not necessarily AWS specific.
+
+One data source might be a JDBC connection.
+
+So maybe you have some external database out there that you need to extract data from.
+
+JDBC might be one interface, one common interface for accessing and querying that data as you need.
+
+Stands for Java Database Connectivity.
+
+The nice thing about JDBC is that it's platform independent because it is based on Java, right?
+
+It's also language dependent because, well, it's based on Java.
+
+So the good thing about Java is that you can run it on pretty much any device you can think of.
+
+The bad part is that it does require you to be using the Java language to access that data.
+
+So if you're building an extraction tool in Java, then JDBC makes a whole lot of sense.
+
+However, if you don't if you're not in Java, you'll need some sort of intermediary layer instead.
+
+And that might be ODBC Open database connectivity.
+
+It is platform dependent because you need specific drivers to access your databases with ODBC, but
+
+it is language independent because it is not just built exclusively on Java.
+
+Now you'll find that in practice, most data extraction tools will support both JDBC and ODBC interfaces.
+
+It's just that that that support will be at a layer that's a little bit lower and hidden from you.
+
+Right.
+
+So we just need to know what those stand for and what they what their differences are.
+
+You might also just be sucking in data from raw log files.
+
+You know, maybe you're just writing out logs to S3 and you need to ingest that as is.
+
+That's okay.
+
+You might have some sort of an API to an external system.
+
+So maybe instead of JDBC or ODBC, there's some other interface, some application programming interface
+
+that you can hit from your extraction application to access the information that you need.
+
+Also, you might have streams of data coming in.
+
+So there's a lot of stuff that you can deal with streaming information.
+
+Kafka.
+
+Kinesis.
+
+We'll talk about that in more depth.
+
+But some data sources will provide you streams of data in real time as it's received, and you just
+
+need to have the right software to ingest those streams and do stuff with it.
+
+Some common data formats.
+
+This is important stuff, folks.
+
+CSV.
+
+You probably already know what that one is a comma separated value file.
+
+Basically it's a text based format.
+
+It's human readable.
+
+That's the key here where data is in a tabular form, where every line of data corresponds to a row
+
+of data, and the values within are separated by commas.
+
+Now, it doesn't necessarily have to be a comma.
+
+Your delimiter can be pretty much anything.
+
+Using commas can get complicated if you have commas within the data itself, right?
+
+So then you have to figure out, oh, what are my rules for escaping this data and quoting it and whatnot.
+
+So you sometimes see CSV files where the delimiter delimiter is not a comma.
+
+It might be a pipe or a tab or something else.
+
+Right.
+
+That's okay.
+
+You know, you might call it a CSV file if it's separated by a tab.
+
+But same idea When do you use this stuff?
+
+Mostly appropriate for small to medium sized data sets because it is not encoded.
+
+It's human readable, right?
+
+So it's not the most efficient way to store information, but it is easy to read.
+
+It's also a pretty common denominator for different systems.
+
+So pretty much anything can handle a CSV file.
+
+So if you need to interchange your data between different systems, a CSV is a pretty good choice for
+
+a lingua franca, if you will, a way of transforming that data between anything.
+
+And if you do want it to be human readable and editable, CSV has a huge advantage there, right?
+
+So it's very easy to just open up a CSV file in a text editor, read it, understand what's in there,
+
+and maybe even modify it directly without having to decode and encode it along the way.
+
+It's also useful for importing and exporting data from databases or spreadsheets.
+
+Again, the implication of a spreadsheet is it's probably not that much data.
+
+So a CSV is fine.
+
+Typically you see this used in databases that are SQL based.
+
+If you're ingesting data into a SQL database Microsoft Excel is makes it very easy to import Csvs and
+
+export Csvs.
+
+Pandas, if you're using a python notebook, can handle Csvs quite easily.
+
+R and many ETL tools as well.
+
+There's also JSON, JavaScript Object notation.
+
+You see this a lot more often.
+
+You see this in the world of application development for passing data between back end services and
+
+front end websites, but more generally, it's a lightweight, text based and human readable data interchange
+
+format that represents structured or semi-structured data based on key value pairs.
+
+So the main difference here is that it can be semi-structured.
+
+It's still human readable, just like a CSV file.
+
+But you can have different kinds of information on different rows, right?
+
+So because everything is tagged into key value pairs, you can have different key value pairs within
+
+each row.
+
+And that's okay with JSON.
+
+So this is, like I said, more commonly used between a web server and a web client as a way of exchanging
+
+information.
+
+It's kind of the default standard for that.
+
+Also for configurations and settings files for software applications, you'll see that in JSON format
+
+quite a bit.
+
+And also just for use cases where you need a flexible schema or maybe nested data structures.
+
+That's not something you can do easily with CSV, but with JSON you can have, you know, more layers
+
+of structure within each row, which is kind of a cool thing.
+
+You see this in web browsers.
+
+Um, it's supported widely in many programming languages JavaScript, Python, Java, uh, RESTful APIs
+
+and also NoSQL databases.
+
+So if you need to store semi-structured data, maybe this is the format that you're storing that semi-structured
+
+in in your underlying database, like MongoDB is a good fit for this sort of data.
+
+Let's also talk about Avro.
+
+So we're getting out of the world of human readable information here.
+
+Avro is a binary format, and this stores both the data and its schema, allowing it to be processed
+
+later with different systems without needing the original systems context.
+
+So it's a little package of both the data and its it's schema that's in binary format to make it nice
+
+and compact.
+
+Appropriate for big data and real time processing systems, its binary nature means that it's making
+
+more efficient use of the data of the bits that it has.
+
+If your schema is going to change, if your data structure might change over time, that might be a
+
+good reason for encoding the schema itself along with the data.
+
+If your schema does not change, then you're kind of wasting some space by encoding that schema alongside
+
+the data every time, right?
+
+So the real use case here is if that schema might change.
+
+And you need to tie that schema closely to the data that it's attached to.
+
+It is also good for efficient serialization for data transport between systems.
+
+So if you need to push data from point A to point B, encoding and decoding it from Avro might be an
+
+efficient way to do so.
+
+Again, because it is binary in nature, and because that information on how to decode it is baked into
+
+the format itself.
+
+Apache Kafka, Apache Spark, Apache Flink, and Hadoop are examples of systems that deal with Avro
+
+format quite easily.
+
+And we'll talk about all of those systems in depth later on.
+
+Parquet.
+
+This one comes up a lot.
+
+This is what we call a columnar storage format.
+
+So because it is storing data by columns instead of rows, it's optimized for analytics where your queries
+
+might only be looking at specific columns of information and not everything that's in a row.
+
+Right.
+
+So we're kind of flipping things on its head there.
+
+We're storing the information by its columns because I know that when I'm querying this data, I'm probably
+
+only going to be interested in specific columns and not the entire row.
+
+So that's an optimization for analytics, which is why parquet is a very important part of a data analytics
+
+platform.
+
+This allows for efficient compression and encoding, again, because columns tend to be of the same
+
+format.
+
+Right.
+
+So that allows us to compress it even better.
+
+This is useful again for analyzing large data sets within analytics engines.
+
+The use cases where reading specific columns instead of entire records is beneficial So again, you
+
+know, think about situations where you might have a lot of features, a lot of columns on each row,
+
+but a specific use case, a specific analysis only needs a very small subset of those columns.
+
+That's where parquet becomes very powerful.
+
+It's also useful for storing data on distributed systems, because I can split things out based on the
+
+columns that are being queried.
+
+So maybe I store some columns on different servers, right?
+
+This can be a very important optimization where I'm trying to minimize I o overhead or storage overhead
+
+based on what I'm trying to do.
+
+So examples that use parquet Hadoop again, Apache Spark again, Apache Hive, Apache Impala and Redshift
+
+Spectrum, which is a very important piece of the data engineering and data analytics world on AWS.
+
+So parquet remember that one.
+
+If you have a use case where you have lots of columns, but maybe you don't need to analyze them all.
+
+Parquet is a very efficient way of storing that information, querying that information, and also distributing
+
+the processing of that information based on the columns.
+
+

@@ -1,0 +1,1285 @@
+So, now, let's talk
+
+about Kinesis Data Streams.
+
+So, it's a service used to collect
+
+and store streaming data in real-time.
+
+So, the keyword you have to look out for
+
+at the exam is really real-time.
+
+So, here is a diagram to explain better.
+
+So, we have real-time data.
+
+What is real-time data?
+
+Well, it's data that is created and used on the spot.
+
+For example, whenever users click on a website,
+
+it's called a click stream,
+
+or when you have a device that's connected to the internet,
+
+for example, a connected bicycle,
+
+or when you have metrics and logs on a server
+
+and you want to use them directly.
+
+So, you want to send those into Amazon Kinesis Data Streams.
+
+And to do so, we must use what's called producers.
+
+So, producers can be either applications
+
+and this is actually code you have to write
+
+to take data from your website or from your devices
+
+and send it into Kinesis Data Streams,
+
+or for example, for metrics and logs,
+
+you can install
+
+what's called the Kinesis Agent on your servers
+
+and it will act as a producer
+
+to Kinesis Data Streams as well.
+
+So, then, your data is going to be sent in real-time,
+
+so, as it happens into Kinesis Data Streams.
+
+And the reason why we do so is that we want
+
+to have consumer applications consuming this data
+
+in real-time and leveraging it.
+
+So, we have our application.
+
+And again, you should write some code
+
+to read from Kinesis Data Streams,
+
+or you can have Lambda functions,
+
+I can read from it as well.
+
+You have something called Amazon Data Firehose,
+
+that we'll see in a future lecture.
+
+And as well as, for example, services
+
+to do analytics on top of your streams,
+
+such as the Managed Service for Apache Flink.
+
+So, some features of Kinesis Data Streams.
+
+So, your data can be retained
+
+on the stream for up to 365 days.
+
+And because the data is persisted,
+
+you are able to reprocess to replay data by your consumers.
+
+That means also that once you send data
+
+into Kinesis Data Streams,
+
+you cannot delete it.
+
+You have to wait for it to expire from a time perspective
+
+for it to get deleted.
+
+Now, data up to 10 megabytes can be sent
+
+into Kinesis Data Streams.
+
+But the real case, the real typical use case,
+
+is to have a lot of small real-time data.
+
+Your data is going to be in order
+
+if you send two data points with the same partition ID.
+
+So, it's a way for you to say
+
+that these two data points are related in time
+
+by sharing the same partition ID.
+
+And you have security features,
+
+such as at-rest KMS encryption
+
+and in-flight HTTPS encryption.
+
+So, if you want to write
+
+what I call an optimized producer application
+
+that is meant for high throughput,
+
+you should be using the Kinesis Producer Library, KPL.
+
+And to write an optimized consumer application,
+
+you should use the Kinesis Client Library or KCL.
+
+Okay, now, your Kinesis Data Streams has two capacity mode.
+
+The first one is provision mode
+
+in which you choose the number of shards on your stream.
+
+So, what is a shard?
+
+A shard is basically how big your stream is.
+
+So, you can have one shard,
+
+but you can have a thousand shards if you wanted to.
+
+The more shard you have,
+
+the more throughput you're going to have inbound.
+
+So, that means you get one megabyte per second,
+
+or a thousand records per second for each shard
+
+in terms of capacity.
+
+And each shard in terms of read capacity now,
+
+in terms of out-traffic is two megabytes per second.
+
+So, if you want
+
+to send, for example, 10,000 records per second,
+
+or 10 megabytes per second,
+
+then you will need to scale to 10 shards.
+
+Now, if you wanted to adjust the number of shards over time,
+
+you can scale manually
+
+to increase or decrease the number of shards.
+
+And of course, you need
+
+to be able to monitor your throughput
+
+to know how many shards you must have at any point of time.
+
+You're going to pay for each shard provisioned per hour.
+
+The other mode is on-demand mode.
+
+So, here, you don't need to provision,
+
+or manage the capacity of your Kinesis Data Streams.
+
+You have a default capacity provision,
+
+which is about 4,000 records per second,
+
+or four megabytes in.
+
+And then, automatically,
+
+Kinesis Data Streams is going to scale based
+
+on the observed throughput during the past 30 days.
+
+So, instead, here, you're going to pay per stream per hour
+
+and you're going to be billed per the amount of data
+
+that goes in and out of your Kinesis Data Streams.
+
+All right, that's it, I hope you liked it.
+
+And I will see you in the next lecture.
+
+So now let's talk about Amazon Data Firehose.
+
+So Amazon Data Firehose is a service
+
+to send data from sources into target destinations.
+
+So to get data into Amazon Data Firehose,
+
+you may have producers that could be your applications,
+
+your clients, or things you write,
+
+and you use the SDK to send data into Firehose
+
+or the Kinesis agents,
+
+as well as Firehose has the capability
+
+to pull directly from some services
+
+such as, for example, a Kinesis Data Streams
+
+or an Amazon CloudWatch logs and events,
+
+or for example, AWS IoT.
+
+And so all these services are either going
+
+to be pushing into Amazon Data Firehose
+
+or Firehose are going to be pulling from,
+
+for example, a Kinesis data stream
+
+and it is going to receive the records.
+
+Now these records are going to be received,
+
+and then they can optionally be transformed
+
+using a Lambda function, if you wanted
+
+to do some data conversion format, for example.
+
+And they're going to be accumulated into a buffer
+
+and the buffer is going to be flushed once in a while
+
+to do batch writing into a lot of destinations.
+
+So the first destinations are going
+
+to be AWS specific destinations,
+
+such as sending data into Amazon S3
+
+or into Amazon Redshift to perform analytics,
+
+or into Amazon OpenSearch as well.
+
+You also have the option to send from Data Firehose
+
+directly into third-party partner destinations
+
+such as Datadog, Splunk, New Relic, and MongoDB.
+
+And finally, if your destination is not supported,
+
+you can simply use the HTTP endpoint integration
+
+to send it anywhere you want.
+
+Now, Firehose will write this data,
+
+but you also have the option to write all
+
+or just the failed data that has been sent
+
+into an S3 bucket for a backup.
+
+So Amazon Data Firehose
+
+used to be called Kinesis Data Firehose
+
+for the longest time,
+
+but now it's called Amazon Data Firehose
+
+because it does way more than just Kinesis.
+
+It's a fully managed service,
+
+and again, it supports Redshift, S3,
+
+and Amazon OpenSearch service,
+
+third party destinations such as Splunk
+
+and a custom HTTP endpoint
+
+if you wanted to write your own integration.
+
+You also have automatic scaling.
+
+It's fully serverless,
+
+and you only pay for what you use from within the service.
+
+It's called a near real-time service
+
+and this is something you have to look for in the exam.
+
+Near real-time usually points
+
+to Amazon Data Firehose, and why?
+
+Well, because you have a buffer inside of Firehose,
+
+and the buffer can be optionally disabled,
+
+but usually it's used
+
+and it has a capability based on size or time.
+
+So it's going to accumulate, accumulate,
+
+and then after a while,
+
+it's going to be flushed into your destination.
+
+And therefore, because that takes a little bit of time,
+
+it's a near real-time service.
+
+In terms of what type of incoming data it supports,
+
+it supports CSV, JSON, Parquet, Avro, text, or binary data.
+
+And from within Firehose, you can convert your data
+
+to Parquet or ORC as data formats
+
+or even do compressions with gzip or snappy.
+
+But if you wanted to do a custom conversion
+
+or data transformation,
+
+for example, you could use AWS Lambda.
+
+For example, if you wanted to change your data
+
+from CSV to JSON format before sending it to Amazon S3.
+
+So it's usually helpful to compare Kinesis data streams
+
+and Amazon Data Firehose, so here it is.
+
+So Kinesis Data Stream
+
+is a streaming data collection service.
+
+You're going to usually have
+
+to write your own producer and consumer code.
+
+It's going to be real-time.
+
+And there are two modes, provision and on-demand mode.
+
+Data can be stored up to one year
+
+and you have a replay capability.
+
+For Amazon Data Firehose,
+
+it's a way to load streaming data into target destinations
+
+such as Amazon S3, Redshift, OpenSearch and so on.
+
+It's fully managed, it's near real-time,
+
+it has automatic scaling, no data storage,
+
+and no replay capability.
+
+All right, that's it for this lecture.
+
+I hope you liked it,
+
+and I will see you in the next lecture.
+
+
+These exams love to give you scenarios of when things go wrong and how to fix them.
+
+So let's spend a little bit of time talking about troubleshooting steps for various Kinesis Data Stream
+
+issues you might run into.
+
+Let's start with the performance on the producer end.
+
+So let's say that we have writes being too slow from my data stream producer.
+
+There's a few causes of that.
+
+One might be that you're encountering service limits.
+
+You might just want to check for throughput exceptions to see if that's what's happening.
+
+If so, the exceptions might point you toward what the problem is.
+
+So different calls have different limits, and you might just be exceeding those limits.
+
+There are also shard level limits for reads and writes that you might be exceeding.
+
+We talked about those earlier and some operations have stream level limits as well.
+
+So for create stream list streams and describe streams at the stream level, the rate limits on that
+
+are anywhere between 5 and 20 calls per second.
+
+Also you might be encountering hot shards you know data skew.
+
+We talked about that way back in the first section.
+
+So maybe that's what's going on.
+
+Maybe you need a better partition key to better evenly distribute your puts across the shards.
+
+Maybe you have a hot shard that's slowing things down when you're producing.
+
+If you have a large producer, it can help to batch things up.
+
+So you can use the Kinesis Producer library with the Put Records API to batch up multiple records together
+
+and send them all together at once.
+
+That can be a lot more efficient.
+
+Or maybe aggregate your records into larger files and then send those larger files across instead of
+
+individual records.
+
+Smaller producers like an app.
+
+A same advice applies with put records.
+
+You can also use something called Kinesis Recorder in the AWS mobile SDK to do that automatically.
+
+Some other issues you might see with producers.
+
+If you're getting 500 or 503 errors back, that usually indicates that you're seeing Amazon Kinesis
+
+exceptions more than 1% of the time.
+
+The way to deal with that is to implement a retry mechanism so that you don't just fail, you try it
+
+again until it works.
+
+You might be seeing connection errors from Flink to Kinesis.
+
+If so, that could point to a network issue or not enough resources in the Flink environment.
+
+Or could also be a VPC misconfiguration.
+
+Maybe you just can't get from Flink to Kinesis because they're in different VPC subnets, or you're
+
+not using VPC peering.
+
+If you're seeing timeout errors from Flink to Kinesis, connections are okay, but timeouts are happening.
+
+Well, you can just increase the timeout with the request timeout setting.
+
+You can also set a higher queue limit on the Flink Kinesis producer.
+
+And you might be seeing throttling errors coming in.
+
+If so, check for Hot Shards again using enhanced monitoring at the shard level to see what's going
+
+on.
+
+You can also check your logs for what's called micro spikes, where you're seeing these sudden bursts
+
+of traffic that you can't handle.
+
+Or you might be seeing obscure metrics that are breaching their limits that can point to those sorts
+
+of micro spikes.
+
+You can also try a different partitioning strategy, try a random partition key, or just try to improve
+
+the keys distribution again.
+
+It could be hot shards.
+
+And if you do have data skew going on a different partition key is a way to try to address that.
+
+You can also implement an exponential backoff mechanism.
+
+So if you are hitting throttling limits, then you can have a system that automatically backs off on
+
+the producer side until things get caught up.
+
+And you can just do a old school rate limiting as well.
+
+Make sure that you're never sending more than a given rate.
+
+That's more than you can handle.
+
+Let's also look at the consumer side and some issues you might see on the consumer end.
+
+If I'm seeing records getting skipped with Kinesis Client Library, that might mean I need to check
+
+for unhandled exceptions on process records.
+
+If I'm seeing records in the same shard processed by more than one processor, that might indicate that
+
+failover is happening on the record processor workers and I might need to adjust that failover time.
+
+One way of dealing with that as well, is to handle shutdown methods that come in with a reason zombie,
+
+that that is what happens when you're seeing things being processed by more than one thing.
+
+If my reads are just too slow, I can increase the number of shards that's kind of the basic thing to
+
+do.
+
+Or it might be that my max records per call is too low.
+
+It could also just be that your code is too slow.
+
+So to see if your code on the consumer side is the bottleneck, just test an empty processor versus
+
+your own and see if that performs better.
+
+Getrecords might be returning empty results for you.
+
+On the consumer side, it turns out that's totally normal.
+
+Just keep calling Getrecords.
+
+There are situations where data just won't be ready yet, so don't worry about that.
+
+If your shard iterator is expiring unexpectedly, that might indicate that you need more write capacity
+
+on the shard table in DynamoDB under the hood.
+
+And finally, if record processing is falling behind, that one way to buy some time is to increase
+
+the retention period while you're trying to figure out the real issue.
+
+But usually that points to a problem with insufficient resources.
+
+So monitor that using the Getrecords iterator age milliseconds metric and the millis behind latest metric.
+
+While you're trying to figure out what that resource limitation might be.
+
+Some other issues on the consumer side, maybe your Lambda function isn't getting invoked.
+
+That's usually a permissions issue on the execution role.
+
+So go check your IAM permissions on the Lambda function to make sure Kinesis can talk to it.
+
+Your function might also be timing out, so check the max execution time on that lambda function.
+
+Make sure it's large enough to handle what you need to do.
+
+You could be breaching the concurrency limits on your Lambda function, and keep an eye on the iterator
+
+age metric to see whether the lambda is getting backed up or not.
+
+You might also be seeing read provisioned throughput exceeded exceptions coming in.
+
+On the consumer side, that indicates that throttling is happening.
+
+You might need to reshard your stream in response to that, or reduce the size of the getrecords requests.
+
+This is also a situation where enhanced fan out can help, so that might make for a good exam question.
+
+I'm seeing.
+
+Read provisioned throughput exceeded exceptions.
+
+What might be a way of dealing with that?
+
+One of those answers might be use enhanced fan out.
+
+You can also use retries and exponential backoff to try to settle at a better throughput rate that you
+
+can handle.
+
+A few more here.
+
+If you're seeing high latency on the consumer side, you can monitor that with getrecords latency and
+
+iterator age while you're trying to figure out what's going on and troubleshoot it.
+
+But the first thing to try is just increasing the number of shards you might not have enough, and also
+
+increase the retention period to make sure things don't get dropped.
+
+Check the CPU and memory utilization.
+
+You might need more memory to handle things more quickly.
+
+Again, if you're seeing 500 errors, that's the same thing as on the producer side.
+
+It indicates you're getting a high exception rate of more than 1%.
+
+All you can do there is make sure that you have a retry mechanism so that if you're getting an exception,
+
+you're trying again.
+
+Instead of just getting a 500 and you can see a blocked or stuck KCL application on the consumer side.
+
+If so, you might need to optimize your process records method and make it faster.
+
+You might need to increase your max leases per worker, or you might need to enable KCL debug logs to
+
+see what's going on in more depth and figure out what the underlying issue really is.
+
+
+Let's talk about Kinesis Analytics cost model.
+
+It is serverless.
+
+So you just pay for the resources you consume and nothing else.
+
+It scales up for you automatically, and you don't have to worry about the underlying resources needed
+
+to actually run your Kinesis Analytics applications.
+
+However, it's not cheap, unlike some other serverless services that AWS offers.
+
+When I was making this course, Kinesis Analytics actually made up the bulk of the actual charges that
+
+I incurred while developing this course.
+
+So use it carefully and do make sure to shut down any analytics jobs once you're done using them.
+
+Just to be safe.
+
+As far as security goes, you can use IAM permissions to access the streaming, source and destination
+
+services that you're working with, so you can configure IAM to allow your Kinesis Analytics application
+
+to talk to whatever upstream and downstream services it needs to communicate to.
+
+There's also a cool feature in Kinesis Analytics called Schema Discovery, and that's how the column
+
+names in your SQL are found.
+
+It can actually analyze the incoming data from your stream as you're setting it up.
+
+So you can check that it worked, but it's pretty cool.
+
+It can actually analyze an incoming stream and write in the AWS console.
+
+You can see how it's trying to make sense of that data and impart a schema on top of it, and you can
+
+edit and correct that data as needed.
+
+It's also worth talking about something called random cut forest.
+
+This is a SQL function offered by Kinesis Data Analytics that you can use within your data analytics
+
+application for anomaly detection on any numeric columns in a stream.
+
+And you can tell that AWS is really proud of this because they published a whole paper on it, and you
+
+can go look it up if you want to.
+
+It is a novel way of identifying outliers in a data set so you can handle them however you need to.
+
+An example of doing this that they, given the paper, is detecting anomalous subway ridership during
+
+the New York City Marathon.
+
+So they have a stream of data of people going through the subway turnstiles, and they are using random
+
+cut forest to automatically identify anomalies in that rate of usage of the subway system.
+
+So this is important because if you ever see a question about trying to detect anomalies or outliers
+
+in a stream of data, random cut forest with Kinesis Analytics is very likely a good answer for that.
+
+And with that, let's dive into a hands on example, because it will make a whole lot more sense when
+
+you see this all in action.
+
+
+Now let's talk about MSK
+
+because MSK is starting to appear
+
+on the Data Analytics Specialty exam.
+
+You don't need to know how to use Kafka, so,
+
+because it's quite complicated actually to use Kafka.
+
+So there will be no hands-on on this,
+
+but you need to know how MSK works,
+
+what's the architecture and the differences versus Kinesis.
+
+So Kafka is an alternative to Kinesis,
+
+and there will be a lecture dedicated
+
+to Kafka versus Kinesis in the next lecture.
+
+Because the exam will mainly try to make you choose
+
+between Kafka and Kinesis based on some scenario.
+
+So what is Kafka though and MSK?
+
+So MSK is a fully managed Apache Kafka service on AWS,
+
+which allows you to create, update,
+
+and delete Kafka clusters.
+
+And in that case,
+
+Amazon MSK will create and manage Kafka broker nodes
+
+and Zookeeper nodes for you.
+
+You deploy your MSK cluster in your VPC,
+
+it's multi-AZ up to three for high availability.
+
+There's automatic recovery
+
+from common Apache Kafka failures,
+
+and the data is stored on EBS volumes.
+
+The idea is that MSK and Kafka is a replacement for Kinesis,
+
+where you have at the same way,
+
+your producers and your consumers of data.
+
+But the power of Kafka is that you can create
+
+some custom configurations for your cluster.
+
+For example, one that can come up in the exam
+
+is that the by default the message size
+
+is one megabyte in Apache Kafka.
+
+But you can configure Apache Kafka to be able to send
+
+and receive large messages, for example,
+
+up to 10 megabytes into your cluster
+
+after doing some custom configuration.
+
+And that is a big difference with Kinesis
+
+because Kinesis has a hard limit
+
+of one megabyte for the message size.
+
+Now at a high level,
+
+you will recognize the Kafka cluster architectures
+
+should be very similar to Kinesis.
+
+So now we see what goes in your cluster.
+
+So you have brokers in the Apache Kafka brokers,
+
+and data will be replicated within them.
+
+So in this example,
+
+I've shown you three brokers in your Kafka cluster.
+
+Now producers can be your code,
+
+it could be whatever you want.
+
+You can create producers to take data from Kinesis
+
+and put it in Kafka clusters
+
+or IoT or RDS, et cetera.
+
+So you just have to write some application to take some data
+
+and put it and send it into what's called a Kafka topic.
+
+Now Kafka topics are replicated.
+
+So this is how your data is safe
+
+across multiple availability zones.
+
+And so once it's written to a Kafka topic and replicated
+
+then consumers, which will be your code,
+
+we'll be pulling from your Kafka topics.
+
+And then, consumers can do whatever they want.
+
+They can do some logics from processing
+
+or send the data into target data sources.
+
+Such as EMR, S3, SageMaker, Kinesis, RDS,
+
+et cetera, et cetera.
+
+So as you can see,
+
+it's quite similar to Kinesis.
+
+Difference is that the APIs are different,
+
+the tooling is different,
+
+and that Kafka is going to be way more configurable,
+
+which will allow you to get around the some Kinesis limits.
+
+So in terms of configuration,
+
+you choose a number of availability zones.
+
+So three is recommended or two.
+
+Then you choose the VPC and Subnets.
+
+This is a private cluster.
+
+You choose the broker instance type,
+
+for example, in the m5 large, EC2 Instance.
+
+The number of brokers per AZ
+
+and you can add brokers over time.
+
+And this gives you in the end,
+
+one Zookeeper per availability zone
+
+and one Kafka broker per AZ.
+
+So in this example,
+
+or one, two per AZ, for example,
+
+in this example.
+
+So we have three Zookeeper nodes
+
+and six Kafka brokers and three AZ in this example.
+
+Finally, you choose the size of your EBS volume
+
+between one gigabyte and 16 terabytes,
+
+which allows you to retain data for as long as you need,
+
+based on the time requirements.
+
+Again, maybe giving you a little bit more flexibility
+
+versus Kinesis data streams.
+
+Okay.
+
+Now, security is very important in Apache Kafka
+
+and you will be asked maybe one question
+
+about it at the exam.
+
+So let's take an example of a cluster with three brokers.
+
+So we can get encryption in-flight
+
+between each brokers using TLS.
+
+So by default, it's enabled,
+
+but you can disable it if you wanted to
+
+for performance improvements.
+
+You also get optional TLS encryption in-flight
+
+between the clients and the broker.
+
+And again, by default, this is enabled
+
+but you can disable it as well
+
+for performance reasons as well.
+
+You get at rest encryption for your EBS volume using KMS,
+
+so this is enabled.
+
+Now for network security,
+
+you can attach security groups to your Kafka clients
+
+to ensure that network security
+
+is made between your brokers and your EC2 Instance.
+
+And most importantly is going to be
+
+around authentication and authorization
+
+and this is very important.
+
+So this allows you to define who can read
+
+and who can write to which topics in your Kafka cluster.
+
+And so there are three kinds of mechanisms today
+
+in Apache Kafka.
+
+The first one is called mutual TLS.
+
+So that means that TLS certificates are used for encryption
+
+but also for authentication.
+
+So this is why I wrote,
+
+"Mutual TLS (AuthN)" for authentication.
+
+In that case when you use this mechanism,
+
+you have to use Kafka ACLs to access control list
+
+to do the authorization at the topic level.
+
+And Kafka ACLs are a mechanism within your Kafka cluster.
+
+You can also use something called, "SASL/SCRAM",
+
+which is, to make it very simple,
+
+username password for authentication.
+
+And again, you would need to use Kafka ACLs
+
+for authorization,
+
+or you can use IAM Access Control.
+
+And IAM Access Control allows you to do both
+
+the authentication and the authorization using IAM policies.
+
+So this is sort of what you get with Kinesis Data Streams.
+
+So this is something,
+
+again, you have to know going into the exam
+
+to do Kafka security.
+
+Okay, so the one thing that you need to know though
+
+is that Kafka ACLs for Mutual TLS and SASL/SCRAM
+
+cannot be managed using IAM policies.
+
+They have to be defined from within your Kafka cluster.
+
+Okay, so that's it for security.
+
+Next we have monitoring.
+
+So we have CloudWatch Metrics and they have three level.
+
+We get Basic monitoring to get cluster
+
+and broker level metrics.
+
+Enhanced monitoring to get more broker metrics
+
+or topic-level monitoring.
+
+So for each data stream within your cluster,
+
+and this allows you to get Enhanced topic level metrics.
+
+The Prometheus for Open-Source Monitoring,
+
+which allows you to extract data directly
+
+using the JMX Exporter or the Node Exporter
+
+using the Prometheus protocol.
+
+And Broker Log Delivery can be done to CloudWatch logs,
+
+Amazon S3 or Kinesis Data Streams.
+
+So that's it for MSK.
+
+Just remember it as a drop in replacement for Kinesis
+
+and a more configurable one.
+
+You need to remember the MSK security
+
+'cause it will be asked for you at the exam.
+
+And I will see you in the next lecture to talk about
+
+Kinesis Data Streams versus Amazon MSK.
+
+So here is a feature about MSK,
+
+called MSK Connect.
+
+The idea is that in the Kafka world,
+
+you have something called Kafka Connect.
+
+And Kafka Connect is a framework to take data from Kafka
+
+and put it somewhere else.
+
+All that what is up to take data from somewhere else
+
+and put it in Kafka.
+
+And when use Kafka Connect framework in MSK,
+
+what you can do is to use MSK Connect,
+
+which is going to give you a managed Kafka Connect workers
+
+on AWS with auto-scaling capabilities.
+
+That means that you can deploy the infrastructure
+
+of Kafka Connect on MSK Connect
+
+and then you can deploy any Kafka Connect connector
+
+to the MSK Connect as a plugin.
+
+And so these plugins can be for example,
+
+sending data into Amazon S3, Amazon Redshift
+
+Amazon OpenSearch, Debezium and so on.
+
+And so here's an example.
+
+You have the MSK Cluster up and running.
+
+Then you're going to create your MSK Connect workers
+
+thanks to the MSK Connect service.
+
+And you will deploy the plugin,
+
+being the Amazon S3 Kafka Connector.
+
+And then the Connect workers are going
+
+to pull the topic data from your MSK Cluster.
+
+And then the data will be written
+
+to Amazon S3 as a result.
+
+And we haven't managed any infrastructure.
+
+It's all done by MSK Connect
+
+and it's just configuration on our end.
+
+So there's a pricing, here's an example.
+
+You pay 11 cents per worker per hour.
+
+And of course the more data you have
+
+the more workers you're going to need.
+
+So that's it for MSK Connect,
+
+just introduction in case you see it in the exam,
+
+I hope you liked it.
+
+And I will see you in the next lecture.
+
+So, here is another very short lecture
+
+called MSK Serverless.
+
+And MSK, as we know, we provision a Kafka cluster,
+
+and we pay per hour.
+
+But with MSK Serverless,
+
+we run Apache Kafka on MSK without managing the capacity.
+
+And MSK will automatically provision resources,
+
+and will scale the compute and storage.
+
+So, it makes it very easy
+
+for us to understand what's happening.
+
+And so, therefore, from a user perspective,
+
+all you have to do is to define what topics you want
+
+and how many partitions per topic,
+
+and you're good to go.
+
+In terms of security,
+
+you get IAM Access Control for all clusters.
+
+And here's an example pricing.
+
+So, you're going to pay 75 cents per cluster per hour,
+
+which gives you 558 monthly dollars per cluster.
+
+Then, you're going to pay a pricing per partition per hour,
+
+which is about $1 per partition per month.
+
+Then, you're going to pay per storage,
+
+per data in and per data out.
+
+And that is a different way of seeing pricing
+
+on MSK, and maybe a model that works better for you.
+
+Okay, that's it, I hope you liked it,
+
+and I will see you in the next lecture.
+
+
+Okay, so in the exam,
+
+most likely you will have to choose
+
+Kinesys data streams over Amazon MSK
+
+because AWS likes you to use their products.
+
+But it is important that maybe in one or two edge cases,
+
+you will have to say
+
+that Amazon MSK is the right answer.
+
+And for you to know it, you need to know the differences
+
+between Kinesis data streams
+
+and Amazon MSK and the main ones.
+
+So in Kinesis data streams,
+
+there is a limit of 10 megabytes per message.
+
+So in Amazon MSK, though, it's one megabyte by default,
+
+but you can configure for higher, for example, 10 megabytes,
+
+and that is going to be a huge difference.
+
+So if you see a large message in the exam,
+
+this is going to rule out any Kinesis data streams answers
+
+or Firehose answers, and go straight into Amazon MSK.
+
+Then in Kinesis data streams,
+
+it's called data streams with shards.
+
+And in Amazon MSK, it's called Kafka Topics with partitions,
+
+but they're pretty similar.
+
+In data streams though,
+
+you can do shard splitting and merging,
+
+so increase or decrease the throughput
+
+of your data stream.
+
+Whereas in Amazon MSK scaling is a little bit harder
+
+and you can only add partitions to a topic.
+
+You cannot remove partitions from a topic.
+
+In terms of encryption,
+
+Kinesis data streams has TLS in flight encryption
+
+by default enabled.
+
+Whereas for Amazon MSK, you have the option to choose
+
+to send the data over plain text, so no encryption
+
+or TLS in-flight encryption as well.
+
+You get KMS at rest encryption for both services.
+
+And in terms of security, you have IAM policies
+
+for authorization and authentication
+
+on the Kinesis data stream side.
+
+And for security on the Amazon MSK,
+
+you can get mutual TLS for authentication
+
+and Kafka SCLs for authorization, that's combo number one.
+
+Or SASL/SCRAM for authentication
+
+and Kafka SCLs for authorization, that's number two.
+
+Or IAM Access Control to do both authorization
+
+and authentication within MSK as well.
+
+So you have to choose one of these options.
+
+So that's it for this lecture.
+
+I hope it will help you
+
+gain some variable points at the exam
+
+and I will see you in the next lecture.

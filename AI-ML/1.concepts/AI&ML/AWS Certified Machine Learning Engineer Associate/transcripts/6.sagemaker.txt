@@ -1,0 +1,1148 @@
+So before you can do anything in SageMaker, I that's what it's called now by the way SageMaker I you
+
+need to create what's called a domain.
+
+And everything you do within SageMaker is within the umbrella of this domain that you create.
+
+So what is a domain.
+
+Well you can see on this diagram on the right here it consists of a bunch of stuff.
+
+One the main thing is a EFS volume that's shared throughout the entire domain.
+
+So the SageMaker domain will carve up that EFS volume among your different users and the shared resources.
+
+But under the hood, there's this one EFS volume that's associated with that domain.
+
+It also has a list of authorized users that are allowed to access that domain and the stuff within it.
+
+And it also has a bunch of configuration settings associated at the domain level, such as various policy
+
+settings and also VPC settings, which we'll talk about in more depth shortly.
+
+So under a domain you can also have user profiles.
+
+And a user profile is basically the concept of a user, a person that's using a SageMaker domain.
+
+And anything that's user centric in the UI is going to be tied to a user profile within that domain.
+
+Now, those user profiles in turn own personal applications.
+
+So as a user within a SageMaker domain, you might spin up a SageMaker studio instance to do stuff,
+
+you know, train your models, deploy your models, whatever it might be.
+
+You have your own private EFS directory as part of your user profile, so you don't necessarily have
+
+to share everything you're doing.
+
+You have some private workspace there that's carved out of that EFS volume as well within its own private
+
+directory.
+
+But you also have shared resources that you can use across other users within the domain.
+
+So you can also share your training data, share your notebooks, whatever you want to do.
+
+And on the topic of sharing, you also have shared spaces within the SageMaker domain.
+
+This gives you access to a shared EFS directory where you can share information back and forth between
+
+users.
+
+And there's also a communal IDE application associated with SageMaker as well, SageMaker studio, that
+
+can be used across all the users within your domain.
+
+One of the finer points of using SageMaker AI domain is how VPCs are associated with it.
+
+So when you create a SageMaker domain, by default it will have two VPCs associated with it.
+
+One is going to be tied to the external internet.
+
+So if you need to access data on the internet or deploy data to the internet, it will go through that
+
+VPC.
+
+There's that VPC by the way is managed by SageMaker I you don't have to set that up.
+
+It will do it for you.
+
+However, you do have to have your own VPC as well.
+
+And that's going to be used for any encrypted traffic to your own EFS volume that's managed by SageMaker.
+
+So for your private data that's going to be managed through your VPC that you need to specify.
+
+And as part of that VPC specification, you need to also specify the subnets within it.
+
+And generally you want to have all of them and also any security groups that you want associated with
+
+that VPC.
+
+Now you don't have to go with that default configuration.
+
+You can change that to only go through your VPC.
+
+Now you can also cut out that entire left side of the diagram there by selecting VPC.
+
+Only when you create your domain.
+
+By doing that, all the traffic will go through your VPC, and you can have finer level control over
+
+what that VPC is allowed to access.
+
+So that's the SageMaker AI domain in a nutshell.
+
+Basically an organizational unit of all the stuff you're doing within SageMaker.
+
+It encompasses all of your users, all of your applications, your shared workspaces, and also the
+
+network architecture underneath it.
+
+
+Let's go into a little bit more detail about how you will prepare your data, train your model, and
+
+deploy your model under SageMaker for data preparation.
+
+Usually your data will come from S3.
+
+FSX for lustre is also an option, depending on the scale that you're dealing with, and the ideal format
+
+of that data will vary based on the algorithm that you're using.
+
+So there's a lot of built in machine learning algorithms with SageMaker you can choose from, and each
+
+one of those will have their own recommendations for the ideal format of data to be fed into it for
+
+the best performance.
+
+Often it's something like record IO or protobuf, maybe some sort of a columnar data store that might
+
+be more efficient for processing that data.
+
+For training a model, you can also ingest data from Amazon Athena, which is one of their database
+
+products, elastic MapReduce, which is a distributed processing framework.
+
+Redshift, which is our data warehouse solution, or Amazon Key Spaces database as well.
+
+It's another possibility.
+
+Among others, you can also integrate SageMaker with Apache Spark, which is another distributed data
+
+processing system that is not specific to AWS, but it's widely used throughout the industry.
+
+So if you want to use Apache Spark for your data processing, you can that does integrate with SageMaker
+
+as well and all of the popular data science and data analytics libraries for Python are available to
+
+you for data preparation on SageMaker as well.
+
+Scikit learn, numpy, and pandas are all there at your disposal within SageMaker notebooks if you want
+
+to do it there.
+
+Conceptually, processing is pretty simple.
+
+You just copy data in from S3 that's been prepared in some manner to be amenable to what you're trying
+
+to do, and then you spin up a processing container that can either be your own code or it could be
+
+something built into SageMaker.
+
+So if you don't want to roll your own code and make your own container for the processing code, you
+
+can just use the built in algorithm as well.
+
+So there are built in processing containers out there that you can just choose from from SageMaker.
+
+Once it's done processing your data, that output will be processed and stored into another S3 bucket
+
+that you specify, which in turn will be passed on to training.
+
+When you are training, all you need to do is create a training job under SageMaker as an input that
+
+will take the URL of that S3 bucket that we just produced that contains the processed training data.
+
+You will assign various compute resources for that.
+
+Machine learning training and training can be expensive and require pretty hefty hardware.
+
+So this is where things can get a little bit pricey, but you get to choose what kind of hardware you
+
+want to use and how much of it.
+
+Different algorithms have different capabilities in terms of scalability, so some do best with a single
+
+computer, some will do best with multiple instance types, and they all have their own recommendations
+
+about what kind of instance type to use.
+
+And then you will have an S3 bucket for the output, the actual model artifacts of that training that
+
+that's where the train model gets stored.
+
+And you will also need to provide an ECR.
+
+That's that's Elastic Container Registry path to where your training code lives.
+
+So again, everything is sort of container based here we had a container for the data processing.
+
+Also a container for the training code all under ECR.
+
+Once you have that all set up, like I said, you can use any one of a number of built in training algorithms
+
+or roll your own sparks machine learning library is also available for you to if you want to stick with
+
+spark.
+
+Or you can roll your own Python, TensorFlow, PyTorch, MXNet code, whatever you want.
+
+Or if you're not doing deep learning, you can also use scikit learn or RL estimator if you want to
+
+do a reinforcement learning.
+
+Also, algorithms like XGBoost.
+
+Hugging face is an option here as well, so that's a big repository of models out there, including
+
+a lot of the latest and greatest open source generative AI models and large language models and small
+
+language models.
+
+Chainer is also something you could use there.
+
+You can always just provide your own Docker image that does anything you want as well.
+
+Whatever you can dream up, you can still use SageMaker to make that part of your larger pipeline,
+
+and there are algorithms available for purchase from the AWS marketplace as well.
+
+Once you've trained your model, you need to deploy it and actually put it into production.
+
+That model will be saved to S3 in a bucket somewhere.
+
+And there's a couple of options for deployment.
+
+There's runtime, so I can actually make a persistent endpoint for making real time predictions on demand
+
+out there, and scale that out as much as I need to.
+
+But if you don't need real time predictions, maybe you just need to make predictions in a batch manner
+
+where you have a big group of data coming in and you just need to get a big batch of predictions coming
+
+out all at once.
+
+In that case, you could use SageMaker batch transform to just get predictions all at once for an entire
+
+data set without having a runtime endpoint at all.
+
+And there's lots of options there surrounding deployment, and we'll get into some of these in a little
+
+bit more depth.
+
+Inference pipelines can be used for orchestrating more complex processing.
+
+You might need SageMaker neo can be used for deploying your trained models to edge devices.
+
+So if you need to use your model someplace that might not have reliable internet connectivity or connectivity
+
+to the cloud, it's possible to deploy that to the edge device itself.
+
+Or if maybe you can't tolerate the latency involved in going to the cloud.
+
+There's also something called elastic inference that can be used to accelerate your deployed models.
+
+You just kind of slap it on top there and it makes it faster.
+
+There are automatic scaling features in SageMaker that can automatically increase the number of endpoints
+
+as needed.
+
+So if you get an increase in traffic, it can automatically add capacity to your inference model there.
+
+There's also something called shadow testing, and there are more features around this as well that
+
+we'll get into in a bit.
+
+But there are ways to evaluate new models against your currently deployed models to try and catch errors.
+
+So again, an important part of operations is the ability to test your deployments and the ability to
+
+quickly roll them back if something unexpected happens So SageMaker does have a lot of features that
+
+allow you to deploy newly trained models in a controlled manner and roll things back if they're not
+
+performing as expected.
+
+Let's finally talk about SageMaker Ground Truth service.
+
+This is a relatively new product from Amazon.
+
+And what is it?
+
+Well, it's basically a way of using humans to label your data.
+
+And I kind of struggled with where to put this in the course.
+
+In the end, I ended up putting it in feature engineering because fundamentally it comes down to dealing
+
+with missing data.
+
+And in this case, it's really more about missing labels and missing features more often than not.
+
+But you could, you know, actually apply this to missing features as well.
+
+Basically the idea is that if you have missing data that can be inferred easily by a human ground,
+
+truth let's you farm these tasks out to actual human beings to fill in that missing data for you.
+
+And the most common example of this is in the world of image classification.
+
+So for example, if I'm training a new image classification model, in order to train that, someone's
+
+going to have to go through and actually tag all these training images with what's actually in them,
+
+right?
+
+It's not going to be an easy thing for a computer to do necessarily.
+
+So for example, in this picture here we have someone classifying this picture as being of a basketball
+
+or a soccer game.
+
+Someone's got to go through and do all that work.
+
+Well, kind of a bird is this Where are the birds in this image?
+
+Things like that.
+
+So Ground truth will manage a fleet of human beings who will go through and label your data for training
+
+purposes.
+
+So if you have a huge data set, like a bunch of pictures and you need labels on them, sometimes human
+
+beings are the best way to actually get those labels ground truth is what manages that process for you.
+
+But it's more than just managing the humans that label your data.
+
+The thing that sets ground truth apart is that it creates its own model as those labels are coming in.
+
+So this model is learning as it receives more and more label data from the humans, and over time,
+
+it's only going to send out labels to the humans that it's not sure about.
+
+So as time goes on, as it gets more and more labels from the human labelers, it will create a model
+
+of its own, and only the ambiguous cases will be sent out to human labelers going forward.
+
+So this model builds up over time, gets better and better over time, and only the things that the
+
+model is not sure about actually get farmed out to human beings.
+
+This ends up reducing the cost of your labeling jobs by up to 70%, which is pretty substantial.
+
+Who are these people?
+
+Well, you have different choices of who ground truth can use.
+
+One is just using the Amazon Mechanical Turk workforce.
+
+This is a huge workforce of people around the world who will label your data and do a bunch of other,
+
+you know, simple tasks for you for a very small amount of money.
+
+You can also choose to farm it out to your own internal team.
+
+So if you're dealing with very sensitive data, that might make sense for you.
+
+And there are professional labeling companies out there as well, who do nothing but have a fleet of
+
+human beings who label training data for a living.
+
+So if you want someone who's a little bit more specialized in this sort of thing, you can spend even
+
+more money and use one of them.
+
+Now, there are other techniques than just using humans to actually generate training labels that you
+
+don't have.
+
+One other would be to use AWS's recognition service, which we'll talk about more later on in the course.
+
+Basically, it's an AWS service for image recognition.
+
+So if you do need to classify images, that could be either for creating labels or maybe even feature
+
+data, you know, maybe you just have a feature in your data set for what is in this image Recognition
+
+has a pre-trained model for most common types of objects that you can just use.
+
+So if you are just using, you know, Classifications of general objects in the world.
+
+Recognition might be able to do that for you if you're dealing with textual information as opposed to
+
+images, comprehend might be useful.
+
+Basically, that is a AWS service for doing text analysis and topic modeling.
+
+So you could automatically generate topics or sentiments for a given document that way.
+
+So that might be a way of both creating labels and maybe even additional training features.
+
+Right.
+
+So this is another example of feature engineering where you might generate additional features in your
+
+model by using something like comprehend.
+
+So if I have a document, maybe I can use comprehend to generate new features that include the topic
+
+of that document or the sentiment that that document represents.
+
+And that might be useful information for training a machine learning model.
+
+So that's why this is in this section about feature engineering.
+
+You know, you can actually apply these techniques of using existing services or even human beings to
+
+generate more information that your model can use.
+
+Really, any pre-trained model or unsupervised learning technique can be helpful in generating new training
+
+labels or even new training features in your data set.
+
+So ground truth is pretty simple, but if it's still too hard for you, there's something called ground
+
+Truth Plus where somebody just does it all for you, and it's a turnkey solution where you just basically
+
+hire someone through AWS to set it all up and manage the whole project for you.
+
+So in the documentation, they call it our team of AWS experts.
+
+I'm not really sure where they come from, but these people will manage the workflow and set it all
+
+up for you and manage your team of labelers for you.
+
+All you do is fill out this form that says who you are, what you're trying to do at a high level,
+
+and they'll contact you and try to work out the details and discuss the pricing, which they do not
+
+publicly disclose.
+
+But I imagine it's not cheap because of this sort of white glove treatment that they give you as they
+
+set things up and they start actually getting results back from their army of labelers, you can track
+
+their progress through the Ground Truth Plus project portal, where they give you some handy dandy charts,
+
+uh, displaying how the progress is going and what the results look like when they're finally done,
+
+you'll get your label data back from S3 but not a whole lot to talk about here.
+
+Basically, it's a way of handing off the whole problem of labeling your data to somebody else.
+
+Uh, ground truth.
+
+Plus, if you're willing to pay for it.
+
+SageMaker data Wrangler is probably the most directly applicable technology in SageMaker for data engineering.
+
+It's basically an ETL pipeline that's baked into SageMaker studio.
+
+And as you might imagine, it has a lot in common with a glue data studio.
+
+It's used to prepare data primarily for machine learning, though, so it's custom tailored for machine
+
+learning pipelines.
+
+It allows you to import data from wherever it might be.
+
+Maybe it's CSV files in S3 or streaming in, who knows?
+
+It allows you to visualize that data and make sure that you're happy with the distribution of that data,
+
+and know about any outliers that might be happening before you go on to push that into your machine
+
+learning model.
+
+And it can transform your data.
+
+They have more than 300 transformations to choose from, from within Data Wrangler, or you can integrate
+
+your own transformations using pandas code or PySpark or PySpark SQL if you want to do something special.
+
+Another cool feature is that it has something called quick Model, and that allows you to actually train
+
+your model that you're trying to prepare the data for with some subset of that data, and quickly measure
+
+its results So that allows you to experiment with different transformations and different ways of preparing
+
+your data to optimize it for the model you're feeding it into, and experiment and figure out what the
+
+best transformations are to produce the best results from the model that you're going to be training
+
+this data from.
+
+Block diagram.
+
+Let's see what that looks like.
+
+So basically SageMaker Data Wrangler sits in the middle here between data sources and where you might
+
+send it to.
+
+You can see it can take in data from S3, from lake formation, from Athena, from SageMaker feature
+
+store, which we talked about earlier, or from redshift or from anything that can talk to JDBC.
+
+That would include things like software as a service, applications like Salesforce or something, or
+
+maybe external systems such as Databricks.
+
+Once you've gone through the Data Wrangler pipeline that can export code in a Jupyter notebook, that
+
+can then be used as part of a machine learning notebook to further import and transform and process
+
+your data.
+
+So it's important to understand that Data Wrangler isn't really doing the transformations of your pipeline
+
+itself.
+
+It's just generating code to do those transformations in your pipeline.
+
+So think of it more as a code generation tool.
+
+At the end of the day, that code can then have an endpoint of its own where it dumps this data to.
+
+Maybe it goes into Amazon SageMaker processing to train a model.
+
+Maybe it goes to SageMaker pipelines as part of a larger process.
+
+Or maybe it goes back into SageMaker feature store to make these transformed features available to other
+
+models.
+
+Let's just walk through an example here.
+
+So this is what it looks like.
+
+This is SageMaker studio.
+
+So if we want to import data we start from the import tab here up top.
+
+And in this example we're taking in this CSV file.
+
+So we're specifying a specific file name under a specific S3 bucket with a specific file type.
+
+And you can see it's previewing what's in that CSV file automatically just to make sure it's what you
+
+expect.
+
+So this is a data set we looked at earlier back in our SQL activities way back when.
+
+Same data set here where we have passengers on the Titanic and the dataset tells you who survived,
+
+who didn't, what their class was.
+
+You know, first class, second class, third class, their name and other information about them.
+
+You can further expand that preview to see what's going on and actually see what the data types are
+
+that were inferred for each one, and you can change that if you need to.
+
+So if it guessed wrong on the data types, you can change that there.
+
+If you want to have more human readable column names, you can also change that here as well.
+
+You can also visualize the data and make sure that the distribution is what you expect.
+
+So here we can see the age is following a pretty good distribution.
+
+They trended younger than I expected on the Titanic.
+
+Actually it's just a sanity check.
+
+So this isn't a data analytics course.
+
+So I'm not going to get into this too much, but it allows you to preview the properties of that data
+
+and make sure that it's what you expect before you turn around and feed that into a machine learning
+
+model.
+
+And then you can transform the data.
+
+So in this example here we're taking the class and one hot encoding it so that transformation is called
+
+encode categorical.
+
+Very common thing to do with machine learning.
+
+So typically with machine learning you know the inputs have to be these binary ones and zeros.
+
+You can't just feed it an arbitrary number typically.
+
+So what we're going to do is instead of passing in one feature for the class where that might be one,
+
+2 or 3, we'll have three different features going in that basically says, am I in class one, am I
+
+in class two, or am I in class three?
+
+And one of those three features will be true, or one for each individual passenger.
+
+So that's what Encode categorical does.
+
+But in the machine learning world we call that one hot encoding.
+
+Just one example of the transformations you might do, and your choices of how you transform this data
+
+and how you present it to your model can make a big difference in the quality of that model.
+
+So things like how you normalize that data can also be extremely important as well, or just what data
+
+you're giving it and what data you're holding back right now.
+
+The really cool thing is that you can do what's called a quick model to train your model using that
+
+data, using that transformed data so you can test how well your choices for transformation actually
+
+affected the machine learning model down the pipeline here, which is a pretty powerful thing.
+
+So I can make sure that my choices for ETL here are going to be optimal for the model that I'm feeding
+
+this data into.
+
+And then when I'm done, I can export that data flow again.
+
+All this does is create code for you basically.
+
+So this is going to output a Jupyter notebook is one output.
+
+But basically it's Python code that embodies all of the ETL steps that you just set up.
+
+So that allows you to put into a Jupyter notebook, which is just an environment for running Python
+
+code, the code that is needed to extract that data, transform it the way you specify it in Data Wrangler,
+
+and apply that over and over again through that block of code as need be.
+
+So again, you know, data Wrangler isn't really sitting in your pipeline itself, but it's producing
+
+code that goes into your pipeline.
+
+A very important distinction there.
+
+If you have trouble with Data Wrangler, there are some troubleshooting tips here.
+
+One is to make sure your studio user, your SageMaker studio user has the appropriate IAM roles for
+
+data Wrangler, and you also make sure need to make sure that your data sources allow Data Wrangler
+
+to access it.
+
+So if Data Wrangler doesn't have permissions to access your data, that will cause problems.
+
+So you need to make sure that any data source you have has the Amazon SageMaker full access policy attached
+
+to it.
+
+You can also run into resource limits here.
+
+So if you see an error along the lines of the following instance type is not available, that probably
+
+doesn't really mean that we're running out of instances in AWS.
+
+It just means that you may need to request a quota increase, so you can use more instances than you
+
+might have originally.
+
+So if you do run into that error, you just need to go to service quotas.
+
+And under there go to Amazon SageMaker.
+
+Under there, go to Studio Kernel Gateway apps and just request more ML m5 dot four Xlarge instances.
+
+And there's a form for that.
+
+Someone has to go and approve it.
+
+But that's what that error message really means.
+
+You need to increase your quota.
+
+That's data Wrangler in a nutshell.
+
+Play
+Play
+Play
+Play
+Play
+Play
+Start
+information alert
+Schedule learning time
+Learning a little each day adds up. Research shows that students who make learning a habit are more likely to reach their goals. Set time aside to learn and get reminders using your learning scheduler.
+Prepare for your certification with this course.
+Let's spend a little bit of time talking about SageMaker model monitor.
+
+Unfortunately, if you deploy a machine learning system into production, you can't really guarantee
+
+that it's going to perform the same way forever.
+
+The nature of the data coming into that might be changing over time in ways that you didn't anticipate,
+
+and it might affect the performance of your model in ways that you don't want.
+
+So SageMaker Model Monitor allows you to receive alerts through CloudWatch on any quality deviations
+
+on your deployed models.
+
+It can visualize data drift, so it can allow you to keep track of how the nature of your input data
+
+is changing over time.
+
+For example, if you're predicting whether somebody is creditworthy for a loan, maybe that starts to
+
+change over time as the distribution of the attributes of the people that you're making predictions
+
+for changes, or maybe you have some sort of a problem where you're starting to miss some input features,
+
+maybe there's a data quality problem there, or missing data that didn't originally occur that would
+
+result in data drift that you might want to know about.
+
+It can automatically detect anomalies and outliers in the data as well that you might need to, uh,
+
+address.
+
+It can detect new features in your data that weren't there before.
+
+So maybe all of a sudden you're seeing new information in your data that's coming into your model.
+
+Um, you might want to know about that.
+
+Maybe that's something you want to take advantage of, right?
+
+And it doesn't require any code.
+
+You know, you can do this all visually within SageMaker studio SageMaker model.
+
+Monitor also integrates with SageMaker clarify and SageMaker clarifies job is to detect potential bias
+
+or one of its jobs anyway.
+
+For example, if you have imbalances across different groups or ages or income brackets, it can find
+
+that out.
+
+And using SageMaker Model monitor, you can monitor for that bias and be alerted to that as well.
+
+Through CloudWatch.
+
+SageMaker clarify comes into the picture by helping to explain the model's behavior.
+
+So by using clarify, it can tell you not only that you have potential bias, but also tell you which
+
+features in your data is contributing the most to those predictions and where that bias might be coming
+
+from.
+
+There are several bias metrics that Clarifai can use, and I don't think it really is worth getting
+
+into the details.
+
+Just know that there's a bunch of ways that it can measure bias.
+
+And, um, they've all been thought through quite a bit.
+
+Kullback-Leibler divergence is a very popular one that I see a lot, but all of these are supported
+
+as metrics of bias in your training data.
+
+So there's a lot you can pick from here.
+
+I'm not going to get into the details for a practitioner level exam.
+
+A little bit more about SageMaker model monitor.
+
+The data for Model monitor is stored in S3 and secured.
+
+So where it's storing all of that, monitoring information is safe.
+
+Those monitoring jobs are scheduled with what we call a monitoring schedule.
+
+So this can happen on a schedule and as often as not often as you want.
+
+Those metrics, like I said, are emitted to CloudWatch.
+
+And then from CloudWatch you can use notifications to trigger alarms.
+
+So model monitor just dumps the data into logs in CloudWatch.
+
+It's up to you to actually trigger an alarm from that.
+
+Once you get that alarm.
+
+The idea is you would take some sort of corrective action, which might be retraining the model or auditing
+
+the data to see what went wrong.
+
+SageMaker Model Monitor can also integrate with TensorBoard, QuickSight, and Tableau for visualizing
+
+that data outside of SageMaker studio.
+
+Or you can just visualize it within SageMaker studio using its built in visualizations.
+
+But if you have third party dashboards outside that you want to integrate with, it can do that too.
+
+So there are specific monitoring types within Model Monitor that can monitor for you.
+
+One is the drift in data quality.
+
+So relative to some baseline that you define In some statistical property of those features you can
+
+call quality and just measure if that statistical property is drifting over time or not.
+
+So quality is subjective.
+
+It's up to you to define what quality means.
+
+But whatever you define it as, it can detect drift and it automatically and drift in model quality,
+
+not just data quality.
+
+So what's the accuracy of your model?
+
+Conceptually, that works the same way as the data quality with a baseline that you define for the model
+
+quality.
+
+But it's measuring the accuracy of the actual model and how well it is at predicting things correctly.
+
+How do you know if it's correct or not?
+
+Well, you can integrate that with something called ground truth.
+
+So you can actually integrate model monitor with an army of humans who are out there helping you to
+
+label this data in what is considered to be correct.
+
+So you can compare the output of your model to human generated labels.
+
+And model monitor can monitor the difference between the two.
+
+How accurate is your model compared to what these humans said?
+
+It can also detect bias drift.
+
+We talked about bias detection using Clarifai as well and also feature attribution drift.
+
+So this is also a feature of Clarifai where it's actually measuring the impact of each feature on your
+
+outputs.
+
+And if that is starting to change over time, model monitor can figure that out.
+
+The exam expects you to have a fair amount of depth on how Clarifai works.
+
+So let's go into a little bit more information here on what it gives you.
+
+One thing you can produce with SageMaker clarify is something called a partial dependence plot, or
+
+PDP for short.
+
+And the idea of a PDP is to show the dependence of predicted target response on the set of input features.
+
+What does that mean?
+
+Let's look at this example on the right here.
+
+So we have a set of feature values on the bottom here.
+
+So what we've done is bucketed these values up.
+
+So each one of these dots represents some range of values just like you would do in a histogram.
+
+Right.
+
+And on the y axis we're seeing model prediction values.
+
+So we're seeing the effect that a given feature in this case age has on the model predictions.
+
+And that will tell you just how much of an influence that particular feature might have on the model
+
+and what it's predicting and, and how that might change across different values of that feature.
+
+So in this particular example, you can state that for the age, once you get above the age of 50,
+
+for whatever reason, the model predictions remain the same, which is kind of interesting.
+
+That might imply that age is somehow very important to the predictions.
+
+This model makes.
+
+And somehow there's a tipping point at age 50.
+
+Very interesting.
+
+That might alert you to some sort of issue with your data.
+
+Actually, maybe you just don't have enough data points above the age of 50 and your training data,
+
+and that might point you to a imbalance in your training data, which is the whole point of clarifai.
+
+Right now, you can also get back data distributions for each bucket of values.
+
+So if you want the raw data there as to how that data is distributed for those values, and you want
+
+to see if you do in fact have some sort of a class imbalance, you can get that back from Clarifai as
+
+well.
+
+So in addition to these graphical plots, you can also get back the raw data from the API as well.
+
+We should also talk about Shapley values because this is how Clarifai works under the hood.
+
+It's the technique it uses for determining the impact that each one of your features has on the model's
+
+output.
+
+And this is actually an idea that came out of game theory that's been applied to machine learning.
+
+The idea is pretty simple.
+
+Basically, you just drop individual features one at a time and see what impact that has on your model
+
+and measure that effect over each feature.
+
+And well, that actually gets kind of complicated when you have a lot of features because there's a
+
+lot of combinations to test there.
+
+Right.
+
+So under the hood, SageMaker clarify uses something called Shapley additive explanations or Shap for
+
+short as an approximation technique.
+
+So instead of doing this brute force calculation across every possible combination of features.
+
+Shap is a way of approximating that and doing that more efficiently, but still giving you useful information.
+
+So again, clarify is all about telling you the impact that individual features have on your model and
+
+pointing you toward potential unintended properties there that might point to problems in your data.
+
+If you're dealing with time series data, there is something specifically called asymmetric Shapley
+
+values.
+
+So for time series data instead of Shapley or Shap, you're going to be using asymmetric Shapley values.
+
+That's just the algorithm used to determine the combination of input features at each time step toward
+
+forecasts or predictions.
+
+So in addition to measuring the impact of each feature individually, we're also measuring the impact
+
+across time.
+
+So even more complicated.
+
+But these are the terms you need to know for Amazon SageMaker.
+
+Clarify.
+
+Let's talk about SageMaker feature store.
+
+And that is a the word feature in a different sense.
+
+So in this context, a feature is a property that's used to train a machine learning model.
+
+So an example might be if you're trying to predict somebody's political party based on features, those
+
+features might be somebody's address, their income, their age, things like that.
+
+Their features are really just, um, columns or fields in a row where you're using those pieces of
+
+information to try to predict a label for that row.
+
+So the features in this case might be the properties of that person, like their address, income or
+
+age.
+
+And the label that we're trying to predict is their political party in that example.
+
+But that's what we mean by features in this context.
+
+Machine learning models require fast, secure access to that feature data to train a machine learning
+
+model.
+
+As you can imagine, it needs to suck up that data at very high quantities and very quickly.
+
+And it also needs to do it securely because some of that information could be sensitive or personal.
+
+It's also a challenge to keep that data organized and to share those features across different models.
+
+So you want to avoid a situation where you're storing these features more than once.
+
+You want to be able to share them when you're trying to do different things with machine learning,
+
+where those features come from is totally up to you.
+
+You can see SageMaker feature store kind of sits in the middle of this whole universe here of where
+
+data might come from.
+
+Maybe it's coming from SageMaker studio, maybe it's coming from a pipeline where it like step functions
+
+or SageMaker pipelines or Apache Airflow, where it's just dumping stuff in there along the way.
+
+Your features might be coming from some sort of EMR pipeline or from glue or from SageMaker processing.
+
+Maybe these features are streaming in from Kinesis or Kafka, and maybe they're being created from SageMaker,
+
+Data Wrangler, or from glue.
+
+Databrew.
+
+Right.
+
+These are all examples of where data might come from.
+
+So where it comes from can be pretty much anywhere.
+
+What feature store brings to the table is organizing that data.
+
+So it has a feature store.
+
+And within a feature store we have what we call feature groups where we organize these features together.
+
+And each feature group will contain record identifiers, feature names, and event times associated
+
+with that feature.
+
+How does it all work?
+
+So there's basically a streaming world and a batch world here with SageMaker feature store.
+
+So let's imagine that we're streaming data in from Kinesis or MSK or Apache Spark or SageMaker, Data
+
+Wrangler or any other streaming source.
+
+Basically, there's a put record API that can be used with feature store, where you can feed that streaming
+
+data into feature store and it will process it.
+
+So under the hood, feature store will both have an online repository of those features and also a batch
+
+repository that's the offline store in S3 to query features from the online store and stream them back
+
+out.
+
+There's a Getrecord API you can use for that, so your model can stream those features out using the
+
+Getrecord API.
+
+Or if you want to do batch access, that's what that offline store is for.
+
+So SageMaker Feature Store will automatically create a glue data catalog for that data stored in S3.
+
+And you can do anything you want with that S3 data.
+
+You can use tools like Athena or Data Wrangler.
+
+Anything that can hit S3 can be done with the offline feature store.
+
+You can also dump data directly into it if you want to, so you don't have to stream data into SageMaker
+
+feature store.
+
+You can just put it right into its offline store in S3 and do it that way too.
+
+Whatever works for you.
+
+The bottom line here is that SageMaker feature store works with streaming situations, and also with
+
+batch situations that are based on S3 security.
+
+Everything is encrypted at rest and in transit automatically, and if you have a KMS customer master
+
+key, you can use it with it.
+
+Fine grained access control to feature store is possible through IAM, and you can also secure it with
+
+AWS Privatelink to make sure that nobody can access it.
+
+That shouldn't.
+
+Just a quick overview of SageMaker canvas.
+
+This will certainly show up on the exam once or twice.
+
+You just need to know that it's the no code machine learning environment that's geared more toward business
+
+analysts.
+
+So if you just have some data somewhere and you don't know how to write code or really do machine learning
+
+yourself, you just want to make a model without thinking about it too much.
+
+SageMaker canvas can do that for you as long as you give it some CSV data.
+
+You can say, okay, here's the column that I want to make predictions for, and it does the rest for
+
+you using AutoML techniques so it can automatically build a model for you and make predictions from
+
+it.
+
+It can also join data sets together if you need to.
+
+It can perform classification or regression as part of its predictions, and it even automatically cleans
+
+your data for you.
+
+So it will look for missing values, for outliers, for duplicate rows and deal with it for you without
+
+you even having to think about it too much.
+
+So think of it as machine learning for the non ML engineer.
+
+It also allows you to share your models in your data sets with SageMaker studio.
+
+So if you do want to give this to an ML engineer to do something more interesting, you can do that
+
+as well.
+
+So it is possible to export models and the data that you use to train those models from canvas to SageMaker
+
+studio and use those as a model within SageMaker studio.
+
+Also, it now has support for generative AI models as well.
+
+So pretty much anything that you see in bedrock as a foundation model or through Amazon SageMaker Jumpstart
+
+is fair game within SageMaker canvas as well, and you can even fine tune these within canvas.
+
+So you can think of canvas as more than just an automatic machine learning.
+
+It's also a user friendly interface for just creating generative AI applications as well, so you can
+
+create your own foundation model and extend it with your own data through fine tuning, all within SageMaker
+
+canvas, without even having to be an AI expert or a machine learning expert.
+
+Pretty cool stuff.
+
+So canvas, AI and machine learning for the masses, if you will.
+
+
+
+
+

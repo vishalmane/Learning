@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agentic Helpdesk</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Agentic AI Helpdesk</p>
+            <h1>Support Assistant</h1>
+          </div>
+          <span class="status" id="status">Ready</span>
+        </header>
+
+        <form id="ask-form" class="composer">
+          <label for="user-id">User ID</label>
+          <input id="user-id" name="user_id" value="123" autocomplete="off" />
+
+          <label for="query">Support request</label>
+          <textarea
+            id="query"
+            name="query"
+            rows="4"
+            placeholder="Example: My VPN stopped working"
+            required
+          ></textarea>
+
+          <div class="actions">
+            <button type="button" id="example-vpn">VPN issue</button>
+            <button type="button" id="example-approval">Sensitive request</button>
+            <button type="submit" class="primary">Ask assistant</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="results" aria-live="polite">
+        <article class="answer">
+          <div class="section-title">
+            <h2>Answer</h2>
+            <span id="approval-badge" class="badge neutral">No request yet</span>
+          </div>
+          <p id="answer-text" class="empty">Submit a support request to see the assistant response.</p>
+        </article>
+
+        <article>
+          <div class="section-title">
+            <h2>Execution Plan</h2>
+          </div>
+          <ol id="plan-list" class="plan"></ol>
+        </article>
+
+        <article>
+          <div class="section-title">
+            <h2>Node Trace</h2>
+          </div>
+          <div id="node-trace" class="node-trace"></div>
+        </article>
+
+        <article class="metadata">
+          <div>
+            <span>Trace ID</span>
+            <strong id="trace-id">-</strong>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

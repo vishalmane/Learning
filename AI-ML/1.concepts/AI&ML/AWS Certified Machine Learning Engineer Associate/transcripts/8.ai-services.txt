@@ -1,0 +1,1948 @@
+So in this section,
+
+we're going to see a lot more AWS AI managed services.
+
+So why do we want them?
+
+Well, because these services
+
+are pre-trained machine learning services,
+
+and they're geared towards a very specific use case.
+
+So for example,
+
+we've seen that we have Amazon Bedrock to do GenAI,
+
+and we have even higher level gen AI services,
+
+such as Amazon Q Business and Amazon Q Developer.
+
+And we'll have a look soon at SageMaker,
+
+but you may want to do other things than GenAI,
+
+and so there are lots of services
+
+that we'll learn about in this section.
+
+For example, you can process text
+
+and documents with Comprehend, Translate, or Textract.
+
+You can do vision with Recognition.
+
+You can do search with Amazon Kendra.
+
+You can do chatbots with Amazon Lex,
+
+speech with Amazon Poly and Amazon Transcribe,
+
+recommendations with Personalize.
+
+And then if you want to do machine learning as a whole,
+
+you could use Amazon SageMaker,
+
+which is a huge service in AWS.
+
+So you can do everything on your own computer, of course,
+
+or on your own server in the cloud.
+
+But you may want to use these services.
+
+Well, why?
+
+Because they have responsiveness and availability.
+
+So they can be available in many different Regions,
+
+and they're always available.
+
+You have redundancy,
+
+and they can be deployed across multiple Availability Zones.
+
+That means that if you have a failure in the cloud,
+
+then these services may still work.
+
+They have good performance.
+
+That means they have specialized CPU
+
+and GPUs that are embedded in these services
+
+to give you the best cost savings for your use case.
+
+And also, most of these services
+
+are going to be token-based pricing.
+
+That means you're going to pay only for what you use,
+
+which is great
+
+because you don't have to over-provision servers
+
+in order to perform your use case.
+
+Finally, you can also, if you wanted to,
+
+have provision throughput for some of these services,
+
+and this is for predictable workloads
+
+that gives you more cost savings
+
+and even more predictable performance.
+
+So AWS will want you to know about these services
+
+from an exam perspective,
+
+and this is what we're going to explore in this section.
+
+So I hope you liked it,
+
+and I will see you in the next lecture.
+
+So now let's talk about Amazon Comprehend.
+
+So Amazon Comprehend is used for natural language processing
+
+or NLP, and it's a fully managed and serverless service.
+
+So it's going to use machine learning to find insights
+
+and relationship in your text.
+
+So it's going to understand the language of the text,
+
+it is going to be able to extract key phrases, places,
+
+people, brands, or events.
+
+And it will try to understand how positive
+
+or negative the text is.
+
+It is going to analyze text using tokenization
+
+and also part of speech if you need to.
+
+And it will organize a collection of text file by topics.
+
+So some use cases you have around comprehend is going
+
+to analyze, for example, customer interactions such
+
+as emails to find what is going to lead to a positive
+
+or a negative experience,
+
+or create a group articles by topics
+
+that Comprehend will uncover itself.
+
+So Comprehend is a service we'll have a hands-on in a
+
+moment, but we have the option
+
+to have advanced settings such as custom classification.
+
+So here we define how we want Comprehend
+
+to categorize the documents for ourselves,
+
+so we define them.
+
+So for example, we have a bunch
+
+of customer emails and we provide several kind
+
+of categories based on the type of customer request,
+
+for example, support requests or billing requests,
+
+or complaints and so on.
+
+And it supports many different types of documents such
+
+as text, PDF, Word images.
+
+And so we're going to create train data,
+
+put it in Amazon S3,
+
+and then feed it into Amazon Comprehend, which is going
+
+to build and train internally a custom classifier.
+
+And then whenever a document arrives or an email
+
+or whatever you want, then the custom classifier is going
+
+to say, well, this looks like a complaint document
+
+and you've defined what complaint looked like.
+
+So we can use the custom classification
+
+with real time analysis,
+
+or a synchronous analysis,
+
+to have multiple documents in the batch way
+
+or just asynchronous for big ones.
+
+One of Comprehend's main out of the box capability is
+
+to do named entity recognition or NER.
+
+So it's to extract predefined general purpose entities like
+
+people, places, organization, dates,
+
+and other standard categories from text.
+
+So here is an example text,
+
+and as you can see a lot of it is underlined.
+
+So thanks to named entity recognition, we can recognize
+
+that Zhang Wei is a person, John is a person,
+
+Any Company Financial Services LLC is an organization,
+
+and for example, July the 31st is a date.
+
+So all these things are capabilities out
+
+of the box from Comprehend called named entity recognition.
+
+So we also have the option to make Comprehend,
+
+recognize custom entities.
+
+So here we want to analyze the text for specific terms
+
+and noun based phrases.
+
+For example, you have a document
+
+and you want to be able
+
+to consistently extract the policy numbers
+
+or phrases that imply a customer escalation
+
+or anything related to your business really.
+
+So again, you're going to train the model
+
+with a list of the entities you're looking for
+
+and documents that contain them.
+
+So you give examples to Comprehend
+
+and then a custom entity recognizer is going to be trained
+
+and then you can use it, for example, to look
+
+for policy numbers within your documents.
+
+This can be real time or asynchronous analysis.
+
+So that's it for Comprehend, just understand that is used
+
+for natural language processing and understanding,
+
+and you have the option to have custom classifications
+
+and custom entity recognition if you train the model
+
+on top of Comprehend.
+
+So that's it for this lecture, I hope you liked it,
+
+and I will see you in the next lecture.
+
+
+Hey, Frank here.
+
+Just adding a little bit of extra depth to comprehend on how to use custom models with it.
+
+So with comprehend you can create your own custom models as well for entity recognition or for document
+
+classification.
+
+These custom models are trained on your own data, and you can use them for whatever you want.
+
+Comprehend will automatically manage your model versioning for you, so you can keep track of different
+
+versions of your model as you train it on different data.
+
+And you can actually copy those models across AWS accounts if you want to.
+
+So you can create a custom model and comprehend and share that with somebody else in another account.
+
+But how to do that requires some specific knowledge.
+
+So to do that, you need to attach an IAM policy to a specific model version that you want to share
+
+and authorize the other account that you want to give access to it within that IAM policy.
+
+That other account can then import the model from comprehend right from the Comprehend Console.
+
+However, both accounts need to be using comprehend within the same region for this to work and for
+
+them to import that model successfully, they'll need its Arn.
+
+The identifier of that model.
+
+The region that it was in, and optionally a KMS key as well if you encrypted it using KMS.
+
+Again, this can all be done from the Comprehend Console.
+
+But just remember you can create custom models and share them across accounts.
+
+If you just attach the right policy to them and give it to the other person to import through comprehend.
+
+Now let's talk about Amazon Translate.
+
+So Translate, as the name indicate,
+
+is a natural and accurate language translation.
+
+Translate allows you to localize content,
+
+for example, your websites and your application,
+
+for your international users
+
+and easily translates large volume of text efficiently.
+
+So for example, say in English, I say,
+
+"Hi, my name is Stephen,"
+
+In French, it would be. (speaking in foreign language)
+
+In Portuguese, it would be. (speaking in foreign language)
+
+And in Hindi, it would be. (speaking in foreign language)
+
+Okay, I just showed off.
+
+So that was it, super easy service.
+
+I hope you liked it.
+
+And I will see you in the next lecture.
+
+So now let's talk about Amazon Transcribe.
+
+So as the name indicates,
+
+it allows you to automatically convert speech into text.
+
+So you pass in some audio
+
+and automatically it's going to be transcribed into text.
+
+So you could say, "Hey, hello, my name is Stephane
+
+and I hope you're enjoying the course!"
+
+Now, how does it do it?
+
+Well, it uses a deep learning process called the ASR,
+
+the automatic speech recognition,
+
+to convert speech to text very quickly and accurately.
+
+And there are a few features you need to know about.
+
+The first one is that you can automatically remove any PII
+
+so personally identifiable information using redaction.
+
+So that means, for example,
+
+if you have someone's age
+
+or name or social security number,
+
+this can be automatically removed.
+
+And also you can have access
+
+to automatic language identification for multilingual audio.
+
+So if you have some French and some English, some Spanish
+
+Transcribe is smart enough to recognize all of those.
+
+So the use cases for Amazon Transcribe
+
+is to transcribe customer service calls,
+
+to automate closed captioning and subtitling,
+
+and also to generate metadata for media assets
+
+to create a fully searchable archive.
+
+So there's a way for you to improve the accuracy
+
+of Amazon Transcribe.
+
+So we can allow Transcribe
+
+to capture domain specific or non-standard terms
+
+such as technical words, acronyms, and jargon.
+
+For example, say we use a speech
+
+and we say we can use AWS Microservices
+
+and Transcribe is giving us a USA my crow services,
+
+which sounds a little bit like AWS microservices,
+
+but not exactly.
+
+So how can we improve this?
+
+Well, we can have custom vocabularies for words.
+
+So here we can add specific words,
+
+phrases, or domain-specific terms.
+
+So it's very good if you have a brand name or acronyms
+
+and using those all the time.
+
+And you can increase the recognition of a new word
+
+by providing hints such as how to pronounce it.
+
+So once we have this custom vocabulary,
+
+we can recognize very specific terms such as AWS.
+
+The other one is around custom language models.
+
+So before that was for words,
+
+but now it's for context.
+
+So here we're going to train the Transcribe model
+
+on our own domain-specific text data.
+
+So that means that, for example,
+
+you have a large volume of domain-specific speech
+
+and you are going to give Transcribe
+
+the chance to learn the context
+
+associated with a given word.
+
+Because, for example,
+
+for if you are dealing with crows or birds,
+
+you may have the option to say you have a crow service,
+
+a my crow service, right?
+
+But if you are doing a lot of IT,
+
+then microservice for you is one word.
+
+And so therefore, by providing a custom language models,
+
+you're not teaching new words to Amazon Transcribe,
+
+but you're giving the context of what you're trying to do
+
+and therefore Transcribe will know what word to use.
+
+And so, of course, use both
+
+for highest transcription accuracy.
+
+And so therefore in our example,
+
+now that we have enabled a custom vocabulary
+
+and a custom language,
+
+Transcribe knows how to convert our speech
+
+to AWS Microservices.
+
+Transcribe also has a toxicity detection feature.
+
+So this is machine learning power, of course,
+
+and you can directly use a voice sample
+
+to detect toxicity.
+
+So it looks like this.
+
+The way it works is that there's two types of data
+
+being leveraged for the toxicity detection.
+
+First of all is speech cues.
+
+So the actual tone
+
+and the pitch of the audio is going to be looked at.
+
+And if someone seems angry in their voice tone
+
+is going to be of course flagged.
+
+And there's also text-based cues.
+
+For example, if someone is saying
+
+profanities or hate speech,
+
+then of course it's going to be detected.
+
+But the beauty here is that it's the combination
+
+of both the audio and the text
+
+that is going to be helpful
+
+to describe toxicity in a sample.
+
+So you have a lot of categories
+
+that your toxicity can be classified into.
+
+For example, sexual harassment, hate speech,
+
+threats, abuse, profanity, insult, and graphic.
+
+And this feature is something that can come up at the exam,
+
+so there you go.
+
+All right, that's it for Transcribe,
+
+I hope you liked it
+
+and I will see you in the next lecture.
+
+So Amazon Polly
+
+is the opposite of Amazon Transcribe.
+
+So this allows you to turn text into lifelike speech
+
+using deep learning.
+
+And allows you to create applications that will talk.
+
+For example, if I write, "Hi, my name is Stephane,
+
+and this is a demo of Amazon Polly,"
+
+then the speech is going to be generated for me
+
+by Amazon Polly.
+
+So Polly has a few advanced features
+
+that may come up in the exam.
+
+The first one is around lexicons.
+
+So you define how to read certain pieces of text.
+
+For example, I may write AWS,
+
+but I want Polly to pronounce Amazon Web Services.
+
+Or I may write W3C,
+
+but actually want Polly to say World Wide Web Consortium.
+
+Then we have the SSML,
+
+so the Speech Synthesis Markup Language,
+
+and I give you an extract on the right-hand side.
+
+And so they are markups that indicates
+
+how your text should be pronounced.
+
+For example, if you have "Hello"
+
+and then break, "how are you?"
+
+It's going to say "Hello," then have a long break,
+
+and then "how are you?"
+
+So it's not going to say "Hello, break, how are you?"
+
+It's going to know to whisper, to say it,
+
+to pronounce abbreviations, to emphasize a word, and so on.
+
+The voice engine has multiple ones,
+
+so you have, from the most historical to the new one,
+
+you have neural, standard, long-form, and generative.
+
+And so the newest one have very good human-like voices.
+
+And then you can have speech mark.
+
+So you want to know where is audio,
+
+like where a word or a sentence starts or ends in the audio.
+
+So Polly can give you this information
+
+because they give you the audio as well as this speech mark.
+
+And this can be very helpful for lip-syncing
+
+or for highlighting words as they are spoken.
+
+So that's it for this lecture, I hope you liked it,
+
+and I will see you in the next lecture.
+
+So now, let's talk about Amazon Rekognition.
+
+So, it's a service that allows you to find objects, people,
+
+texts, or scenes directly in images or videos,
+
+and it's using, of course, machine learning.
+
+So, you can do a facial analysis or a facial search
+
+if you want to do user verification
+
+or counting people in a photo.
+
+And you can create a database of familiar faces
+
+or compare any face you find against celebrities.
+
+So, the use cases for Amazon Rekognition
+
+would be labeling, content moderation, text detection,
+
+face detection analysis,
+
+such as understanding the gender,
+
+the age range, the emotions,
+
+face search and verification, celebrity recognition,
+
+and pathing, which is, for example,
+
+when you're doing sports game analysis,
+
+and you want to understand the path
+
+that the ball or a player took.
+
+So, here I am on the Amazon Rekognition website
+
+and if you scroll down,
+
+you can see the type of use cases and features there are.
+
+So, you have face liveness to see if someone is actual alive
+
+and is his real face using in the call, for example.
+
+Comparing faces and searching for faces.
+
+Detecting a face, and what are the attributes,
+
+for example, female, eyes are open, happy, smiling.
+
+Content moderation to have content that's going to be safe,
+
+for example, for children to watch and so on.
+
+Look at labels in pictures such as, for example here,
+
+the AWS DeepRacer logo.
+
+Detect some texts such as the numbers in a picture
+
+to find whose racer is where.
+
+Labeling again, what is a person, a rock,
+
+crest, outdoors, mountain bike, and so on.
+
+So, and detecting celebrity, for example here,
+
+Werner Vogels in this picture.
+
+So it's very, very broad and useful service,
+
+which allows to really analyze videos and images
+
+and to figure out a lot of attributes thanks to AI
+
+and machine learning.
+
+So, a feature that may appear in the exam
+
+is called Custom Labels for Amazon Rekognition.
+
+The idea is that you want to identify your own products
+
+or you want to find your own logo
+
+in social media posts or whatever.
+
+And for example, the NFL will use this service
+
+to find their own logos in pictures of Amazon Rekognition.
+
+In that case, what do we have to do to make it happen?
+
+Well, we label training images,
+
+we upload them to Amazon Rekognition,
+
+you need only a few hundred images or less,
+
+and Amazon Rekognition
+
+is going to create a custom model based on your images
+
+and is going to be able to recognize
+
+what your logo looks like,
+
+what your products look like,
+
+et cetera, et cetera.
+
+And so, therefore,
+
+new images that will be analyzed
+
+by this Custom Labels feature
+
+will be analyzed also for whatever you're looking for.
+
+So, it could be your logo or something else.
+
+So, the process is very simple.
+
+You label images and you store them in Amazon S3,
+
+so that could be a bunch of images
+
+with your logo on it or your products,
+
+and then you're going to train Amazon Rekognition
+
+to create Custom Labels.
+
+And so, whenever a user, for example,
+
+is posting something on social media
+
+and you analyze this picture,
+
+very quickly, thanks to Amazon Rekognition,
+
+you'll be able to say that yes,
+
+your logo is appearing in that picture
+
+and that could be beneficial for your brand.
+
+The other thing you have is content moderation.
+
+So, here the idea
+
+is that you want to automatically detect inappropriate,
+
+unwanted, or offensive content.
+
+So it could be very handy, for example,
+
+for your own social media page
+
+to filter out harmful media images
+
+or figure out if advertising is wrong,
+
+et cetera, et cetera.
+
+And the content moderation on Rekognition is very good
+
+because you bring down the number of human review
+
+to about 1 to 5% of the content volume,
+
+which is good because, well,
+
+you don't want to review all the things
+
+that have been flagged.
+
+You want to automate part of it,
+
+but sometimes AI is still not as good as humans.
+
+And if you need a human review,
+
+there's another service called Amazon Augmented AI
+
+or Amazon A2I that can be used for human review.
+
+And that's just for the basic,
+
+out-of-the-box content moderation,
+
+but it's possible for you
+
+to also create a custom moderation adapter.
+
+And here, you're going to extend Rekognition capability
+
+by providing your own labeled set of images,
+
+and you're going to define
+
+what you want to moderate in or out.
+
+And it could be to either enhance the accuracy
+
+of content moderation
+
+or if you have a specific use case of moderation.
+
+So, how does it work?
+
+Well, you label your images again
+
+and you train a Rekognition Custom Moderation Adapter.
+
+And whenever images arrive for moderation,
+
+either they pass or fail the moderation.
+
+But if Rekognition has a doubt,
+
+then 1 to 5%, for example, can be sent for human review,
+
+and then you can use Amazon Augmented AI
+
+to make a final decision on these images.
+
+And actually, the result of that assessment
+
+can be fed back into the training of Rekognition,
+
+which is very handy.
+
+So, here is an example
+
+of how you can use Rekognition Content Moderation API.
+
+So, say for example,
+
+you've developed an application and it's a chatbot,
+
+and this chatbot is able to generate images.
+
+So, the users say, "Hey, please generate an image for this."
+
+Then, the chatbot will generate the image,
+
+but you don't know if that image
+
+is going to be safe to return to the user just yet.
+
+So, you may use Amazon Rekognition
+
+and you send the image with the DetectModerationLabels API
+
+and Amazon Rekognition is going to have a look
+
+and create labels for your image.
+
+And if the labels are clear
+
+of any unsafe or harmful type of content,
+
+then your chatbot may say,
+
+"Okay, it's okay to return this to the user,"
+
+and the user will receive back your image.
+
+So, it's a very simple way
+
+how you can use the Content Moderation API from Rekognition
+
+to implement safety in your applications.
+
+So, that's it for this lecture.
+
+I hope you liked it
+
+and I will see you in the next lecture.
+
+So now let's talk about Amazon Lex.
+
+So Amazon Lex is a way for you to build chatbots quickly
+
+for your application using either voice or text
+
+to interface with the chatbots.
+
+So here's an example of a chatbot,
+
+which is actually doing hotel bookings.
+
+But you can do a chatbot for anything, for example,
+
+to order pizza, to provide customer support, and so on.
+
+So Amazon Lex builds a conversational AI
+
+and it supports multiple languages.
+
+On top of it,
+
+in order to perform the actions it's supposed to do
+
+it has deep integration with AWS Lambda,
+
+or Amazon Connect, Comprehend, or Kendra.
+
+The idea is that the bot is going to understand
+
+the user intent
+
+and then invoke the correct Lambda function
+
+behind the intent in order to fulfill the intent.
+
+So, for example, we said like
+
+to book a hotel at the beginning.
+
+And so Amazon Lex knows that the intent
+
+is for us to book a hotel
+
+because we have programmed this intent ahead of time.
+
+And so therefore,
+
+when we have the last bit of information we need,
+
+a Lambda function is going to be invoked,
+
+is going to perform a booking in the booking system,
+
+and then when it's correctly done,
+
+Amazon Lex will reply to the user,
+
+"Thank you, your reservation went through successfully."
+
+So the idea is that now we allow our users to interact
+
+with our backend system, but only using texts and voice,
+
+which is very nice.
+
+In case your Lambda function needs a few parameters,
+
+for example, to book a hotel, you need to know the city,
+
+the check-in date, and so on,
+
+then the bot is going to ask for Slots.
+
+And Slots are input parameters.
+
+And so the bot is smart enough automatically
+
+to just converse with the user,
+
+gather all the information it needs,
+
+and when it has it, it will invoke the Lambda function,
+
+which will perform the booking.
+
+So it's a very, very powerful service.
+
+And in the next lecture we'll have a look
+
+at how we can quickly configure it and see how it works.
+
+So that's it.
+
+I hope you liked it.
+
+And I will see you in the next lecture.
+
+Next, we have Amazon Personalize,
+
+which is a fully machine learning service
+
+to build apps with real-time personalized recommendations.
+
+So what could be a recommendation?
+
+For example, "a personalized product recommendation
+
+or re-ranking or customized direct marketing."
+
+For example, a user has bought a lot of gardening tools,
+
+and you want to provide recommendations
+
+on the next one to buy
+
+based on a personalization service.
+
+So this is the same technology used by Amazon.com.
+
+So when you go and shop on Amazon.com
+
+and after buying a few products,
+
+what you will see is that Amazon.com
+
+start recommending products in the same category
+
+or in completely different categories
+
+based on how you've been searching
+
+and how you've been buying
+
+and user interest and that kind of things.
+
+So Personalize is how you access this from within AWS.
+
+So you read your input data from Amazon S3.
+
+For example, it could be user interactions,
+
+these kind of things.
+
+Also, you can use the Amazon Personalize API
+
+to have real-time data integration
+
+into the Amazon Personalize service.
+
+And then this will expose a customized personalized API
+
+for your websites and applications,
+
+your mobile applications.
+
+Also, you can send SMS or emails
+
+for personalization as well.
+
+So you have all these integrations.
+
+It takes days, not months, to build this model.
+
+So "you don't need to build,
+
+train, and deploy ML solutions."
+
+You can just use this bundled as is.
+
+And so the use cases is going to be retail stores,
+
+media, and entertainment.
+
+So from an exam perspective,
+
+anytime you see a machine learning service
+
+to build recommendations and personalized recommendations,
+
+think Amazon Personalize.
+
+So let's dive a little bit deeper in Amazon Personalize.
+
+So we have recipes in them.
+
+And recipes are algorithms
+
+that are already implemented in Personalize
+
+that are prepared for specific use cases.
+
+But you still need to provide
+
+the training configuration on top of the recipe
+
+to really match your use case.
+
+So here are some example recipes
+
+you may find in Personalize.
+
+First one is to do recommendation of items for users.
+
+So they're called the USER_PERSONALIZATION recipes,
+
+and the name is User-Personalization-v2.
+
+You can also give the ability to rank item for a user.
+
+The name of the recipe is Personalized-Ranking-v2.
+
+You can also recommend trending or popular items,
+
+and we have the Trending-Now and the Popularity-Count.
+
+So as you can see, all these things are recommendations.
+
+They're personalized for a user.
+
+You can also recommend similar items,
+
+so it's the RELATED_ITEMS recipe for similar items.
+
+You can recommend the next best action.
+
+And you can also extract user segments
+
+so to get Item-Affinity.
+
+And so as you notice,
+
+all these things are about recommending something
+
+for your users
+
+and usually based on the user's preferences.
+
+And that's why it's called Personalize.
+
+So remember this, "recipes and Amazon Personalize
+
+are for recommendations."
+
+They're not for forecasting,
+
+they're not for anything else
+
+but just personalized recommendations.
+
+Okay, I've said it enough.
+
+I hope you liked it.
+
+And I will see you in the next lecture.
+
+So now let's talk about Amazon Textracts.
+
+And Amazon Textract is used to extract texts,
+
+so, hence the name.
+
+So you extract text, handwriting,
+
+or data from any scanned document
+
+and behind the scenes, of course,
+
+uses AI or machine learning.
+
+So we have, for example, a driver license,
+
+and then we upload it into Amazon Textract,
+
+and then, automatically, will be analyzed,
+
+and the results will be given to you as a data file,
+
+and so you'll be able to, for example,
+
+extract the date of birth, document ID, and so on.
+
+So you can extract any data, even from forms and tables,
+
+and you can read PDFs, images, and so on.
+
+So the use cases for extracting texts are multiple,
+
+but you could be for financial services
+
+to process invoices or financial reports,
+
+could be for healthcare,
+
+for medical records, and insurance claims,
+
+or for the public sector, for example, for tax forms,
+
+ID documents, and passports.
+
+So that's it for this lecture,
+
+I hope you liked it,
+
+and I will see you in the next lecture.
+
+
+Another machine learning service on AWS
+
+is called Amazon Kendra.
+
+So this one is a fully-managed document search service
+
+that is powered by machine learning
+
+and it allows you to extract answers from within a document.
+
+That document could be text, PDF, HTML
+
+PowerPoints, Microsoft Word, FAQs, et cetera, et cetera.
+
+So you have a lot of data sources
+
+where these documents may be
+
+and you see some of them right now in the screen
+
+and they're going to be indexed by Amazon Kendra
+
+which is going to build internally
+
+a knowledge index powered by machine learning.
+
+And how does it help from an end-user perspective?
+
+Well, we get natural language search capabilities
+
+just like you go on Google.
+
+So for example, if a user says,
+
+Hey, where is the IT support desk into Amazon Kendra?
+
+Kendra can reply, 1st floor.
+
+And this could be due to the fact that Kendra knows
+
+from all the resources that it took
+
+that the IT support desk was on the 1st floor,
+
+which is quite awesome.
+
+And also, you can just do a normal search
+
+and it will learn from the user interaction and feedback
+
+to promote preferred search results
+
+which is called incremental learning.
+
+Finally, you can fine tune the search results, for example,
+
+based on the important data, importance of data,
+
+the freshness, or whatever custom filters you have, okay?
+
+So from an exam perspective,
+
+whenever you see a document search service,
+
+think Amazon Kendra.
+
+That's it, I will see you in the next lecture.
+
+So now let's talk about
+
+Amazon Augmented AI or A2I.
+
+So the idea is that your machine learning models
+
+are making predictions in production,
+
+but you want to have human oversight
+
+to make sure that your models are working as they should.
+
+So you have your input data,
+
+and then you have an AWS AI service,
+
+or you make your own custom machine learning model
+
+that will make prediction,
+
+and then something will happen with Amazon Augmented AI.
+
+Either it's a very high confidence prediction
+
+and therefore, they return immediately
+
+to the client application
+
+because your model can grade how confident they are
+
+about the outputs,
+
+or it's a low confidence prediction
+
+and then it's sent to a human review.
+
+In that case, actual humans
+
+will consolidate all these predictions
+
+and create risk-weighted scores,
+
+these scores will be stored in Amazon History,
+
+and then client application
+
+will be able to get the prediction,
+
+and these kind of things,
+
+these kind of predictions that have been reviewed,
+
+will then be fed back into your machine learning model
+
+to improve its quality.
+
+So who are the humans
+
+that will review well these predictions?
+
+It can be your own employees
+
+or it could be over 500,000 contractors from AWS,
+
+or it could be anyone working on the service,
+
+AWS Mechanical Turk,
+
+and some vendors
+
+are going to be pre-screened as well for you,
+
+for confidentiality requirements.
+
+So you have access to a wide array of contractors
+
+that can work for you with maximum confidentiality.
+
+Finally, this model can be based on AWS.
+
+It could be, for example, an A list service,
+
+such as Recognition,
+
+or you can build it yourself on SageMaker, for example,
+
+or you can even host it elsewhere.
+
+There will be an integration with Amazon A2I.
+
+So that's it, I hope you liked it,
+
+and I will see you in the next lecture.
+So now let's talk about Amazon Q Business.
+
+So Amazon Q Business is a fully managed Gen-AI assistant
+
+for your employees.
+
+What does that mean?
+
+Well, we have an assistant, but it's based entirely
+
+on your company's knowledge and data.
+
+So here, this is a very specific use case
+
+where Gen-AI is for your company
+
+and it's trained on your internal data.
+
+So for example, what can you ask Amazon Q Business?
+
+Well, you can say, "Write a job posting
+
+for a senior product manager role",
+
+where we have of course, this role being very relevant
+
+to whatever our company is doing,
+
+or "Create a social media post under 50 words
+
+to advertise the new role".
+
+Or for example, "What was discussed
+
+during the team meeting in the week of the 4/12?"
+
+And so of course, all of this cannot be answered
+
+by a general foundation model.
+
+It needs to be a model
+
+that has been trained on your own internal data
+
+with the right security, of course.
+
+So as a whole, Amazon Q Business can answer questions,
+
+provide summaries, and generate content
+
+and automate tasks, as well as perform routine actions
+
+such as, for example, doing stuff
+
+such as submitting time-off request
+
+or sending meeting invites.
+
+Behind the scene Amazon Q Business
+
+is built on Amazon Bedrock, but we have less control
+
+so we cannot choose what is the underlying foundation model.
+
+And actually Amazon Q Business is built
+
+on multiple foundation model from Amazon Bedrock.
+
+So this is a service, that's a little bit higher level,
+
+geared toward a very specific use case of using
+
+and exposing your company internal data
+
+from an LLM Gen-AI perspective.
+
+So here's an example, we're saying what
+
+is the annual total out of pocket maximum mentioned
+
+in the health plan summary?
+
+So this is for our company, we're in the medical space
+
+and we have a company document, a PDF,
+
+that has the very answer.
+
+And so Amazon Q Business is able to look up that document,
+
+look at what the document says,
+
+and then re give us the answer in our chat,
+
+similar to RAG of course.
+
+And then of course we will have a sources section
+
+where we say, hey, the sources
+
+of this is the health plan PDF document,
+
+and you can click on it and find it right away.
+
+So let's have a look at a diagram
+
+to better understand Amazon Q Business.
+
+So here it is, we have first some data connectors.
+
+So data connectors are fully managed RAG,
+
+and you can connect
+
+to over 40 popular enterprise data sources.
+
+So you don't have to learn about them all,
+
+but it's good to see some of them.
+
+So we have Amazon S3,
+
+where we can store data files onto AWS,
+
+it's a very popular service.
+
+We have Amazon RDS, it's a database service,
+
+we have Aurora, another database service,
+
+and WorkDocs, a service used specifically
+
+for documents on AWS.
+
+And then we have non AWS services, such as Microsoft 365,
+
+Salesforce, Google Drive, Gmail, Slack,
+
+SharePoint, et cetera, et cetera.
+
+And the idea is that Amazon Q Business
+
+will have built-in integrations with these services.
+
+And then once the integration is made,
+
+then it will crawl these sources
+
+and do what is supposed to do to allow you
+
+to search them and query them.
+
+Next, we have also plugins.
+
+So before data connectors was about retrieving data
+
+and understanding what is the knowledge
+
+inside of our company, but next we have plugins.
+
+And plugins allow Amazon Q Business
+
+to actually interact with third party services.
+
+For example, we have Jira, ServiceNow, Zendesk,
+
+Salesforce, et cetera, et cetera.
+
+And the idea is that, for example, if we say
+
+to Amazon Q Business, "Hey, create a Jira issue",
+
+this is to create a ticket so we can track a problem
+
+in our company, then Amazon Q Business
+
+will leverage the plugin
+
+and automatically create that Jira issue for us.
+
+So on top of reading data, Amazon Q Business
+
+has the ability to create and move data
+
+in your company as well.
+
+And you can extend it because you can create custom plugins
+
+to connect to any third party application using APIs.
+
+Now, how do we access Amazon Q Business?
+
+Well, our users are going to be authenticated
+
+through something called IAM Identity Center.
+
+So IAM Identity Center is a way for users to log in
+
+and we'll see how, and then once user are logged in,
+
+then they will only have access
+
+to the documents they should have access to.
+
+So by using your whole company data with Amazon Q Business,
+
+you still have the certainty that someone
+
+with less privilege will not be able
+
+to access all your documents,
+
+otherwise that would be of course a big security risks.
+
+Here we have IAM Identity Center,
+
+and our users are going to log into it
+
+by just having a sign in box
+
+where you enter a username and a password
+
+and you're good to go.
+
+And then you have what's called an authenticated user
+
+with its own permissions because IAM Identity Center
+
+knows what the user is able to access or not.
+
+And then the user can ask questions to Amazon Q Business,
+
+which is a web application,
+
+and of course access only the documents
+
+it should have access to.
+
+On top of it, you can integrate IAM Identity Center
+
+with what's called External Identity Providers or IDP.
+
+And it could be, for example, a Google login
+
+or a Microsoft Active directory and so on.
+
+And so that means that instead of logging in
+
+and getting an AWS based sign in page,
+
+you're going to log in with a system
+
+where users are already created.
+
+For example, it could be your active directory
+
+where you have your Microsoft login,
+
+or it could be your Google login, for example,
+
+if you're using the G Suite type of workspace
+
+for your company.
+
+So this is very handy
+
+and it's really going hand in hand
+
+with whatever security systems you have
+
+in place in your company.
+
+Next we have admin controls.
+
+So these are controls used to customize responses
+
+based on what your organization needs.
+
+So admin controls are pretty much the exact same thing
+
+as Guardrails in Amazon Bedrock.
+
+So for example, if we have a blocked topic
+
+such as gaming consoles, and our employee's asking,
+
+"Hey, how can I configure a brand new Nintendo Switch?"
+
+Then you're going to use the Amazon Q Business
+
+is going to say, "Well, this is a restricted topic",
+
+so we can block specific words or topics,
+
+and we can also choose for Amazon Q
+
+to respond only with internal information
+
+versus using also external knowledge.
+
+So if we specify it to only use internal information,
+
+then only your company documents will be used
+
+to respond to a query.
+
+If not, then we have access to the broader knowledge
+
+of the foundation model.
+
+You can also make sure to set up these admin controls,
+
+either on the global control, global level,
+
+that means for all type of topics and all type of subjects.
+
+Or you can set up some more specifically at a topic level
+
+so you have more specific admin controls,
+
+but they're the same as just at what level
+
+do you want to apply them?
+
+So that's it for Amazon Q Business,
+
+I hope you lik
+
+So, now let's talk about Amazon Q Apps.
+
+Q Apps are part of Q Business.
+
+And the idea is that you can create Gen AI-powered apps
+
+without coding by only using natural language.
+
+So, we have a web UI called Amazon Q apps creator.
+
+And in there, you can specify a prompt to describe the type
+
+of app you want to have.
+
+And again, this app is going to be based
+
+on your company data.
+
+So you're going to say, hey, I want to do this kind of app,
+
+and automatically Amazon Q app is going to generate for you
+
+a web application where we can, for example,
+
+upload a document and then upload prompts and so on,
+
+and our users can use this app.
+
+So, it really makes it super easy for anyone in your company
+
+to create an app based on your company's internal data,
+
+as well as leveraging plugins.
+
+So anyone can create a very quick app
+
+without using developers.
+
+And that's the idea behind Amazon Q Apps.
+
+But I think it's best if you see it in action.
+
+So, I will see you in the next lecture
+
+for a practice on Amazon Q Apps.
+
+So now, let's talk about Amazon Q Developer.
+
+So, Amazon Q Developer is a service that has two sides,
+
+and the first one is about answering question
+
+about AWS documentation and how to select an AWS service.
+
+It can also answer questions about the resources
+
+in your AWS accounts.
+
+So for example, we as developers say,
+
+"Hey, list all of my Lambda function."
+
+And Lambda is a service in AWS.
+
+And we may have created many Lambda functions,
+
+but we don't know what they are or where they are.
+
+And so, Amazon Q developer will say, "Hey, yes.
+
+You have five AWS Lambda resources
+
+in the region us-east-1 and here are the names of them."
+
+So, this is pretty cool because now we can talk
+
+to our AWS accounts using natural language.
+
+On top of it, it can suggest CLI.
+
+So, Command Line Interface commands
+
+to run and make changes to your accounts.
+
+And it can also analyze your AWS bill,
+
+also resolve errors and do troubleshooting.
+
+And I'm pretty sure it's going to become
+
+more and more powerful over time.
+
+So, here's an example.
+
+We have Amazon Q and we say,
+
+"Change the timeout of a Lambda function.
+
+Test API1 in the Singapore region to 10 seconds."
+
+And right now Amazon Q cannot do this for us,
+
+but what it can do is set up a command for us.
+
+So this is the command is going to create.
+
+And then we can run this command
+
+to actually change the timeout, which is pretty cool
+
+because this is a step that we don't have to figure out.
+
+The command is going to be perfectly executed
+
+when we run it.
+
+Also, for example, we can ask Amazon Q,
+
+"What were the top three highest cost services
+
+in Q1 from my accounts?"
+
+And then automatically it's going to say,
+
+"Well, you had Amazon SageMaker,
+
+you had Amazon Elastic Container Service and AWS Config"
+
+and give us a cost analysis.
+
+And this is pretty cool
+
+because, well, this type of data analysis
+
+would maybe take us a little bit of time,
+
+but Amazon Q is doing it for us
+
+by using the own data of our AWS accounts.
+
+The other side of Amazon Q Developer
+
+is an AI code companion.
+
+So, very different.
+
+But the idea is that you can code new applications
+
+similarly to GitHub Copilot,
+
+and it's specialized of course for AWS-based developments.
+
+So for example, we say, "Write me Python code
+
+to list all the files in a given Amazon S3 bucket."
+
+And then it will accept one parameter name_bucketname
+
+and return a list of files in that S3 buckets.
+
+And so, here we have the Python code generated
+
+by Amazon Q Developer that fits this purpose.
+
+Now, Amazon Q Developer supports many languages
+
+such as Java, JavaScript, Python, TypeScript, and C#.
+
+And of course is going to add more languages
+
+over time in terms of support.
+
+So on top of it, it can give you real time code suggestions
+
+while you code in your code editor and security scan.
+
+And there's even a software agent from Amazon Q
+
+that is going to be used to implement features
+
+or generate documentation in your code,
+
+or bootstrapping new projects.
+
+That means creating the base files
+
+for new projects for you to get started.
+
+So this part of the coding assistant,
+
+the AI Code Assistant works with several IDE.
+
+So, IDE is an Integrated Development Environment.
+
+So, it's a software used to create code.
+
+And we have multiple popular ones
+
+such as Visual Studio Code, visual Studio, or JetBrains.
+
+And on top of it,
+
+you can answer questions about AWS development,
+
+do code completion and code generation,
+
+scan your code for security vulnerabilities,
+
+and do debugging optimizations and improvements.
+
+So the idea is that using Amazon Q Developer,
+
+you can really enhance the way you write code.
+
+And this is a very popular thing right now
+
+in the AI space to get code companion.
+
+So you have GitHub Copilot,
+
+which I think is the most popular one,
+
+but we also have Amazon Q developer.
+
+Very helpful when you want to do specialized things on AWS.
+
+So, that's it for this lecture, I hope you liked it.
+
+And I will see you in the next lecture.

@@ -1,0 +1,1322 @@
+Let's dive into the world of feature engineering in the world of machine learning.
+
+What is feature engineering anyway?
+
+Well, basically it's the process of applying what you know about your data to sort of trim down the
+
+features that you're using, or maybe create new features or transform the features you have.
+
+What do I mean by features?
+
+Well, those are the attributes of your training data, the things that you're training your model with.
+
+Let's take an example.
+
+So let's say we're trying to predict how much money people make based on various attributes of the people.
+
+So your features in that case might be the age of a person, their height, their weight, their address,
+
+what kind of car they drive, any number of things.
+
+Right.
+
+Some of those things are going to be relevant to the things you're trying to predict, and some of them
+
+won't be.
+
+So the process of feature engineering is in part just selecting which features are important to what
+
+I'm trying to predict and choosing those features wisely.
+
+A lot of times you need to transform those features in some way as well.
+
+You know, maybe the raw data isn't useful for the specific model you're using.
+
+Maybe things need to be normalized or scaled in some way, or encoded in some specific way.
+
+Often you'll have things like missing data in the real world.
+
+Often you do not have complete data for every single data point, and the way that you choose to deal
+
+with that can very much influence the quality of the resulting model that you have.
+
+Also, sometimes you want to create new features from the existing ones that you have.
+
+Perhaps the numerical trends in the data that you have for a given feature are better represented by
+
+taking the log of it, or the square of it, or something like that.
+
+Or maybe you're better off taking several features and combining them mathematically into one to reduce
+
+your dimensionality.
+
+This is all what feature engineering is about.
+
+You can't just take all the data you have and throw it into this big machine learning hopper and expect
+
+good things to come out the other end.
+
+This is really the art of machine learning.
+
+This is where your expertise is applied to actually get good results out of it.
+
+It's not just a mechanical process where you follow these steps.
+
+Take all the data you have, throw it into this algorithm and see what predictions you make.
+
+That's what separates the good machine learning practitioners from the bad ones.
+
+The ones that can actually do feature engineering are the ones that are the most successful and the
+
+most valuable in the job marketplace, of course.
+
+And this isn't stuff that's generally taught, right.
+
+So this is largely a lot of stuff that is learned through experience and actually being out there in
+
+the real world and practicing machine learning, and that's why this exam actually focuses a lot on
+
+it.
+
+The machine learning certification exam is trying to weed out people who actually have experience in
+
+this field, versus people who don't.
+
+They're really trying to give people who actually know what they're doing and have real world experience
+
+a very big edge on this exam.
+
+And, well, I'm going to do my best to teach it to you here.
+
+It's not something that's generally covered, but there are some general best practices that if you
+
+know them, they'll definitely help you out in this exam.
+
+Why is feature engineering important in the first place?
+
+Well, it's about the curse of dimensionality.
+
+What do we mean by that?
+
+Well, like I said, you can't just throw every feature you have into the machine and expect good things
+
+to happen.
+
+Too many features can actually be very problematic for a few different reasons.
+
+First is that it leads to sparse data.
+
+So again, come back to the example of trying to train a model on attributes of people.
+
+There are hundreds of attributes on a person you could come up with, right?
+
+Like we said, age, height, weight.
+
+What car do you drive?
+
+How much money do you make?
+
+Where do you live?
+
+Who knows?
+
+You know, um, where did you go to college?
+
+The list goes on and on and on.
+
+And you can actually envision each person as a vector in the dimensional space of all these features.
+
+Okay.
+
+So stay with me here.
+
+Imagine, for example, that the only feature we have is a person's age.
+
+You could represent a person by a vector along a single age axis, right.
+
+Going from 0 to 100 or whatever.
+
+Now we throw in another dimension, say their height.
+
+We have another dimension, another axis that we have this vector pointing to that encodes both their
+
+age on one axis and their height on another, right.
+
+So now we have a two dimensional vector.
+
+Throw in a third dimension there.
+
+Say how much money they make.
+
+Now we have a vector in three dimensions where one dimension is their age, one dimension is their height,
+
+one dimension is how much money they make.
+
+And as we keep adding more and more dimensions, the available space that we have to work with just
+
+keeps exploding, right?
+
+Um, this is what we call the curse of dimensionality.
+
+So the more features you have, the larger the space that we can find a solution is within.
+
+And having a big space to try to find the right solution in just makes it a whole lot harder to find
+
+that optimal solution.
+
+So the more features you have the more sparse your data becomes within that solution space, and the
+
+harder it is to actually find the best solution so you're better off boiling those features down to
+
+the ones that matter the most.
+
+That will give you less sparse data and make it a lot easier to find the correct solution.
+
+Also, just from a performance standpoint, imagine trying to create a neural network that has inputs
+
+for every one of those features encoded in whatever way that it needs, right?
+
+This neural network would have to be massive, extremely wide at the bottom, probably extremely deep
+
+as well, to actually find all the relationships between these many features.
+
+And it's just going to be ridiculously hard to get that to converge on anything.
+
+So a big part of success in machine learning is not just choosing the algorithm, not just cleaning
+
+your data, but also choosing the data that you're using in the first place.
+
+That's what feature engineering is all about.
+
+Again, a lot of it comes down to domain knowledge and sort of using your common sense about what will
+
+work and what won't toward improving your model and just experimenting with different things and seeing
+
+what makes an effect and what doesn't, what helps what hurts things.
+
+So a lot of it is just going back and forth with does this feature help things?
+
+No.
+
+Okay.
+
+We won't use it.
+
+Does this feature help things?
+
+No.
+
+Okay.
+
+Try something else.
+
+Now, you don't always have to guess.
+
+To be fair, there are some more principled ways of doing dimensionality reduction.
+
+so one of them is called PCA.
+
+Principal component analysis.
+
+And we'll talk about that more in the modeling section of the course.
+
+But PCA is a way of taking all of those higher dimensions, all those different features that you have
+
+and distilling them down into a smaller number of features to a smaller number of dimensions.
+
+And it tries to do this in a way that preserves information as well as possible.
+
+So, I mean, if you have enough computational power to actually use PCA on a large set of features,
+
+that is a more principled way of distilling it down to the features that actually matter, and the features
+
+you end up with aren't actually things you can put a label on.
+
+It's just, you know, artificially created features that capture the the essence of the features that
+
+you started with.
+
+K-means clustering is another way of doing this.
+
+What's nice is that these are both unsupervised techniques, so you don't have to actually train these
+
+on anything.
+
+You can just throw the feature data you have into these algorithms, and it will boil out, if you will,
+
+a smaller set of dimensions that will work just well, hopefully closely as well.
+
+But again, more features is not better.
+
+That leads to what we call the curse of dimensionality.
+
+And that's one of the main reasons that we want to do feature engineering.
+
+And one of the main things you're going to be doing in that process.
+
+
+So a big part of feature engineering is imputation of missing data.
+
+What do you do when your data has a missing data elements in it?
+
+This is what happens in the real world.
+
+For every observation you have, there's going to be some missing data points more than likely.
+
+Well, a simple solution is just called mean replacement.
+
+The idea is that if you have a missing attribute or feature within one of the rows of your data, just
+
+replace it with the mean from the entire column.
+
+And remember we're talking about columns, not rows.
+
+Here you want to take the mean of all of the other observations of that same feature.
+
+Doesn't really make sense to take the mean of all the other features for that row, right?
+
+So mean replacement is all about taking the mean of that column and replacing all the empty values with
+
+that mean.
+
+So it's fast and it's easy.
+
+Those are some of the the positives of this approach.
+
+It also doesn't affect the mean or the sample size of your overall data set, because you're just replacing
+
+missing data with the mean.
+
+It won't affect the overall mean of the entire data set, which can be nice.
+
+Now, one nuance is that if you have a lot of outliers in your data set, which is also something you
+
+have to deal with when preparing your data, you might find that median is actually a better choice
+
+than the mean.
+
+So if you have a data set of a bunch of people and maybe one of those columns is income, and some people
+
+don't report their income because they think it's sensitive.
+
+Uh, you know, you might have your mean skewed by a bunch of millionaires or billionaires in your data
+
+set.
+
+So if you do mean imputation in that sort of a situation where you have outliers, you might end up
+
+with an overly high or overly low value that you're using for replacement.
+
+So if you do have outliers that are skewing your mean, you might want to think about using median instead.
+
+That will be less sensitive to those outliers.
+
+But generally speaking, it's not the best choice for imputation.
+
+First of all, it only works on the column level.
+
+So if there are correlations between other features in your data set, it's not going to pick up on
+
+those.
+
+So, you know, if there is a relationship between, say, age and income, that relationship is going
+
+to be totally missed.
+
+So you could end up saying that a ten year old is making, you know, $50,000 a year, because that's
+
+the mean of your data set But it really doesn't make sense, right?
+
+I mean, a 15 year old wouldn't be making that much money yet.
+
+So it's a very naive approach from that standpoint.
+
+The other issue is that you can't really use it on categorical features.
+
+You know, how do you take the mean of a categorical piece of data?
+
+That just doesn't make sense, right?
+
+Although you could use the most frequent value that appears, you know, the most commonly seen category
+
+would be a reasonable thing to do.
+
+In that case, it's sort of in the same spirit as mean replacement, but not really the same thing.
+
+Overall, though, it's not going to be a very accurate method.
+
+It's a very ham handed attempt at doing imputation.
+
+So although it's quick and easy and has some advantages in practice, if someone's asking you, say
+
+on a certification exam, what's the best way to do data imputation mean replacement probably, isn't
+
+it?
+
+It's also probably not just dropping the missing rows, although as we've seen sometimes, that's a
+
+reasonable thing to do.
+
+If you do have enough data such that dropping a few rows doesn't matter if you don't have too many rows
+
+that contain missing data, Well, it doesn't sound that unreasonable.
+
+The other thing, too, is that you want to make sure that dropping the rows that have missing data
+
+doesn't bias your data set in some some way.
+
+What if there's an actual relationship between which rows are missing data and some other attribute
+
+of those observations?
+
+For example, let's say that we're looking at income.
+
+Again.
+
+There might be a situation where people that have very high or very low incomes are more likely to not
+
+report it.
+
+So by removing or dropping all of those observations, you're actually removing a lot of people that
+
+have very high or low incomes from your model.
+
+And that might have a very bad effect on the accuracy of the model you end up with.
+
+So you want to make sure that if you are going to drop data, that it's not going to bias the data set
+
+in some way as, as a byproduct.
+
+Right?
+
+So it's a very quick and easy thing to do, probably the quickest and easiest thing to do.
+
+You can literally do this in one line of code in Python, but it's probably never going to be the best
+
+approach.
+
+So again, if an exam is asking you what's the best way to impute missing data dropping data probably
+
+is not the right answer.
+
+Almost anything is going to be better.
+
+Maybe you could just substitute a similar field, right?
+
+I mean, that would also be a simple way of doing it.
+
+For example, I might have a data set of customer reviews on movies, right?
+
+Maybe if I have a review summary and a full text review as well, it would make more sense to just take
+
+the review summary and copy that into the full text for people who left the full text blank as an example.
+
+So almost anything is better than just dropping data.
+
+But, you know, in the real world, if you're just trying to do something quick and dirty and sort
+
+of like start experimenting with some data just to start playing with it, it can be a reasonable thing
+
+to do.
+
+I just wouldn't leave that in place for production necessarily.
+
+The thing you probably really want to do in production is by using machine learning itself to impute
+
+your missing data into your machine learning training.
+
+So it's a kind of a meta thing.
+
+There are different ways of doing this.
+
+One is called KNN that stands for K Nearest Neighbors.
+
+And if you have any experience with machine learning, you probably know what that is already The general
+
+idea is to find the k where k is some number of the most similar rows to the ones that you're looking
+
+at that has missing data, and just average together the values from those most similar rows.
+
+So you can imagine having some sort of a distance metric between each row.
+
+Maybe it's just the Euclidean distance between the normalized features within each row or something
+
+like that.
+
+And if you find the, say, ten nearest rows that are most similar to the one that's missing data,
+
+you can just take the average of that feature from those ten most similar rows and impute the value
+
+from that.
+
+So that takes advantage of relationships between the other features of your data set, which is a good
+
+thing.
+
+Um, one problem with it, though, is that that idea assumes that you have numerical data that you're
+
+trying to impute and not categorical data.
+
+It's tough to take the average of a category, but there are ways of doing that with techniques like
+
+Hamming distance.
+
+But KNN is generally a better fit for numerical data, not categorical.
+
+If you have categorical data, you're probably better served by actually developing a deep learning
+
+model.
+
+Neural networks are great at doing categorization Problems.
+
+So the idea would be to actually build a machine learning model to impute the data for your machine
+
+learning model, right?
+
+It's a kind of a cycle there, and that works really well for categorical data.
+
+It really well.
+
+It's tough to beat deep learning these days.
+
+However, of course it is complicated.
+
+There's a lot of code involved and a lot of tuning as well.
+
+Um, but it's hard to beat the results if you actually have a deep learning model that tries to predict
+
+what a missing feature is based on other features in your data set, that's going to work out.
+
+A lot of work, a lot of computational effort, but it's going to give you the best results.
+
+You can also just do a multiple regression on the other features that are in your data set.
+
+That's also a totally reasonable thing to do.
+
+And three regressions.
+
+You can find linear or non-linear relationships between your missing feature and the other features
+
+that are in your data set.
+
+And there is a very advanced technique along these lines called mice, which stands for multiple imputation
+
+by chained equations.
+
+It's kind of the state of the art in this space right now for imputing missing data.
+
+So, you know, if you see a question that says what's a good way to impute missing data?
+
+And one of the answers is mice.
+
+A good chance that might be a reasonable answer for you there.
+
+To be clear, I didn't actually see a question like that on the exam, but if I were writing the exam,
+
+I might put that on there.
+
+All right.
+
+And finally, probably the best way to deal with missing data is to just get more data.
+
+So if you have a bunch of rows that have missing data, maybe you just have to try harder to get more
+
+complete data from people.
+
+And it's hard to beat just getting more real data so that you can just not have to worry about all the
+
+rows that have missing data.
+
+Again, you want to be careful that if you are dropping data that you're not biasing your data set in
+
+some way.
+
+But, uh, really, the best way to deal with not having enough data is to just get more of it.
+
+Sometimes you just have to go back and figure out where that data came from and collect more, better
+
+quality data.
+
+So the better quality data you have going into your system, the better the results you will get.
+
+And while imputation techniques are a way to cover up issues where you just don't have enough data and
+
+you can't get more of it, it's always a good idea to just get more and better data.
+
+If you can.
+
+
+Another problem in the world of feature engineering is handling unbalanced data.
+
+What do you mean by that?
+
+Well, that's when we have a large discrepancy between our positive and negative cases in our training
+
+data.
+
+So a common example is in the world of fraud detection, actual fraud is pretty rare, right.
+
+So most of your training data is going to contain training rows that are not fraudulent.
+
+This can lead to a difficulty in actually building a model that can identify fraud, because it had
+
+so few data points to learn from compared to all of the non fraud data points.
+
+So it's very easy for a model to say, okay, well, since fraud actually only happens like 0.01% of
+
+the time, I'm just going to predict that it's not fraud all the time.
+
+And hey, my accuracy is awesome now.
+
+Right.
+
+So if you have an unbalanced data set like that, you can end up in a situation like that where you
+
+have a machine learning model that looks like it has high accuracy, but it's just guessing.
+
+No, every time.
+
+And that's not helpful, right?
+
+So there are ways of dealing with this in feature engineering.
+
+Now first of all, don't let the terminology confuse you.
+
+This is actually something that I got hung up on a lot at first.
+
+When I say positive and negative cases, I'm not talking about good and bad, so don't conflate positive
+
+and negative with a positive and negative outcome.
+
+Positive simply means, is this the thing that I'm testing for?
+
+Is that what happened?
+
+So that might be fraud, right?
+
+So if I'm if my model is trying to detect fraud, then fraud is the positive case, even though fraud
+
+is a very negative thing.
+
+Remember positive is just a thing that you're trying to detect, whatever that is.
+
+So beat that into your head.
+
+Because if you keep conflating positive and negative with like moral judgments, that's not what it's
+
+about in this.
+
+In this context, this is mainly a problem with neural networks, by the way.
+
+So, you know, it is a real issue that if you have an unbalanced data set like this, it's probably
+
+not going to learn the right thing.
+
+And we have to deal with that somehow.
+
+What's one way of dealing with it?
+
+Just oversampling is a simple solution.
+
+So just take samples from your minority class.
+
+You know, in this example of fraud, just take more of those samples that are known to be fraud and
+
+copy them over and over and over again.
+
+You know, make an army of clones, if you will, of your fraudulent test cases.
+
+And you can do that at random.
+
+You would think that that wouldn't actually help, but it does with a neural network.
+
+So that's a very simple thing you can do.
+
+Just fabricate more of your minority case by making copies of other samples from that minority case.
+
+The other way you can go is undersampling.
+
+So instead of creating more of your minority cases, remove the majority ones.
+
+So in the case of fraud, we'd be talking about just removing some of those non-fraudulent cases to
+
+balance it out a little bit more.
+
+However, throwing data away is usually not the right answer.
+
+I mean, why would you ever want to do that?
+
+You're discarding information, right?
+
+So the only time when undersampling might make sense is if you're specifically trying to avoid some
+
+scaling issue with your training, right.
+
+Maybe you just have more data than you can handle on the hardware that you're given.
+
+And if you have too much data to actually process and handle, fine.
+
+Throw away some of the the majority case.
+
+That might be a reasonable thing to do, but the better solution would be to get more computational
+
+power, right and actually scale this out on a cluster or something.
+
+So Undersampling usually not the best approach.
+
+Something that's even better than Undersampling or oversampling is something called Smote.
+
+And this is something you might see.
+
+It stands for Synthetic Minority Oversampling technique, Kind of a creative acronym.
+
+What it does is it artificially generates new samples of the minority class using nearest neighbors.
+
+So just like we talked about using KNN for imputation, same idea here.
+
+We're running k nearest neighbors on each sample of the minority class.
+
+And then we create new samples from those KNN results by taking the mean of those neighbors.
+
+So instead of just, you know, naively making copies of other test cases for the minority class, we're
+
+actually fabricating new ones based on averages from other samples, and fabricating them that way works
+
+pretty well.
+
+So it both generates new samples and under samples, the minority majority class, which is good.
+
+So this is better than just oversampling by making copies, because it's actually fabricating a new
+
+data points that have some basis in reality still.
+
+So remember, if you're dealing with unbalanced data, a Smote is a very good choice.
+
+A simpler approach too, is just adjusting the thresholds.
+
+When you're actually making inferences and actually applying your model to the data that you have.
+
+So when you're making predictions for a classification, say fraud or not fraud, you're going to have
+
+some sort of threshold of probability at which you say, okay, this is probably fraud.
+
+You know, most machine learning models don't just output a fraud or not fraud.
+
+It actually will give you some sort of probability that it's fraud or not fraud.
+
+And you have to choose the threshold of probability at which you say, okay, this is probably fraud.
+
+It deserves some investigation.
+
+So if you have too many false positives, one way to fix that is to just increase that threshold, right.
+
+So that is guaranteed to reduce your false positive rate.
+
+But it comes at the cost of more false negatives.
+
+So before you do something like this you have to think about the impact that that threshold will have.
+
+So if I raise my threshold, that means I'm going to have fewer actual things that are flagged as fraud.
+
+That might mean that I miss out some actual fraudulent transactions there, but I'm not going to be
+
+bothering my customers as much saying, hey, I fly.
+
+This is fraud.
+
+I shut down your credit card.
+
+You might actually want the opposite effect, right?
+
+Maybe I want to be even more liberal in what I'm flagging as fraud, so I would lower that threshold
+
+to actually get more fraud cases that are flagged.
+
+And fraud might be a case where you're better off guessing wrong if it's not fraud, than the other
+
+way around, right?
+
+So you need to think about the cost of a false positive versus a false negative, and choose your thresholds
+
+accordingly.
+
+Yet another problem in the world of feature engineering is dealing with outliers in your data set.
+
+How do you handle them?
+
+Do you handle them?
+
+How do you identify them?
+
+So before we talk about outliers, we need a little bit of a mathematical background here.
+
+Don't worry it's not hard.
+
+So let's start with the concept of variance.
+
+How do you measure variance.
+
+Well we usually refer to it as sigma squared.
+
+And you'll find out why it's called that momentarily.
+
+But for now just know that variance is the average of the squared differences from the mean.
+
+So to compute the variance of a data set you first figure out the mean of it.
+
+So let's say I have some data.
+
+It could represent anything.
+
+Let's say the maximum number of people that were standing in line for a given hour or something.
+
+And the first hour I observed one person standing in line, then four, then five, then four, then
+
+eight.
+
+Okay.
+
+So the first step in computing the variance is to find the mean the average of that data.
+
+I just add them all together, divide it by the number of data points.
+
+And that comes out to 4.4.
+
+In this case, as the average number of people standing in line.
+
+Now the next step is to find the differences from the mean for each data point.
+
+So I know the mean is 4.4.
+
+So for my first data .4.4 and I have a one for that data point.
+
+So one -4.4 is -3.44, -4.4 is -0.4.
+
+And so on and so forth.
+
+So I end up with these both positive and negative numbers that represent the variance from the mean
+
+for each data point.
+
+Okay.
+
+But what I want is a single number that represents the variance of this entire data set.
+
+So the next thing I'll do is find the squared differences.
+
+So we just go through each one of these raw differences from the mean and square them.
+
+This is for a couple of different reasons.
+
+First of all I want to make sure that negative variances count just as much as positive variances.
+
+Otherwise they'd all just cancel each other out and that would be bad.
+
+I also want to give more weight to the outliers.
+
+So this amplifies the effect of things that are very different from the mean, all while still making
+
+sure that negative and positive variances are compared comparably.
+
+Because the square of a negative is a positive right you always end up with a positive value when you
+
+square something.
+
+So let's look at what happens when I do this.
+
+So -3.4 squared.
+
+That's positive 11.6.
+
+-0.4 squared is a much smaller number 0.16.
+
+Because that's much closer to the mean of 4.4.6 is also close to the mean only 0.36 there.
+
+But as we get up to the positive outlier 3.6, that ends up being 12.96.
+
+And to find the actual variance value, we just take the average of all those squared differences from
+
+the mean, add up all those squared variances, divide it by five the number of values that we have,
+
+and we end up with a total variance of 5.04.
+
+That's all variance is.
+
+Let's move on to standard deviation.
+
+Typically we talk about standard deviation more so than variance.
+
+And it turns out that standard deviation is just the square root of the variance.
+
+So I had a variance of 5.04.
+
+The standard deviation is 2.24.
+
+So you see now why we call a variance sigma squared.
+
+Because sigma itself represents the standard deviation.
+
+So if I take the square root of sigma squared I get sigma.
+
+And it ends up in this example to be 2.24.
+
+Now this is a histogram of the actual data we were looking at.
+
+We see that the number four occurred twice in our data set.
+
+And then we had 1115 and one eight.
+
+Now the standard deviation is usually used as a way to think about how to identify outliers in your
+
+data set.
+
+So if I'm within one standard deviation of the mean of 4.4, that's considered to be kind of a typical
+
+value in a normal distribution.
+
+But you can see in this example the numbers one and eight actually lie outside of that range.
+
+So if I take 4.4 plus or -2.24, we end up around there and there and 1 in 8 both fall outside of that
+
+range of standard deviation.
+
+So we can say mathematically that one and eight are outliers.
+
+We don't have to guess and eyeball it.
+
+We can put a mathematical basis to that.
+
+Now there is still sort of a judgment call as to what you consider an outlier in terms of how many standard
+
+deviations it's away from the mean by.
+
+So you can generally talk about how much of an outlier a data point is by how many standard deviations
+
+from the mean it is.
+
+So that's something you'll see standard deviation used for in the real world, and you might define
+
+your outliers as being one standard deviation away from the mean, or two standard deviations away from
+
+the mean.
+
+That's kind of the judgment call that you need to make as you're doing your feature engineering.
+
+So sometimes it's appropriate to remove those outliers once you've identified them.
+
+And sometimes it isn't.
+
+Make sure you make that decision responsibly.
+
+So for example, if I'm doing collaborative filtering and I'm trying to make movie recommendations or
+
+something like that, you might have a few power users that have watched every movie ever made and rated
+
+every movie ever made.
+
+They could end up having an inordinate influence on the recommendations for everybody else, and you
+
+usually don't want a handful of people to have that much power in your machine learning model.
+
+So that might be an example where it would be a legitimate thing to filter out an outlier and identify
+
+them by how many ratings they've actually put into the system.
+
+Or maybe an outlier would be someone who doesn't have enough ratings, or you might be looking at web
+
+log data, where an outlier could be telling you that there's something very wrong with your data to
+
+begin with.
+
+It could be malicious traffic, or it could be bots or other agents that should be discarded that don't
+
+represent actual human beings that you're trying to model.
+
+But if someone really wanted the mean average income in the United States and not the median, they
+
+specifically want the mean.
+
+And you shouldn't just throw out the billionaires in your country because you don't like them.
+
+The fact is, there are billions of dollars are going to push that mean amount up, even if it doesn't
+
+budge the median.
+
+So don't fudge your numbers by throwing out outliers, but throw out outliers if it's not consistent
+
+with what you're trying to model in the first place.
+
+A3.
+
+So how do we identify outliers?
+
+Well, remember our old friend standard deviation.
+
+We covered that a few slides ago.
+
+It's a very useful tool for detecting outliers.
+
+And it's extremely principled to find the standard deviation of a data set.
+
+And if you see a data point that's outside 1 or 2 standard deviations, then you have an outlier.
+
+Remember the box and whisker diagrams that we talked about earlier too.
+
+Now those have a built in way of detecting and visualizing outliers.
+
+And those define outliers as lying outside 1.5 the interquartile range.
+
+So what multiple do you choose.
+
+Well you kind of have to use common sense here.
+
+There's no hard and fast rule as to what is an outlier.
+
+You have to look at your data, kind of eyeball it, look at the distribution, look at the histogram,
+
+see if there's actual things that stick out to you as obvious outliers and understand what they are
+
+before you just throw them away.
+
+Also, in the context of AWS.
+
+AWS has an outlier algorithm of its own called Random Cut Forest, and it's creeping up into more and
+
+more of their services.
+
+You can find random cut forests within QuickSight, Kinesis Analytics, SageMaker, and more.
+
+So if you're talking about outliers and outlier detection, Amazon seems really, really proud of their
+
+random cut forest algorithms.
+
+So there's a good chance that that's what they're looking for in the exam.
+
+If they mention random cut forest in the context of outlier detection.
+
+Let's look at an example here of income inequality.
+
+So let's say that we're modeling income distributions.
+
+We're just looking at how much money each people makes each each year.
+
+And we're trying to like understand what that means about the data set as a whole.
+
+So in this simple example here again you're not going to be given Python code in the exam.
+
+But this is just to make it real for you guys.
+
+We've set up a normal distribution here of income centered around $27,000.
+
+And we've appended in a single billionaire and plotted the histogram of that.
+
+And as you can see, that that one billionaire really screwed up our distribution.
+
+So all of the people, all those normal people, all the non billionaires have been squished together
+
+into one little line off on the left there.
+
+And our billionaire, that one little data point you can't even see has skewed our data massively.
+
+And if we were to take the median the mean of this we'd get a really wacky number.
+
+So a very simple outlier detection function here has been written.
+
+All it does is compute the median of the entire data set, computes the standard deviation, and if
+
+anything lies outside of two standard deviations, it throws it out.
+
+And if we call this reject outliers function and then plot the histogram, we get much more meaningful
+
+data by rejecting that outlier.
+
+So and now we have a more meaningful mean as well.
+
+That's closer to the $27,000 that we started with.
+
+So that's an example of where you want to think about where your outliers are coming from.
+
+Is it really appropriate to throw away that billionaire or not?
+
+What effect does that really having on the business outcome that you're trying to achieve at the end
+
+of the day?
+
+
+Let's quickly go through some other techniques you might use in the process of feature engineering.
+
+One is called binning.
+
+The idea here is just to take your numerical data and transform it into categorical data by binning
+
+these values together based on ranges of values.
+
+So as an example, maybe I have the ages of people in my data set.
+
+I might put everyone in their 20s into one bucket, everyone in their 30s into another bucket, and
+
+so on and so forth.
+
+That would be an example of binning, where I'm just putting everyone in a given range into a certain
+
+category.
+
+So instead of saying that I'm going to train based on the fact that you're 22 and three months old,
+
+I'm just going to bucket you into the bin of 20 year olds, right?
+
+So I've changed that number of 22 point, whatever it is, into a category of 20 somethings.
+
+So that's all binning is.
+
+Why would you want to do that?
+
+Well, there's a few reasons.
+
+One is that sometimes you're you have some uncertainty in your measurements.
+
+So maybe your measurements aren't exactly precise and you're not actually adding any information by
+
+saying this person is 22.37 years old versus 22.38 years old.
+
+Maybe some people will remember the wrong birthday or something, or, you know, you ask them on different
+
+days and you got different values as a result.
+
+So binning is a way of covering up imprecision in your measurements.
+
+That's one way.
+
+That's one reason.
+
+Another reason might be that you just really want to use a model that works on categorical data instead
+
+of numerical data.
+
+Um, you know, that's kind of a questionable thing to be doing because you're basically throwing some
+
+information away by binning, right?
+
+So if you're doing that, you should think hard about why you're doing that.
+
+The only really legitimate reason to do this is if there is uncertainty or errors in your actual underlying
+
+measurements that you're trying to get rid of.
+
+Uh, there's also something called quantile binning that you should understand.
+
+The nice thing about quantile binning is that it categorizes your data by their place in the data distribution.
+
+So it ensures that every one of your bins has an equal number of samples within them.
+
+So with quantile binning, you know, I make sure that I have my data distributed in such a way that
+
+I have the same number of samples in each resulting bin.
+
+Sometimes that's a useful thing to do.
+
+So remember, quantile binning will have even sizes in each bin.
+
+Another thing we might do is transforming our data, applying some sort of a function to our features
+
+to make it better suited for our algorithms.
+
+So for example, if you have feature data that has an exponential trend within it that might benefit
+
+from doing a logarithmic transform on it to make that data look more linear, that might help out your
+
+model and actually finding real trends in it.
+
+Sometimes models have difficulty with non-linear data coming into it.
+
+A real world example is YouTube.
+
+They published a paper on how their recommendations work, which is great reading, by the way.
+
+There's a reference to that in the slide here.
+
+They have a whole section on feature engineering there that you might find useful.
+
+And one thing they do is for any numeric feature x that they have, you know, for example, how long
+
+has it been since you watched a video?
+
+They also feed in the square of that and the square root of it.
+
+And the idea there is that they can learn super and sublinear functions in the underlying data that
+
+way.
+
+So, you know, they're not just throwing in raw values.
+
+They're also throwing in the square and the square root.
+
+Just, uh, just to be careful and see if there actually are non-linear trends there that they should
+
+be picking up on.
+
+They found that that actually improved their results.
+
+So that's an example of transforming data.
+
+It's not necessarily replacing data with a transformation.
+
+Sometimes you're actually creating a new feature from transforming an existing one.
+
+That's what's going on here.
+
+So they're feeding in both the original feature x and x squared and the square root of x.
+
+You can see in this graph here why you might want to do that.
+
+So if I'm starting off with a function of x here on the green line, you can see that by taking the
+
+ln the logarithm of that I end up with a linear relationship instead, which might be easier for models
+
+to pick up on.
+
+I could also raise that to a higher power, which would actually make things worse in this case.
+
+But but sometimes more data is better.
+
+Again, you know, we're talking about the curse of dimensionality.
+
+So there is a limit to that.
+
+But that's what feature engineering is all about, trying to find that balance between having just enough
+
+information and too much information.
+
+Another very common thing you'll do while preparing your data is encoding.
+
+And you see this a lot in the world of deep learning.
+
+So a lot of times your model will require a very specific kind of input, and you have to transform
+
+your data and encode it into the format that your model requires.
+
+A very common example is called one hot encoding.
+
+Okay, so make sure you understand how this works.
+
+The idea is that I create a bucket for every category that I have, and basically I have a one that
+
+represents that that category exists and a zero that represents that.
+
+It's not that category.
+
+Let's look at this picture as an example.
+
+Let's say that I'm building a deep learning model that tries to do handwriting recognition on people,
+
+drawing the numbers zero through nine.
+
+This is a very common example that we'll look at more later.
+
+So to one hot encode this information, I know that this thing represents the number eight.
+
+And to represent that in a one hot encoded manner.
+
+Basically I have ten different buckets for every possible digit that that might represent.
+
+01234, five, six, seven, 8 or 9.
+
+Now I usually start counting at zero here.
+
+So you can see here that in the ninth slot there there's a one that represents the number eight.
+
+And every other slot there has a zero representing that it is not that category.
+
+That's all one hot encoding is.
+
+So again, if I had a one in that first slot that would represent the number zero.
+
+If I had a one inch the second slot, that would represent the number one and so on and so forth.
+
+We do this because in deep learning, neurons generally are either on or off.
+
+They're activated or they're not activated.
+
+So I can't just feed in the number eight or the number one into an input neuron and expect it to work.
+
+That's that's not how these things operate.
+
+Instead, I need to have this one hot encoding scheme where every single training value, that label
+
+is actually going to be fed into ten different input neurons, where only one of them represents the
+
+actual category I have.
+
+So stare at that picture a little bit.
+
+Make sure you understand it.
+
+If you're not familiar with one hot encoding, that is probably something you'll see on the exam.
+
+We can also talk about scaling and normalizing your data.
+
+Again, pretty much every model requires this as well.
+
+A lot of models prefer their feature data to be normally distributed around zero, and this is also
+
+true of most deep learning and neural networks.
+
+And at a minimum, most models will require that your feature data is at least scaled to comparable
+
+values.
+
+I mean, there are models out there that don't care so much, such as decision trees, but most of them
+
+will be sensitive to the scale of your input data.
+
+Otherwise, if you have features that have larger magnitudes, they'll end up having more weight on
+
+your model than they should.
+
+Going back to the example of people, if I'm trying to train a system based on their income, which
+
+might be some very large number like 50,000, and also their age, which is a relatively small number
+
+like, you know, 30 or 40.
+
+If I weren't normalizing that data down to comparable ranges before training on it, that income would
+
+have a much higher impact on the model than their ages.
+
+And that's going to result in a model that doesn't do a very good job.
+
+Now, it's very easy to do this, especially with scikit learn in Python.
+
+It has a pre-processor module that helps you out with this sort of thing.
+
+It has something called Minmaxscaler that will do it for you very easily.
+
+The only thing is you have to remember to scale your results back up.
+
+If what you're predicting is not just categories and actual numeric data.
+
+So sometimes if you're predicting something, you have to make sure to reapply that scaling in reverse
+
+to actually get a meaningful result out of your model at the end of the day.
+
+Finally, we will talk about shuffling.
+
+A lot of algorithms benefit from shuffling your training data.
+
+Otherwise, sometimes there's sort of a residual signal in your training data resulting from the order
+
+in which that data was collected.
+
+So you want to make sure you're eliminating any byproducts of like, how the data was actually collected
+
+by shuffling it and just randomizing the order that's fed into your model.
+
+So often that makes a difference in the quality as well.
+
+There are a lot of stories I've seen where someone got a really bad result out of their machine learning
+
+model, but by just shuffling the input, things got a lot better.
+
+So don't forget to do that as well.
+
+And that's the the world of feature engineering in a nutshell

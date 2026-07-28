@@ -1,0 +1,948 @@
+Welcome to this section where we will look at the different storage options for EC2 instances.
+
+So first the most important ones are going to be EBS volumes.
+
+So let's define what they are.
+
+And EBS volume stands for Elastic Block Store.
+
+It's a network drive that you can attach to your instances while they run.
+
+And we've been using them without even knowing.
+
+So we this EBS volumes allow us to persist data even after the instance is terminated.
+
+And so that's the whole purpose.
+
+We can recreate an instance and mount the same EBS volume from before, and we will get back our data.
+
+That is very helpful.
+
+So these EBS volumes at the CCP level can only be mounted to one instance at a time.
+
+Okay.
+
+And when you create an EBS volume it is bound to a specific availability zone.
+
+That means that you cannot have an EBS volume in created in, for example, US East one attached to
+
+an instance in US east one b.
+
+We'll see this in the diagram in a second.
+
+So how do you think of EBS volumes.
+
+Well you can think of them as network USB sticks.
+
+So it's a USB stick that you can take from a computer and put it in another computer, but you actually
+
+don't physically put it in a computer.
+
+It's attached through the network.
+
+Now let's look at it.
+
+So EBS volumes are network drive.
+
+As I said it's not a physical drive okay.
+
+So to communicate between the instance and the EBS volume it will be using the network.
+
+And because the network is used there may be a bit of latency from one computer to reach to another
+
+server.
+
+Now EBS volumes, because they are a network drive, they can be detached from an EC2 instance and attached
+
+to another one very quickly.
+
+And that makes it super handy when you want to do failovers.
+
+For example, EBS volumes are locked to a specific availability zones.
+
+That means that, as I said, if it's created in Us-east-1, it cannot be attached to Us-east-1.
+
+But we will see in this section that if we do a snapshot, then we are able to move a volume across
+
+from different availability zones.
+
+And finally it's a volume.
+
+So you have to provision capacity in advance.
+
+So you need to say how many gigabytes you want in advance.
+
+And the IOPs which is I o operations per second.
+
+And you're basically defining how you want your EBS volume to perform.
+
+You're going to get billed for that provisioned capacity.
+
+And you can increase the capacity over time if you want to have better performance or more size.
+
+So as a diagram, what does it look like?
+
+Well we have usd1 a we have one EC2 instance.
+
+And we can attach for example one EBS volume to that EC2 instance.
+
+If we create another EC2 instance, as I said, an EBS volume cannot be attached to two instances at
+
+a time at the certified cloud practitioner level.
+
+And therefore, what I want to say is that this EC2 instance needs to have its own EBS volume attached
+
+to it, but it is very possible for us to have two EBS volumes attached to one instance.
+
+Think of it as two network USB sticks into one machine.
+
+That makes a lot of sense.
+
+Now EBS volumes are linked to an availability zone.
+
+So as you can see, all this diagram has been so far using US East one.
+
+So if you wanted to have other EBS volumes in another AZ, then you would need to create this separately
+
+in the other availability zone.
+
+So just the same way that your EC2 instances are bound to an AZ, so are the EBS volumes.
+
+Finally, it is possible for us to create EBS volumes and leave them unattached.
+
+They don't need to be necessarily attached to an EC2 instance.
+
+They can be attached on demand and that makes it very, very powerful.
+
+Finally, when we go ahead and create EBS volumes, uh, through EC2 instances, there is this thing
+
+called a delete on termination attribute.
+
+And this can come up in the exam.
+
+So if you look at this when we create an EBS volume in the console, when we create an EC2 instance,
+
+there is the second to last column called delete on termination.
+
+And by default it is ticked for the root volume and not ticked for a new EBS volume.
+
+So this controls the EBS behavior when an EC2 instance is being terminated.
+
+So by default, as you can see, the EBS volume is deleted alongside the instance being terminated.
+
+So it's enabled.
+
+And by default any other attached EBS volume is not deleted because it's disabled by default.
+
+But obviously, as we can see in this UI, we can control if you want to enable or disable delete on
+
+termination.
+
+And so use case for.
+
+It would be for example that if you want to preserve the root volume when an instance is terminated,
+
+for example to save some data, then you can disable delete on termination for the root volume and you'll
+
+be good to go.
+
+And that could be an exam scenario at the exam.
+
+So I hope you liked it and I will see you in the next lecture.
+
+
+Let's talk about EBS elastic volumes as well.
+
+This is something the exam might want you to know about and it's nothing special.
+
+You don't have to explicitly enable this if your instance type supports it, which most do these days.
+
+The idea behind EBS elastic volumes is that you no longer need to detach a volume or restart your instance
+
+to change that volume.
+
+It's kind of magic.
+
+I don't really know how it works, but somehow they've made it so that if you want to change the type
+
+of your volume or the size of it or its performance characteristics, all you got to do is go to actions
+
+and modify volume from the console, put in your changes and it will all happen without any downtime,
+
+which is pretty impressive.
+
+So for example, you could increase the volume size without actually bringing down the instance that
+
+it's attached to.
+
+That comes in handy, right?
+
+If you're running out of disk space, you just need to add some more.
+
+It's pretty easy to do.
+
+However, you can only increase the volume size.
+
+You cannot decrease it.
+
+I mean, you can imagine how that would cause some complexity if you try to shrink a volume that was
+
+already full, right?
+
+So that that makes sense to me.
+
+The other cool thing is you can change the volume type on the fly as well.
+
+So let's say you want to go from GP2 to GP3 storage.
+
+You can actually do that.
+
+Just go to actions, modify volume, change the volume type.
+
+And while you're at it, you'll want to specify your desired IOPs or throughput performance as well.
+
+If you don't, it will just try to make an educated guess based on the maximum GP2 performance or a
+
+minimum GP3 performance you would have gotten.
+
+But.
+
+But it's better practice to explicitly say what you want there.
+
+But you can do that.
+
+You can actually change the volume type on the fly without actually taking the instance down or detaching
+
+the volume or anything.
+
+It will just do it.
+
+I don't know how.
+
+Again, it's kind of magic.
+
+You can also increase or decrease your performance attributes as well.
+
+So if you do want to just raise the IOPs or throughput performance, you can do that on the fly as well.
+
+So that's EBS elastic volumes.
+
+Just know that these are things you can do with EBS that are pretty cool.
+
+Hi, and welcome to this lecture on Amazon EFS,
+
+Elastic File System.
+
+So EFS is a managed NFS, which is a network file system.
+
+And because it's a network file system,
+
+it can be mounted on many EC2 instances,
+
+and these EC2 instances can also be
+
+in different availability zones,
+
+that's the whole power of EFS.
+
+So it's highly available,
+
+it's very scalable, it's expensive.
+
+It's about three times the cost of a GP2 EBS volume,
+
+and you pay per use
+
+so you don't have to provision capacity in advance.
+
+Let me explain.
+
+So you have your EFS file system
+
+and you surround it with a security group.
+
+And then you can have EC2 instances, many of them
+
+in the US east-1A availability zone for example,
+
+or EC2 instances in the US east-1B availability zone
+
+or US east-1C availability zones for your EC2 instances.
+
+And they can all connect at the same time
+
+to the same network file system through through EFS.
+
+So the use cases of EFS are content management,
+
+web serving, data sharing, WordPress.
+
+It uses internally the NFS protocol,
+
+and to control access to your EFS,
+
+you need to set up a security group.
+
+Now EFS, it's very important to note
+
+that it's only compatible with Linux-based AMI
+
+and not Windows.
+
+You can enable encryption at rest in your EFS drive
+
+using KMS, and it's a standard file system on Linux,
+
+so uses the POSIX system, and it has a standard file API.
+
+And the cool thing about EFS
+
+is that you don't need to plan the capacity in advance.
+
+The file system will scale automatically,
+
+and it's pay-per-use
+
+for each gigabyte of data you use in EFS.
+
+Then we have different performance and storage classes.
+
+So first, the scale about EFS.
+
+You get thousands of concurrent NFS clients
+
+and 10 gigabytes plus of throughput,
+
+and you can grow to a petabyte scale
+
+network file system automatically, which is really nice.
+
+You can also set the performance mode
+
+at the EFS network file system creation time,
+
+and you have several options.
+
+The first one is general purpose, which is the default.
+
+It's used for latency sensitive use cases
+
+such as a web server, a CMS, et cetera.
+
+But if you wanted to maximize throughput, you have max I/O,
+
+which is a high latency kind of network file system,
+
+but higher throughput and it's highly parallel.
+
+So it's great if you have big data applications
+
+or media processing needs.
+
+Now, throughput mode, you have different options.
+
+The first one is bursting.
+
+So you have one terabyte,
+
+means that it's 50 megabytes per second
+
+plus burst of to 100 megabytes per second,
+
+so that's the kind of bursting you get.
+
+You don't have to remember the numbers,
+
+but just to give you an idea.
+
+Provisioned is when you want to set your throughput
+
+regardless of your storage size.
+
+So the previous one was growing in throughput
+
+as we have more storage, but with provisions
+
+you can have one gigabyte per second
+
+for one terabyte of storage.
+
+That is fine because you have decorrelated
+
+your throughput from your storage.
+
+And finally, to make things a little bit simpler,
+
+you have elastic to automatically scale the throughput
+
+up and down based on your workload.
+
+So for example,
+
+you can get up to three gigabytes per second for reads
+
+and one gigabyte per second for writes
+
+based on your workload,
+
+and this is going to be a great fit
+
+when you have unpredictable workloads.
+
+Now for storage classes we have several options.
+
+We have storage tiers,
+
+which is a lifecycle management feature
+
+to allow you to move files to different storage tiers
+
+after a certain number of days.
+
+So you have the standard tier
+
+which is used for frequently accessed files,
+
+and then you have the EFS-IA tier for infrequent access,
+
+which gives you a cost to retrieve files
+
+but a lower price to store these files.
+
+And then you have the archive storage tier.
+
+This is for rarely accessed data, so you only access,
+
+for example, data a few times a year,
+
+which is going to be a lot cheaper
+
+to store the data on that tier.
+
+To move your files automatically between your storage tiers,
+
+you can implement lifecycle policies,
+
+which will allow you define after how many days
+
+a file should be moved to which tier.
+
+So here's an example in which we have files in EFS standard,
+
+and one of these files hasn't been accessed for 60 days.
+
+Then by setting up the right lifecycle policy,
+
+we can move it to a new storage tier such as EFS-IA.
+
+Now, in terms of availability and durability,
+
+standard is going to be great
+
+when you have a multi-AZ setup,
+
+so your EFS across multiple availability zones,
+
+which is great for your production workloads
+
+so that you're resistant to disasters.
+
+But if you just want to do development
+
+and want to have cheaper options, then you choose one zone,
+
+which is going to give you only one availability zone,
+
+and you will still have backups on it,
+
+and it's also compatible with the IA type of storage tier.
+
+So you have the EFS one zone-IA type of option.
+
+Overall, by using the right EFS storage classes,
+
+you can do up to 90% in cost savings,
+
+so this is very helpful.
+
+So that's it for this lecture, I hope you liked it,
+
+and I will see you in the next lecture.
+
+So now let's talk about the differences
+
+of EBS volumes and EFS file systems.
+
+So the EBS volumes, they're attached to one instance
+
+at a time, except in the edge case
+
+of using the multi attached feature
+
+of the io1 and io2 types of volume,
+
+but that is for very specific use cases.
+
+EBS volumes are also locked at the AZ level,
+
+so here is an example.
+
+We have one EC2 in AZ 1
+
+and we have one EBS volume attached to it
+
+and it cannot be attached to an EC2 instance in AZ 2.
+
+For the gp2 type of volume,
+
+the IO will increase if the disc size increases,
+
+and for the gp3 and IO1 type of volumes,
+
+you can increase the IO independently from your disc size.
+
+To migrate an EBS volume across AZ,
+
+we need to take a snapshot,
+
+so it will go into the EBS snapshots,
+
+and then we can restore the snapshot into another AZ.
+
+This is how we move from one AZ to the next.
+
+Now, the EBS volumes backups, they will use IO,
+
+and so you shouldn't run them while your application
+
+is handling a lot of traffic
+
+because that may impact the performance.
+
+For your EC2 instances, the route EBS volumes
+
+of your instances will get terminated by default
+
+if the EC2 instance gets terminated,
+
+but you can disable that behavior.
+
+Now for EFS, it's a bit different.
+
+So it's a network file system,
+
+and the goal is really to attach it
+
+to hundreds of instances across availability zone,
+
+so we really see the distinction here.
+
+So one with one EFS file system,
+
+we can have different mount targets in different AZs,
+
+and then multiple instances can share
+
+that one file system together, .
+
+So it's very helpful, for example, when you have WordPress
+
+and it's only for Linux instances
+
+because it is using the POSIX system.
+
+The EFS has a higher price point than EBS,
+
+but you can leverage storage tiers for cost savings.
+
+So hopefully you understand now the difference between EFS
+
+and EBS and for the instance store,
+
+well it is physically attached to the EC2 instance,
+
+and so therefore if you, you lose your EC2 instance,
+
+you will lose the storage as well.
+
+All right, that's it, I hope you liked it,
+
+and I will see you in the next lecture.
+
+So now let's talk about Amazon FSx.
+
+So Amazon FSx allows you
+
+to launch third-party high-performance file systems
+
+on AWS as a fully managed service.
+
+So the idea is that you want, for example, for RDS,
+
+you wanted to launch MySQL or PostgreSQL on AWS.
+
+Well, for FSx, it is the same as RDS, but for file systems.
+
+So for example, you can launch Lustre on FSx
+
+or you can launch a Windows File Server on FSx
+
+or you can launch NetApp ONTAP on FSx
+
+or OpenZFS on FSx.
+
+And there may be more
+
+at the time of you seeing this lecture,
+
+and I will update this lecture only if I find
+
+that some significant file systems
+
+are making their appearance at the exam, okay?
+
+But you need to know the four you have in front of you.
+
+So let's have a look at them one by one.
+
+So first, let's have a look at Amazon FSx
+
+for Windows File Server.
+
+So it's a fully managed Windows File Server share drive.
+
+And because it's Windows, it supports the SMB protocol,
+
+as well as Windows NTFS.
+
+Also, because it's Windows, it supports integration
+
+with Microsoft Active Directory to get security
+
+for your users.
+
+It use also ACLs, access control list, and user quotas.
+
+And there is a specificity, though, of Amazon FSx
+
+for Windows File Server,
+
+is that even though it seems like it's dedicated
+
+for Windows, you can also mount them on Linux EC2 instances.
+
+And it's something you have to remember.
+
+And if you have an existing Windows File Server somewhere,
+
+for example, on premises,
+
+then you can use the Microsoft Distributed File System,
+
+DFS feature, to group your file systems together
+
+and therefore join your FSx for Windows File Server
+
+to your on-premises Windows File Server.
+
+Okay, now, in terms of performance,
+
+this scales up to tens of gigabytes per second,
+
+millions of IOPS, and hundreds of petabytes of data.
+
+The storage option for FSx for Windows File Server are SSD
+
+to get very low latency sensitive workloads,
+
+for example, databases, media processing, data analytics.
+
+Or if you wanted to have a broad spectrum of workloads,
+
+you can use HDD is cheaper,
+
+for example, home directory or CMS.
+
+Now you can access your FSx for Windows File Server
+
+from your on-premises infrastructure
+
+with a private connection,
+
+and you can also configure your FSx for Windows File Server
+
+to be Multi-AZ for high availability.
+
+Finally, all your data is backed-up daily to Amazon S3
+
+for disaster recovery purposes.
+
+Now let's talk about the second kind of Amazon FSx,
+
+which is Amazon FSx for Lustre.
+
+And Lustre is used to do a distributed file system
+
+that is going to be used for large-scale computing.
+
+So once I explained you the word Lustre,
+
+it's going to make sense.
+
+So Lustre is derived from Linux and cluster.
+
+It is used for machine learning
+
+and high-performance computing, or HPC.
+
+And this is a keyword you need to look for
+
+to know that you need FSx for Lustre.
+
+So you can have applications such as video processing,
+
+financial modeling, electronic design automation.
+
+You have massive scale,
+
+so you can scale up to hundreds of gigabytes
+
+of data per second, millions of IOPS,
+
+and sub-milliseconds latency.
+
+And for storage, two options,
+
+either you want an SSD for very low latency,
+
+IOPS intensive workload,
+
+as well as small and random file operations,
+
+or HDD if you want throughput-intensive workload
+
+for large and sequential file operations.
+
+And SSD is going to be more expensive than HDD.
+
+You have seamless integration with Amazon S3.
+
+That means that you can read S3
+
+as a file system through FSx,
+
+and you can write the output of the computations from FSx
+
+back to Amazon S3.
+
+And that is something that the exam may ask you about.
+
+Finally, Amazon FSx for Lustre can be used
+
+from on-premises servers through VPN or direct connect.
+
+For FSx, you also need to know
+
+the file system deployment options.
+
+And there's two you need to know.
+
+There is scratch file system and persistent file system.
+
+So scratch file system is going to be temporary storage,
+
+and the data will not be replicated.
+
+That means that you have a file,
+
+and you will lose it if the underlying server fails.
+
+But thanks to this optimization, we get really high bursts.
+
+So we get six times the performance
+
+of a persistent file system,
+
+and you get, for example, 200 megabytes per second
+
+per terabytes of throughput.
+
+So it's actually really, really big.
+
+So the use case of a scratch file system is going
+
+to do short-term processing of data,
+
+and you want to optimize your cost
+
+by not having data being replicated.
+
+So that means that you have FSx,
+
+your compute instances are going to connect on AZ1 and AZ2,
+
+and then the FSx for Lustre scratch file system
+
+only has one copy of your data
+
+as it is shown on this diagram right here.
+
+Just one copy, okay?
+
+Finally, you can also have optional S3 buckets underlying
+
+for the data repository.
+
+For persistent file system,
+
+it's going to be for long-term storage.
+
+The data is going to be replicated
+
+within the same availability zone, okay,
+
+so not across AZ but within the same AZ.
+
+But that means that if you have a failure
+
+of a underlying server,
+
+then the files will be replaced
+
+transparently within minutes.
+
+So the use case for a persistent file system is,
+
+as its name indicates, long-term processing
+
+and storage of sensitive data.
+
+So the idea is exactly the same
+
+in terms of the architecture.
+
+Remember, FSx only lives for Lustre
+
+only within one single AZ.
+
+And the FSx for Lustre file system
+
+in persistent mode will have two copies of the data,
+
+so you can see there is some replication right now
+
+from one data volume to the next data volume.
+
+Next, we have Amazon FSx for NetApp ONTAP.
+
+So it's a managed NetApp ONTAP file system on AWS.
+
+And this file system is compatible
+
+with the NFS, SMB, and iSCSI protocol.
+
+So the idea is that you would use the FSx
+
+for NetApp ONTAP file system to move workloads
+
+that are already running on ONTAP
+
+or running on a NAS on your on-premises system into AWS.
+
+So it has broad compatibility
+
+with different operating systems.
+
+So it work with Linux, Windows, and macOS,
+
+as well as VMware Cloud on AWS,
+
+WorkSpaces, AppStream, EC2, ECS, and EKS,
+
+which are services you may have not seen yet
+
+in this course, okay?
+
+But the idea is that it has
+
+very, very, very broad compatibility.
+
+On top of it,
+
+these storage will automatically shrink or grow.
+
+So there's auto-scaling for this, which is cool.
+
+Then you have replication, you have snapshots,
+
+replication features available.
+
+It's low cost, you can do data compression.
+
+And also, you can do data de-duplication.
+
+So you can find duplicates of files on NetApp ONTAP.
+
+And finally, very helpful,
+
+you can do point-in-time instantaneous cloning,
+
+which is very helpful for testing new workloads
+
+and in ones you want to test.
+
+You wanna take your file system,
+
+you clone it very quickly,
+
+and then you have a staging file system, for example.
+
+So these are some of the benefits you need to look out for
+
+in the exam when it's hinted at you
+
+that you should be using NetApp ONTAP.
+
+Finally, we have Amazon FSx for OpenZFS.
+
+So it's a managed OpenZFS file system on AWS,
+
+which is compatible only with the NFS protocol
+
+on multiple versions.
+
+And the main use case is to move workloads
+
+that are already running on ZFS internally to AWS.
+
+It has also has broad compatibility
+
+with Linux, Mac, Windows, and so on.
+
+And this one is really good performance.
+
+You can scale up to 1 million IOPS
+
+with less than 0.5 millisecond latency,
+
+support snapshots, compression, and low cost,
+
+but not data de-duplication.
+
+And just like NetApp ONTAP,
+
+it has support for point-in-time instantaneous cloning,
+
+which is very helpful again to test new workloads.
+
+So all this information should be enough
+
+for you to answer the question at the exam,
+
+to pick the right file system for the right use case.
+
+Okay, that's it.
+
+I hope you liked it, and I will see you in the next lecture.
+
+

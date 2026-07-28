@@ -1,0 +1,4 @@
+Classify whether a helpdesk request requires human approval.
+Sensitive operations include password reset, account deletion, account disablement, access removal, and privileged changes.
+Rules are authoritative; LLM classification is advisory only.
+
